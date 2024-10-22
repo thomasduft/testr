@@ -7,8 +7,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 
-    <AssemblyName>testr.Cli</AssemblyName>
-    <RootNamespace>testr.Cli</RootNamespace>
+    <AssemblyName>tomware.TestR</AssemblyName>
+    <RootNamespace>tomware.TestR</RootNamespace>
 
     <Description>A cli tool to manage executable test cases.</Description>
     <Authors>Thomas Duft</Authors>
@@ -23,8 +23,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Fluid.Core" Version="2.11.1" />
+    <PackageReference Include="Markdig" Version="0.37.0" />
     <PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="4.1.1" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.1" />
+    <PackageReference Include="Microsoft.Playwright" Version="1.48.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Templates\TestCase.liquid" />
   </ItemGroup>
 
   <ItemGroup>

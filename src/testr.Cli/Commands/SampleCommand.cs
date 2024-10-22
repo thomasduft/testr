@@ -1,6 +1,6 @@
 using McMaster.Extensions.CommandLineUtils;
 
-namespace Template.Cli;
+namespace tomware.TestR;
 
 public class SampleCommand : CommandLineApplication
 {

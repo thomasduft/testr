@@ -1,0 +1,141 @@
+Todo's:
+
+- ...
+
+----------------------------------------------------------------------------------------------------
+
+Parse Query Strings:
+---
+
+using System.Collections.Specialized;
+
+public static Dictionary<string, string> ParseQueryString(string queryString)
+{
+    var collection = new NameValueCollection();
+    collection.Add(queryString);
+
+    var dictionary = new Dictionary<string, string>();
+    foreach (var key in collection.AllKeys)
+    {
+        dictionary[key] = collection[key];
+    }
+
+    return dictionary;
+}
+
+
+Extracting Markdown table data:
+---
+
+using Markdig;
+using Markdig.Extensions.Tables;
+
+// Load the Markdown file
+string markdownContent = File.ReadAllText("your_markdown_file.md");
+
+// Create a Markdown pipeline with the necessary extensions
+var pipeline = new MarkdownPipelineBuilder()
+    .UseAdvancedExtensions()
+    .UseTables()
+    .Build();
+
+// Parse the Markdown content
+var html = Markdown.ToHtml(markdownContent, pipeline);
+
+// Extract the table content
+var tableNodes = HtmlDocument.Parse(html).DocumentNode.Descendants("table").ToList();
+
+foreach (var tableNode in tableNodes)
+{
+    // Extract rows from the table
+    var rowNodes = tableNode.Descendants("tr").ToList();
+
+    foreach (var rowNode in rowNodes)
+    {
+        // Extract cells from the row
+        var cellNodes = rowNode.Descendants("td").ToList();
+
+        // List each cell's content
+        foreach (var cellNode in cellNodes)
+        {
+            Console.WriteLine(cellNode.InnerText.Trim());
+        }
+    }
+}
+
+---
+using System;
+using Markdig;
+
+namespace MarkdownTableParser
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string markdownContent = @"
+| Column 1 | Column 2 | Column 3 |
+|---|---|---|
+| Cell 1.1 | Cell 1.2 | Cell 1.3 |
+| Cell 2.1 | Cell 2.2 | Cell 2.3 |
+";
+
+            var pipeline = new MarkdownPipelineBuilder()
+                .UseAdvancedExtensions()
+                .Build();
+
+            var document = Markdown.Parse(markdownContent, pipeline);
+
+            foreach (var block in document.Descendants<Markdig.Syntax.Table>())
+            {
+                var table = block as Markdig.Syntax.Table;
+
+                foreach (var row in table.Cells)
+                {
+                    foreach (var cell in row)
+                    {
+                        Console.WriteLine(cell.Inline.ToHtml());
+                    }
+                }
+            }
+        }
+    }
+}
+
+---
+
+using Markdig;
+using Markdig.Extensions.Tables;
+
+// Load the Markdown file
+string markdownContent = File.ReadAllText("your_markdown_file.md");
+
+// Create a Markdown pipeline with the necessary extensions
+var pipeline = new MarkdownPipelineBuilder()
+    .UseAdvancedExtensions()
+    .UseTables()
+    .Build();
+
+// Parse the Markdown content
+var html = Markdown.ToHtml(markdownContent, pipeline);
+
+// Extract the table content
+var tableNodes = HtmlDocument.Parse(html).DocumentNode.Descendants("table").ToList();
+
+foreach (var tableNode in tableNodes)
+{
+    // Extract rows from the table
+    var rowNodes = tableNode.Descendants("tr").ToList();
+
+    foreach (var rowNode in rowNodes)
+    {
+        // Extract cells from the row
+        var cellNodes = rowNode.Descendants("td").ToList();
+
+        // List each cell's content
+        foreach (var cellNode in cellNodes)
+        {
+            Console.WriteLine(cellNode.InnerText.Trim());
+        }
+    }
+}
