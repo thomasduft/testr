@@ -9,8 +9,8 @@ var services = new ServiceCollection()
 
 var provider = services.BuildServiceProvider();
 var cli = provider.GetRequiredService<Cli>();
-cli.Name = "cli-template";
-cli.Description = "A .NET CLI template.";
+cli.Name = "testR";
+cli.Description = "A cli tool to manage executable test cases.";
 
 using var cts = new CancellationTokenSource();
 Console.CancelKeyPress += (s, e) =>
