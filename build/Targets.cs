@@ -48,7 +48,7 @@ app.OnExecuteAsync(async _ =>
 
   Target(AddChangelog, () =>
   {
-    Run("dotnet", "tool run releasy add-changelog");
+    Run("dotnet", "tool run releasy add-changelog", "docs/changelogs");
   });
   #endregion
 
