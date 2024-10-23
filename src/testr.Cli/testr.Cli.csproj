@@ -18,7 +18,7 @@
     <FileVersion>$(Version)</FileVersion>
 
     <PackageIcon>icon.png</PackageIcon>
-    <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageReadmeFile>README.md</PackageReadmeFile>
   
     <PackAsTool>true</PackAsTool>

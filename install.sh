@@ -21,11 +21,11 @@ dotnet restore src/testr
 
 echo ----
 echo Packaging with Version = $1
-dotnet pack src/testr -c Release -p:PackageVersion=$1 -p:Version=$1 -o ./artifacts/nupkgs/
+dotnet pack src/testr -c Release -p:PackageVersion=$1 -p:Version=$1 -o ./artifacts/
 
 echo ----
 echo Installing testr globally with Version = $1
-dotnet tool install --global --add-source ./artifacts/nupkgs/ tomware.TestR
+dotnet tool install --global --add-source ./artifacts/ tomware.TestR
 
 echo ----
 echo Done
