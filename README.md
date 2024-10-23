@@ -1,3 +1,5 @@
+[![build](https://github.com/thomasduft/testr/actions/workflows/build.yml/badge.svg)](https://github.com/thomasduft/testr/actions/workflows/build.yml)
+
 # testR
 
 A cli tool to manage executable test cases.
