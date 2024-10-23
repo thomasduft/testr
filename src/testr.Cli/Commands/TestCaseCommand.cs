@@ -1,3 +1,5 @@
+using Fluid;
+
 using McMaster.Extensions.CommandLineUtils;
 
 namespace tomware.TestR;
@@ -10,20 +12,18 @@ public class TestCaseCommand : CommandLineApplication
   public TestCaseCommand()
   {
     Name = "test-case";
-    Description = "Creates a new Test Case definition (i.e. test-case TC-001 \"My TestCase Title\").";
+    Description = "Creates a new Test Case definition (i.e. test-case TC-Audit-001 \"My TestCase Title\").";
 
     _testCaseId = Argument<string>(
       "test-case-id",
-      "The Test Case ID (e.g. TC-001).",
-      cfg => cfg.IsRequired(),
-      true
+      "The Test Case ID (e.g. TC-Audit-001).",
+      cfg => cfg.IsRequired()
     );
 
     _title = Argument<string>(
       "title",
       "The Test Case title.",
-      cfg => cfg.IsRequired(),
-      true
+      cfg => cfg.DefaultValue = "A TestCase Title"
     );
 
     OnExecuteAsync(ExecuteAsync);
@@ -31,8 +31,49 @@ public class TestCaseCommand : CommandLineApplication
 
   private async Task<int> ExecuteAsync(CancellationToken cancellationToken)
   {
-    Console.WriteLine("Hi, I am just a sample command.");
+    var title = _title.Value;
+
+    var content = await GetContent(
+      Templates.TestCase,
+      new
+      {
+        TestCaseId = _testCaseId.Value!,
+        TestCaseTitle = title!,
+        Date = DateStringProvider.GetDateString(),
+        Author = UserNameProvider.GetUserName()
+      }
+    );
+
+    await File.WriteAllTextAsync(
+      CreateFileName(title!),
+      content,
+      cancellationToken
+    );
 
     return await Task.FromResult(0);
+  }
+
+  private async ValueTask<string> GetContent(
+    string templateName,
+    object model
+  )
+  {
+    var source = ResourceLoader.GetTemplate(templateName);
+    var template = new FluidParser().Parse(source);
+
+    return await template.RenderAsync(new TemplateContext(model));
+  }
+
+  private string CreateFileName(string title)
+  {
+    return Path.Combine(
+      Environment.CurrentDirectory,
+      $"{SanitizeFileName(title)}.md"
+    );
+  }
+
+  private string SanitizeFileName(string title)
+  {
+    return title.Replace(' ', '-');
   }
 }
