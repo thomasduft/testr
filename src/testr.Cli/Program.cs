@@ -5,6 +5,8 @@ using tomware.TestR;
 var services = new ServiceCollection()
     .AddCliCommand<TestCaseCommand>()
     .AddCliCommand<TestCaseResultCommand>()
+    .AddCliCommand<RunCommand>()
+    .AddCliCommand<ValidateCommand>()
     .AddSingleton<Cli>();
 
 var provider = services.BuildServiceProvider();

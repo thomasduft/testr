@@ -1,6 +1,29 @@
 Todo's:
 
-- ...
+- [ ] RunCommand
+  - sample:
+    - run test-case-id https://localhost:5001 input-directory output-directory
+  - Reads a test case definition by its test-case-id
+  - Looks up the test case steps
+  - Validates the test case for correctness regarding playwright instructions
+  - Runs the test-case steps step by step against a given environment
+  - If success:
+    - copies the test case definition 
+      and marks it as an execution with status complete/success
+      and marks each processed step with a tick for the actual result column
+  - If failure:
+    - copies the test case definition 
+      and marks it as an execution with status failed 
+      and marks each processed step with a tick if successfully passed
+      and marks the failed step with the error message provided by playwright locator
+
+- [ ] ValidateCommand
+  - sample: 
+    - validate test-case-id input-directory
+  - Validates the test case for correctness regarding playwright instructions
+  - reads each test-case step and checks if arguments in the test data column can be read by 
+    playwright
+  - In case of issues writes the step Id and issue found by playwright to the console 
 
 ----------------------------------------------------------------------------------------------------
 
