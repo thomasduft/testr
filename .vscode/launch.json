@@ -1,0 +1,25 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "WebApi",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build:WebApi",
+      "program": "${workspaceRoot}/samples/WebApi/bin/Debug/net8.0/WebApi.dll",
+      "args": [
+        "--urls",
+        "https://localhost:5001"
+      ],
+      "cwd": "${workspaceRoot}/samples/WebApi",
+      "stopAtEntry": false,
+      "env": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "sourceFileMap": {
+        "/Views": "${workspaceRoot}/Views"
+      },
+      "console": "integratedTerminal",
+    }
+  ]
+}
