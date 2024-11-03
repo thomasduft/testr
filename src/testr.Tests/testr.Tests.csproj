@@ -26,4 +26,14 @@
     <Using Include="Xunit" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\testr.Cli\testr.Cli.csproj" /> 
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="TestData\*" Pack="false">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
