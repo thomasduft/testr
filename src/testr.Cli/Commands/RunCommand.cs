@@ -44,7 +44,31 @@ public class RunCommand : CommandLineApplication
 
   private async Task<int> ExecuteAsync(CancellationToken cancellationToken)
   {
-    Console.WriteLine("Running Test Case...");
+    // TODO: 1. Locate the Test Case definition file correctly
+    var file = Path.Combine(_inputDirectory.ParsedValue, $"{_testCaseId.ParsedValue}.md");
+
+    // 2. Read the Test Case definition
+    var testCase = await TestCase.FromTestCaseDefinitionAsync(file, cancellationToken);
+
+    // 3. Validate the Test Case definition
+    var validator = new TestStepsValidator(testCase.Id, testCase.Title);
+    var result = validator.ValidateSteps(testCase.Steps);
+    if (!result.IsValid)
+    {
+      foreach (var error in result.Errors)
+      {
+        Console.WriteLine($"Step {error.StepId}: {error.ErrorMessage}");
+      }
+
+      return await Task.FromResult(1);
+    }
+    
+    // 4. Run the Test Case steps
+    IEnumerable<TestStepInstructionItem> instructions = testCase.Steps
+      .Select(step => TestStepInstructionItem.FromTestStep(step));
+    
+    
+    // 5. Store the Test Case result
 
     return await Task.FromResult(0);
   }
