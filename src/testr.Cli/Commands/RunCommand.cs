@@ -33,7 +33,7 @@ public class RunCommand : CommandLineApplication
     );
 
     _inputDirectory = Option<string>(
-      "input-directory",
+      "-i|--input-directory",
       "The input directory where the Test Case definition is located.",
       CommandOptionType.SingleValue,
       cfg => cfg.DefaultValue = ".",
@@ -41,7 +41,7 @@ public class RunCommand : CommandLineApplication
     );
 
     _outputDirectory = Option<string>(
-      "output-directory",
+      "-o|--output-directory",
       "The output directory where the Test Case result will be stored.",
       CommandOptionType.SingleValue,
       cfg => cfg.DefaultValue = ".",
