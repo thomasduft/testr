@@ -8,7 +8,7 @@ public class TestCase
   public IEnumerable<TestStep> Steps { get; set; } = [];
 
   public static async Task<TestCase> FromTestCaseDefinitionAsync(
-    string file, 
+    string file,
     CancellationToken cancellationToken
   )
   {
