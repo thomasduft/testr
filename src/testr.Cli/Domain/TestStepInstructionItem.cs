@@ -4,11 +4,20 @@ namespace tomware.TestR;
 
 public class TestStepInstructionItem
 {
+  private readonly TestStep _step;
+
   public LocatorType Locator { get; set; }
   public AriaRole AriaRole { get; set; }
   public string Text { get; set; } = string.Empty;
   public string Value { get; set; } = string.Empty;
   public ActionType Action { get; set; }
+
+  public TestStep TestStep => _step;
+
+  public TestStepInstructionItem(TestStep step)
+  {
+    _step = step;
+  }
 
   public static TestStepInstructionItem FromTestStep(
     TestStep step
@@ -18,7 +27,7 @@ public class TestStepInstructionItem
     if (testDataParameters.Count == 0)
       throw new InvalidDataException($"No TestData found for Test Step {step.Id}");
 
-    TestStepInstructionItem instructionItem = new();
+    TestStepInstructionItem instructionItem = new(step);
 
     foreach (var parameter in testDataParameters)
     {
