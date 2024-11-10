@@ -1,5 +1,13 @@
 Todo's:
 
+- rename TestStepsValidator to TestCaseValidator
+   - check additional properties like:
+     - Id
+     - Title
+     - Route
+     - Steps
+
+
 - [ ] RunCommand
   - sample:
     - run test-case-id https://localhost:5001 input-directory output-directory
