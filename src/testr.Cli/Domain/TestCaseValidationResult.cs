@@ -1,6 +1,6 @@
 namespace tomware.TestR;
 
-public record ValidationResult
+public record TestCaseValidationResult
 {
   private readonly List<TestStepValidationError> _errors = [];
 
@@ -18,7 +18,7 @@ public record ValidationResult
     get { return _errors; }
   }
 
-  public ValidationResult(string testCaseId, string testCaseTitle)
+  public TestCaseValidationResult(string testCaseId, string testCaseTitle)
   {
     TestCaseId = testCaseId;
     TestCaseTitle = testCaseTitle;

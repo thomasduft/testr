@@ -12,13 +12,13 @@ public class TestCaseExecutor
     _config = config;
   }
 
-  public async Task<IEnumerable<TestCaseResult>> ExecuteAsync(
+  public async Task<IEnumerable<TestStepResult>> ExecuteAsync(
     string domain,
     string route,
-    IEnumerable<TestStepInstructionItem> instructions
+    IEnumerable<TestStepInstruction> instructions
   )
   {
-    var results = new List<TestCaseResult>();
+    var results = new List<TestStepResult>();
 
     using var playwright = await Playwright.CreateAsync();
     await using var browser = await GetBrowserType(playwright)
@@ -72,11 +72,11 @@ public class TestCaseExecutor
     return context;
   }
 
-  private async Task<TestCaseResult> TestAsync(
+  private async Task<TestStepResult> TestAsync(
     IPage page,
     string domain,
     string route,
-    TestStepInstructionItem instruction
+    TestStepInstruction instruction
   )
   {
     try
@@ -96,17 +96,17 @@ public class TestCaseExecutor
 
       await ProcessStepAsync(page, instruction);
 
-      return TestCaseResult.Success(instruction.TestStep);
+      return TestStepResult.Success(instruction.TestStep);
     }
     catch (Exception ex)
     {
-      return TestCaseResult.Failed(instruction.TestStep, ex.Message);
+      return TestStepResult.Failed(instruction.TestStep, ex.Message);
     }
   }
 
   private static async Task<bool> ProcessStepAsync(
     IPage page,
-    TestStepInstructionItem instruction
+    TestStepInstruction instruction
   )
   {
     ILocator? locator = EvaluateLocator(page, instruction);
@@ -116,7 +116,7 @@ public class TestCaseExecutor
 
   private static ILocator EvaluateLocator(
     IPage page,
-    TestStepInstructionItem instruction
+    TestStepInstruction instruction
   )
   {
     ILocator? locator = instruction.Locator switch
@@ -132,7 +132,7 @@ public class TestCaseExecutor
   }
 
   private static async Task<bool> ExecuteAction(
-    TestStepInstructionItem instruction,
+    TestStepInstruction instruction,
     ILocator locator
   )
   {

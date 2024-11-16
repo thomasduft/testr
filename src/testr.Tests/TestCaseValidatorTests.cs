@@ -2,7 +2,7 @@ using tomware.TestR;
 
 namespace testr.Tests;
 
-public class TestStepsValidatorTests
+public class TestCaseValidatorTests
 {
   [Fact]
   public async Task ValidateSteps_With4TestSteps_ShouldReturnNoValidationErrors()
@@ -11,7 +11,7 @@ public class TestStepsValidatorTests
     var file = Path.Combine(Environment.CurrentDirectory, "TestData", "ExecutableTestCase.md");
     var testCase = await TestCase.FromTestCaseDefinitionAsync(file, default);
 
-    var validator = new TestStepsValidator(testCase.Id, testCase.Title);
+    var validator = new TestCaseValidator(testCase);
 
     // Act
     var result = validator.ValidateSteps(testCase.Steps);

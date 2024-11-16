@@ -5,7 +5,7 @@ namespace tomware.TestR;
 public class ValidateCommand : CommandLineApplication
 {
   private readonly CommandArgument<string> _testCaseId;
-  private readonly CommandArgument<string> _title;
+  private readonly CommandOption<string> _inputDirectory;
 
   public ValidateCommand()
   {
@@ -18,10 +18,12 @@ public class ValidateCommand : CommandLineApplication
       cfg => cfg.IsRequired()
     );
 
-    _title = Argument<string>(
-      "title",
-      "The Test Case title.",
-      cfg => cfg.DefaultValue = "A TestCase Title"
+    _inputDirectory = Option<string>(
+      "-i|--input-directory",
+      "The input directory where the Test Case definition is located.",
+      CommandOptionType.SingleValue,
+      cfg => cfg.DefaultValue = ".",
+      true
     );
 
     OnExecuteAsync(ExecuteAsync);
@@ -29,7 +31,24 @@ public class ValidateCommand : CommandLineApplication
 
   private async Task<int> ExecuteAsync(CancellationToken cancellationToken)
   {
-    Console.WriteLine("Validating Test Case...");
+    //1. Locate the Test Case definition file
+    var file = TestCaseFileLocator.FindFile(_inputDirectory.ParsedValue, _testCaseId.ParsedValue);
+
+    // 2. Read the Test Case definition
+    var testCase = await TestCase.FromTestCaseDefinitionAsync(file, cancellationToken);
+
+    // 3. Validate the Test Case definition
+    var testCaseValidator = new TestCaseValidator(testCase);
+    var validationResult = testCaseValidator.ValidateSteps(testCase.Steps);
+    if (!validationResult.IsValid)
+    {
+      foreach (var error in validationResult.Errors)
+      {
+        Console.WriteLine($"Step {error.StepId}: {error.ErrorMessage}");
+      }
+
+      return await Task.FromResult(1);
+    }
 
     return await Task.FromResult(0);
   }

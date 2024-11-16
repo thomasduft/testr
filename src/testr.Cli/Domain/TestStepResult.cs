@@ -1,6 +1,6 @@
 using tomware.TestR;
 
-public record TestCaseResult
+public record TestStepResult
 {
   private readonly TestStep _step;
 
@@ -10,22 +10,22 @@ public record TestCaseResult
 
   public TestStep Step => _step;
 
-  public TestCaseResult(TestStep step)
+  public TestStepResult(TestStep step)
   {
     _step = step;
   }
 
-  public static TestCaseResult Success(TestStep step)
+  public static TestStepResult Success(TestStep step)
   {
-    return new TestCaseResult(step)
+    return new TestStepResult(step)
     {
       IsSuccess = true
     };
   }
 
-  public static TestCaseResult Failed(TestStep step, string error)
+  public static TestStepResult Failed(TestStep step, string error)
   {
-    return new TestCaseResult(step)
+    return new TestStepResult(step)
     {
       IsSuccess = false,
       Error = error

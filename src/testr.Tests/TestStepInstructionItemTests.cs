@@ -20,7 +20,7 @@ public class TestStepInstructionItemTests
     };
 
     // Act
-    var testStepInstructionItem = TestStepInstructionItem.FromTestStep(step);
+    var testStepInstructionItem = TestStepInstruction.FromTestStep(step);
 
     // Assert
     Assert.NotNull(testStepInstructionItem);
@@ -46,7 +46,7 @@ public class TestStepInstructionItemTests
 
     // Act
     // Assert
-    Assert.Throws<InvalidDataException>(() => TestStepInstructionItem.FromTestStep(step));
+    Assert.Throws<InvalidDataException>(() => TestStepInstruction.FromTestStep(step));
   }
 
   [Fact]
@@ -63,6 +63,6 @@ public class TestStepInstructionItemTests
 
     // Act
     // Assert
-    Assert.Throws<InvalidDataException>(() => TestStepInstructionItem.FromTestStep(step));
+    Assert.Throws<InvalidDataException>(() => TestStepInstruction.FromTestStep(step));
   }
 }

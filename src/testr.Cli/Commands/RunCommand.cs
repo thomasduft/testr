@@ -93,15 +93,15 @@ public class RunCommand : CommandLineApplication
 
   private async Task<int> ExecuteAsync(CancellationToken cancellationToken)
   {
-    // TODO: 1. Locate the Test Case definition file correctly
-    var file = Path.Combine(_inputDirectory.ParsedValue, $"{_testCaseId.ParsedValue}.md");
+    //1. Locate the Test Case definition file
+    var file = TestCaseFileLocator.FindFile(_inputDirectory.ParsedValue, _testCaseId.ParsedValue);
 
     // 2. Read the Test Case definition
     var testCase = await TestCase.FromTestCaseDefinitionAsync(file, cancellationToken);
 
     // 3. Validate the Test Case definition
-    var validator = new TestStepsValidator(testCase.Id, testCase.Title);
-    var validationResult = validator.ValidateSteps(testCase.Steps);
+    var testCaseValidator = new TestCaseValidator(testCase);
+    var validationResult = testCaseValidator.ValidateSteps(testCase.Steps);
     if (!validationResult.IsValid)
     {
       foreach (var error in validationResult.Errors)
@@ -115,14 +115,14 @@ public class RunCommand : CommandLineApplication
     // 4. Run the Test Case steps
     ExecutorConfig executorConfig = GetExecutorConfiguration();
     var executor = new TestCaseExecutor(executorConfig);
-    var executionResult = await executor.ExecuteAsync(
+    var testStepResults = await executor.ExecuteAsync(
       _domain.ParsedValue,
       testCase.Route,
-      testCase.Steps.Select(step => TestStepInstructionItem.FromTestStep(step))
+      testCase.Steps.Select(step => TestStepInstruction.FromTestStep(step))
     );
-    if (!executionResult.Any(r => !r.IsSuccess))
+    if (!testStepResults.Any(r => !r.IsSuccess))
     {
-      foreach (var result in executionResult.Where(r => !r.IsSuccess))
+      foreach (var result in testStepResults.Where(r => !r.IsSuccess))
       {
         Console.WriteLine($"Test Case Step failed: {result.Error}");
       }
@@ -130,7 +130,12 @@ public class RunCommand : CommandLineApplication
       return await Task.FromResult(1);
     }
 
-    // 5. Store the Test Case result
+    // 5. Store the Test Case run
+    var run = new TestCaseRun(testCase, testStepResults);
+    run.SaveAsync(
+      _outputDirectory.ParsedValue,
+      cancellationToken
+    );
 
     return await Task.FromResult(0);
   }

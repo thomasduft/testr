@@ -1,12 +1,9 @@
 Todo's:
 
-- rename TestStepsValidator to TestCaseValidator
-   - check additional properties like:
-     - Id
-     - Title
-     - Route
-     - Steps
+- remove TestCaseResultCommand
 
+- add TestCaseManualCommand
+  - lists a manual to the console or as MD file with available instructions of of to use the tool
 
 - [ ] RunCommand
   - sample:

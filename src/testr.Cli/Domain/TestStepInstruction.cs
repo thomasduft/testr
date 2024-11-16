@@ -2,7 +2,7 @@ using Microsoft.Playwright;
 
 namespace tomware.TestR;
 
-public class TestStepInstructionItem
+public class TestStepInstruction
 {
   private readonly TestStep _step;
 
@@ -14,12 +14,12 @@ public class TestStepInstructionItem
 
   public TestStep TestStep => _step;
 
-  public TestStepInstructionItem(TestStep step)
+  public TestStepInstruction(TestStep step)
   {
     _step = step;
   }
 
-  public static TestStepInstructionItem FromTestStep(
+  public static TestStepInstruction FromTestStep(
     TestStep step
   )
   {
@@ -27,33 +27,33 @@ public class TestStepInstructionItem
     if (testDataParameters.Count == 0)
       throw new InvalidDataException($"No TestData found for Test Step {step.Id}");
 
-    TestStepInstructionItem instructionItem = new(step);
+    TestStepInstruction testStepInstruction = new(step);
 
     foreach (var parameter in testDataParameters)
     {
       switch (parameter.Key)
       {
-        case nameof(TestStepInstructionItem.Locator):
-          instructionItem.Locator = Enum.Parse<LocatorType>(parameter.Value);
+        case nameof(Locator):
+          testStepInstruction.Locator = Enum.Parse<LocatorType>(parameter.Value);
           break;
-        case nameof(TestStepInstructionItem.AriaRole):
-          instructionItem.AriaRole = Enum.Parse<AriaRole>(parameter.Value);
+        case nameof(AriaRole):
+          testStepInstruction.AriaRole = Enum.Parse<AriaRole>(parameter.Value);
           break;
-        case nameof(TestStepInstructionItem.Text):
-          instructionItem.Text = parameter.Value;
+        case nameof(Text):
+          testStepInstruction.Text = parameter.Value;
           break;
-        case nameof(TestStepInstructionItem.Value):
-          instructionItem.Value = parameter.Value;
+        case nameof(Value):
+          testStepInstruction.Value = parameter.Value;
           break;
-        case nameof(TestStepInstructionItem.Action):
-          instructionItem.Action = Enum.Parse<ActionType>(parameter.Value);
+        case nameof(Action):
+          testStepInstruction.Action = Enum.Parse<ActionType>(parameter.Value);
           break;
         default:
           throw new InvalidDataException($"Unsupported parameter '{parameter.Key}' found in TestData of Test Step {step.Id}");
       }
     }
 
-    return instructionItem;
+    return testStepInstruction;
   }
 
   private static Dictionary<string, string> ParseTestData(
