@@ -11,8 +11,6 @@
 
 The purpose of this test-case is to satisfy the use-case UC-001-Login which is to authenticate any user of the system.
 
-> Note: Correlates to the `Name`-property of an executable test-case.
-
 ## Preconditions
 
 - The user must be registered in the system.
