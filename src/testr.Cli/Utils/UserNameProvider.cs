@@ -2,7 +2,7 @@ using System.Diagnostics;
 
 namespace tomware.TestR;
 
-public static class UserNameProvider
+internal static class UserNameProvider
 {
   public static string GetUserName()
   {

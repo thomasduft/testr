@@ -12,7 +12,7 @@ public class RunCommand : CommandLineApplication
   private readonly CommandOption<bool> _headless;
   private readonly CommandOption<int> _slow;
   private readonly CommandOption<int> _timeout;
-  private readonly CommandOption<string> _browserType;
+  private readonly CommandOption<BrowserType> _browserType;
   private readonly CommandOption<string> _recordVideoDir;
 
   public RunCommand()
@@ -72,11 +72,11 @@ public class RunCommand : CommandLineApplication
       true
     );
 
-    _browserType = Option<string>(
+    _browserType = Option<BrowserType>(
       "-bt|--browser-type",
       "Sets the browser type to run the Test Case against (currently supported Browsers: Chrome, Firefox, Webkit).",
       CommandOptionType.SingleValue,
-      cfg => cfg.DefaultValue = "Chrome",
+      cfg => cfg.DefaultValue =  BrowserType.Chrome,
       true
     );
 
@@ -120,7 +120,8 @@ public class RunCommand : CommandLineApplication
       testCase.Route,
       testCase.Steps.Select(step => TestStepInstruction.FromTestStep(step))
     );
-    if (!testStepResults.Any(r => !r.IsSuccess))
+    var success = testStepResults.All(r => r.IsSuccess);
+    if (!success)
     {
       foreach (var result in testStepResults.Where(r => !r.IsSuccess))
       {
@@ -134,6 +135,7 @@ public class RunCommand : CommandLineApplication
     var run = new TestCaseRun(testCase, testStepResults);
     run.SaveAsync(
       _outputDirectory.ParsedValue,
+      success,
       cancellationToken
     );
 
@@ -146,13 +148,7 @@ public class RunCommand : CommandLineApplication
       _headless.ParsedValue,
       _slow.DefaultValue,
       _timeout.ParsedValue,
-      _browserType.ParsedValue switch
-      {
-        "Chrome" => BrowserType.Chrome,
-        "Firefox" => BrowserType.Firefox,
-        "Webkit" => BrowserType.Webkit,
-        _ => throw new InvalidDataException($"Unsupported Browser Type '{_browserType.ParsedValue}'")
-      },
+      _browserType.ParsedValue,
       _recordVideoDir.ParsedValue
     );
   }

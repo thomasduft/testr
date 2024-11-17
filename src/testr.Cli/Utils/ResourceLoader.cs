@@ -2,12 +2,12 @@ using System.Reflection;
 
 namespace tomware.TestR;
 
-public static class Templates
+internal static class Templates
 {
   public const string TestCase = "TestCase";
 }
 
-public static class ResourceLoader
+internal static class ResourceLoader
 {
   public static string GetTemplate(string template)
   {

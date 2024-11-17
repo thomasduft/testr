@@ -16,11 +16,11 @@ internal class TestCaseRun
 
   internal async void SaveAsync(
     string outputDirectory,
+    bool result,
     CancellationToken cancellationToken
   )
   {
     var lines = await File.ReadAllLinesAsync(_testCase.File, cancellationToken);
-    var result = _results.All(r => r.IsSuccess);
 
     SetProperties(lines, result);
     UpdateTestSteps(lines, result);
