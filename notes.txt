@@ -22,7 +22,7 @@ Todo's:
       and marks each processed step with a tick if successfully passed
       and marks the failed step with the error message provided by playwright locator
 
-- [ ] ValidateCommand
+- [x] ValidateCommand
   - sample: 
     - validate test-case-id input-directory
   - Validates the test case for correctness regarding playwright instructions
