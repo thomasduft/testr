@@ -34,6 +34,9 @@
     <None Include="TestData\*" Pack="false">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="TestRuns\*" Pack="false">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

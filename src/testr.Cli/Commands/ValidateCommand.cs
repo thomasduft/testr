@@ -35,7 +35,7 @@ public class ValidateCommand : CommandLineApplication
     var file = TestCaseFileLocator.FindFile(_inputDirectory.ParsedValue, _testCaseId.ParsedValue);
 
     // 2. Read the Test Case definition
-    var testCase = await TestCase.FromTestCaseDefinitionAsync(file, cancellationToken);
+    var testCase = await TestCase.FromTestCaseFileAsync(file, cancellationToken);
 
     // 3. Validate the Test Case definition
     var testCaseValidator = new TestCaseValidator(testCase);

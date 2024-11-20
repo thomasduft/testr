@@ -4,41 +4,42 @@ using Markdig;
 
 namespace tomware.TestR;
 
-public class TestCaseDefinitionParser
+internal class TestCaseParser
 {
   private readonly string _file;
 
-  public TestCaseDefinitionParser(string file)
+  public TestCaseParser(string file)
   {
     _file = file;
   }
 
-  public async Task<string> GetTestCaseIdAsync(CancellationToken cancellationToken)
+  internal async Task<TestCase> ToTestCaseAsync(CancellationToken cancellationToken)
   {
     var lines = await File.ReadAllLinesAsync(_file, cancellationToken);
 
-    return GetTestCaseIdAndTitle(lines).TestCaseId;
+    var (testCaseId, testCaseTitle) = GetTestCaseIdAndTitle(lines);
+    var type = FindTag(lines, "Type");
+    var status = FindTag(lines, "Status");
+    var route = FindTag(lines, "Route");
+
+    var markdownContent = string.Join(Environment.NewLine, lines);
+    var steps = GetTestSteps(markdownContent);
+
+    return new TestCase
+    {
+      Id = testCaseId,
+      Title = testCaseTitle,
+      Type = type,
+      Status = status,
+      Route = route,
+      Steps = steps,
+      File = _file
+    };
   }
 
-  public async Task<string> GetTestCaseTitleAsync(CancellationToken cancellationToken)
-  {
-    var lines = await File.ReadAllLinesAsync(_file, cancellationToken);
-
-    return GetTestCaseIdAndTitle(lines).TestCaseTitle;
-  }
-
-  public async Task<string> GetRouteAsync(CancellationToken cancellationToken)
-  {
-    var lines = await File.ReadAllLinesAsync(_file, cancellationToken);
-
-    return FindTag(lines, "Route");
-  }
-
-  public async Task<IEnumerable<TestStep>> GetTestStepsAsync(CancellationToken cancellationToken)
+  private IEnumerable<TestStep> GetTestSteps(string markdownContent)
   {
     var testSteps = new List<TestStep>();
-
-    string markdownContent = await File.ReadAllTextAsync(_file, cancellationToken);
 
     var pipeline = new MarkdownPipelineBuilder()
         .UseAdvancedExtensions()

@@ -14,7 +14,7 @@ internal class TestCaseRun
     _results = results;
   }
 
-  internal async void SaveAsync(
+  internal async Task SaveAsync(
     string outputDirectory,
     bool result,
     CancellationToken cancellationToken

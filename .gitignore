@@ -482,3 +482,9 @@ $RECYCLE.BIN/
 
 # Vim temporary swap files
 *.swp
+
+# own
+
+samples/**/*/*.sqlite
+samples/**/*/*.sqlite-shm
+samples/**/*/*.sqlite-wal

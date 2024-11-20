@@ -8,8 +8,8 @@ public class TestCaseValidatorTests
   public async Task ValidateSteps_With4TestSteps_ShouldReturnNoValidationErrors()
   {
     // Arrange
-    var file = Path.Combine(Environment.CurrentDirectory, "TestData", "ExecutableTestCase.md");
-    var testCase = await TestCase.FromTestCaseDefinitionAsync(file, default);
+    var file = Path.Combine(Environment.CurrentDirectory, "TestData", "TC-001-Login.md");
+    var testCase = await TestCase.FromTestCaseFileAsync(file, default);
 
     var validator = new TestCaseValidator(testCase);
 

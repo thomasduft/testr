@@ -97,7 +97,7 @@ public class RunCommand : CommandLineApplication
     var file = TestCaseFileLocator.FindFile(_inputDirectory.ParsedValue, _testCaseId.ParsedValue);
 
     // 2. Read the Test Case definition
-    var testCase = await TestCase.FromTestCaseDefinitionAsync(file, cancellationToken);
+    var testCase = await TestCase.FromTestCaseFileAsync(file, cancellationToken);
 
     // 3. Validate the Test Case definition
     var testCaseValidator = new TestCaseValidator(testCase);
@@ -133,7 +133,7 @@ public class RunCommand : CommandLineApplication
 
     // 5. Store the Test Case run
     var run = new TestCaseRun(testCase, testStepResults);
-    run.SaveAsync(
+    await run.SaveAsync(
       _outputDirectory.ParsedValue,
       success,
       cancellationToken

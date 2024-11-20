@@ -4,26 +4,20 @@ public class TestCase
 {
   public string Id { get; set; } = string.Empty;
   public string Title { get; set; } = string.Empty;
+  public string Type { get; set; } = string.Empty;
+  public string Status { get; set; } = string.Empty;
   public string Route { get; set; } = string.Empty;
   public IEnumerable<TestStep> Steps { get; set; } = [];
   public string File { get; set; } = string.Empty;
+  public bool IsDefinition => !string.IsNullOrEmpty(Type) && Type == "Definition";
 
-  public static async Task<TestCase> FromTestCaseDefinitionAsync(
+  public static async Task<TestCase> FromTestCaseFileAsync(
     string file,
     CancellationToken cancellationToken
   )
   {
-    var extractor = new TestCaseDefinitionParser(file);
+    var parser = new TestCaseParser(file);
 
-    var testCase = new TestCase
-    {
-      Id = await extractor.GetTestCaseIdAsync(cancellationToken),
-      Title = await extractor.GetTestCaseTitleAsync(cancellationToken),
-      Route = await extractor.GetRouteAsync(cancellationToken),
-      Steps = await extractor.GetTestStepsAsync(cancellationToken),
-      File = file
-    };
-
-    return testCase;
+    return await parser.ToTestCaseAsync(cancellationToken);
   }
 }
