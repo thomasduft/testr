@@ -70,7 +70,14 @@ app.OnExecuteAsync(async _ =>
 
   Target(Test, DependsOn(Build), () =>
   {
-    Run("dotnet", $"test {solution} -c Release --no-build --nologo");
+    var projects = GetFiles(".", $"*.csproj");
+    foreach (var project in projects.OrderBy(x => x))
+    {
+      if (!project.Contains(".Tests"))
+        continue;
+
+      Run("dotnet", $"test {project} -c Release --nologo /p:ParallelizeTestCollections=false /p:CollectCoverage=true /p:CoverletOutputFormat=\\\"opencover,cobertura\\\" /p:Include=\\\"[tomware.TestR]*\\\"");
+    }
   });
 
   Target(Release, DependsOn(Test), () =>
