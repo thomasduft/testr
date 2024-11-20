@@ -11,7 +11,7 @@ var services = new ServiceCollection()
 var provider = services.BuildServiceProvider();
 var cli = provider.GetRequiredService<Cli>();
 cli.Name = "testR";
-cli.Description = "A cli tool to manage executable test cases.";
+cli.Description = "A cli tool to manage and run executable test cases.";
 
 using var cts = new CancellationTokenSource();
 Console.CancelKeyPress += (s, e) =>
