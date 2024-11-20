@@ -1,7 +1,5 @@
 Todo's:
 
-- remove TestCaseResultCommand
-
 - add TestCaseManualCommand
   - lists a manual to the console or as MD file with available instructions of of to use the tool
 

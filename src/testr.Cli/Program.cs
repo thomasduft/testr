@@ -3,9 +3,8 @@
 using tomware.TestR;
 
 var services = new ServiceCollection()
-    .AddCliCommand<TestCaseCommand>()
-    .AddCliCommand<TestCaseResultCommand>()
     .AddCliCommand<RunCommand>()
+    .AddCliCommand<TestCaseCommand>()
     .AddCliCommand<ValidateCommand>()
     .AddSingleton<Cli>();
 
