@@ -8,6 +8,15 @@ A cli tool to manage executable test cases.
 
 `testR` is a command-line tool designed to manage and execute test cases. It supports running test cases against different browsers, validating test case definitions, and creating new test case definitions.
 
+### Vision
+
+The vision of this tool is to have a tool agnostic file base approach to maintain test cases. A common workflow looks like the following:
+
+- Tester creates Use-Cases
+- out of the Use-Cases Test-Cases will be defined (Test-Case type: Definition) - see [TC-001-Login Definition sample](samples/Definitions/TC-Login-001.md)
+- once a feature has been implemented the appropriate Test-Cases can be executed against an environment in an E2E automated manner
+- each run will be historized with Test-Cases known as Runs (Test-Case type: Execution) - see [TC-001-Login Run sample](samples/Runs/TC-001-Login.md)
+
 ## Installation
 
 To install `testR`, clone the repository and build the project using the .NET CLI:
