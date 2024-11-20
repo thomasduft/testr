@@ -10,7 +10,7 @@ A cli tool to manage executable test cases.
 
 ### Vision
 
-The vision of this tool is to have a tool agnostic file base approach to maintain test cases. A common workflow looks like the following:
+The vision of this tool is to have a tool agnostic file based approach to maintain test cases. A common workflow looks like the following:
 
 - Tester creates Use-Cases
 - out of the Use-Cases Test-Cases will be defined (Test-Case type: Definition) - see [TC-001-Login Definition sample](samples/Definitions/TC-Login-001.md)
