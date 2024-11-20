@@ -4,6 +4,24 @@
 
 A cli tool to manage executable test cases.
 
+## Introduction
+
+`testR` is a command-line tool designed to manage and execute test cases. It supports running test cases against different browsers, validating test case definitions, and creating new test case definitions.
+
+## Installation
+
+To install `testR`, clone the repository and build the project using the .NET CLI:
+
+```sh
+git clone https://github.com/thomasduft/testr.git
+cd testr
+dotnet build
+```
+
+For local testing purpose run the `install.sh` script.
+
+> Note: Will eventually be available as a dotnet tool on [NuGet.org](https://www.nuget.org/).
+
 ## Usage
 
 ```bash
@@ -22,3 +40,45 @@ Commands:
 Run 'testR [command] -?|-h|--help' for more information about a command.
 ```
 
+### Commands
+
+#### run
+
+Runs a Test Case definition.
+
+```sh
+testR run [test-case-id] [domain] [options]
+
+Options:
+  -i|--input-directory <DIR>    The input directory where the Test Case definition is located. (default: .)
+  -o|--output-directory <DIR>   The output directory where the Test Case result will be stored. (default: .)
+  --headless                    Runs the browser in headless mode.
+  --continue-on-failure         Continues execution even if a test step fails.
+  -s|--slow <MS>                Sets the slow motion delay in milliseconds.
+  -t|--timeout <MS>             Sets the timeout for awaiting the Playwright Locator in milliseconds. (default: 30000)
+  -bt|--browser-type <TYPE>     Sets the browser type to run the Test Case against (Chrome, Firefox, Webkit). (default: Chrome)
+  -rvd|--record-video-dir <DIR> Records a video of the Test Case execution to the specified directory.
+```
+
+#### test-case
+
+Creates a new Test Case definition.
+
+```sh
+testR test-case [test-case-id] [title]
+```
+
+#### validate
+
+Validates a Test Case definition.
+
+```sh
+testR validate [test-case-id] [options]
+
+Options:
+  -i|--input-directory <DIR>    The input directory where the Test Case definition is located. (default: .)
+```
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
