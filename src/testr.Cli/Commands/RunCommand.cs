@@ -10,6 +10,7 @@ public class RunCommand : CommandLineApplication
   private readonly CommandOption<string> _inputDirectory;
   private readonly CommandOption<string> _outputDirectory;
   private readonly CommandOption<bool> _headless;
+  private readonly CommandOption<bool> _continueOnFailure;
   private readonly CommandOption<int> _slow;
   private readonly CommandOption<int> _timeout;
   private readonly CommandOption<BrowserType> _browserType;
@@ -51,6 +52,14 @@ public class RunCommand : CommandLineApplication
     _headless = Option<bool>(
       "--headless",
       "Runs the browser in headless mode.",
+      CommandOptionType.NoValue,
+      cfg => cfg.DefaultValue = false,
+      true
+    );
+
+    _continueOnFailure = Option<bool>(
+      "-c|--continue-on-failure",
+      "Continues the Test Case execution even if the Test Case fails.",
       CommandOptionType.NoValue,
       cfg => cfg.DefaultValue = false,
       true
@@ -127,6 +136,11 @@ public class RunCommand : CommandLineApplication
       {
         Console.WriteLine($"Test Case Step failed: {result.Error}");
       }
+
+      if (!_continueOnFailure.ParsedValue)
+      {
+        return await Task.FromResult(1);
+      }
     }
 
     // 5. Store the Test Case run
@@ -136,9 +150,7 @@ public class RunCommand : CommandLineApplication
       cancellationToken
     );
 
-    return success
-      ? await Task.FromResult(0)
-      : await Task.FromResult(1);
+    return await Task.FromResult(0);
   }
 
   private ExecutorConfig GetExecutorConfiguration()

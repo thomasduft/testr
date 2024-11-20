@@ -1,9 +1,11 @@
 Todo's:
 
-- add TestCaseManualCommand
+- [ ] Write some more tests for TestCaseValidator
+
+- [ ] add TestCaseManualCommand
   - lists a manual to the console or as MD file with available instructions of of to use the tool
 
-- [ ] RunCommand
+- [x] RunCommand
   - sample:
     - run test-case-id https://localhost:5001 input-directory output-directory
   - Reads a test case definition by its test-case-id
