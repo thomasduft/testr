@@ -76,7 +76,7 @@ public class RunCommand : CommandLineApplication
       "-bt|--browser-type",
       "Sets the browser type to run the Test Case against (currently supported Browsers: Chrome, Firefox, Webkit).",
       CommandOptionType.SingleValue,
-      cfg => cfg.DefaultValue =  BrowserType.Chrome,
+      cfg => cfg.DefaultValue = BrowserType.Chrome,
       true
     );
 
@@ -127,19 +127,18 @@ public class RunCommand : CommandLineApplication
       {
         Console.WriteLine($"Test Case Step failed: {result.Error}");
       }
-
-      return await Task.FromResult(1);
     }
 
     // 5. Store the Test Case run
     var run = new TestCaseRun(testCase, testStepResults);
     await run.SaveAsync(
       _outputDirectory.ParsedValue,
-      success,
       cancellationToken
     );
 
-    return await Task.FromResult(0);
+    return success
+      ? await Task.FromResult(0)
+      : await Task.FromResult(1);
   }
 
   private ExecutorConfig GetExecutorConfiguration()

@@ -16,14 +16,13 @@ internal class TestCaseRun
 
   internal async Task SaveAsync(
     string outputDirectory,
-    bool result,
     CancellationToken cancellationToken
   )
   {
     var lines = await File.ReadAllLinesAsync(_testCase.File, cancellationToken);
 
-    SetProperties(lines, result);
-    UpdateTestSteps(lines, result);
+    SetProperties(lines, _results.All(r => r.IsSuccess));
+    UpdateTestSteps(lines, _results);
 
     await File.WriteAllLinesAsync(
       $"{outputDirectory}/{_testCase.Id}.md",
@@ -46,8 +45,32 @@ internal class TestCaseRun
     lines[Array.IndexOf(lines, line)] = line.Replace(splittedItems[1].Trim(), value);
   }
 
-  private void UpdateTestSteps(string[] lines, bool result)
+  private void UpdateTestSteps(string[] lines, IEnumerable<TestStepResult> testResults)
   {
-    // TODO: Set ticks for each test step or add test step error for each failed test step
+    // <!-- STEPS:BEGIN -->
+    // | Step ID | Description | Test Data | Expected Result | Actual Result |
+    // | ------- | ----------- | --------- | --------------- | ------------- |
+    // | 1       | tbd         | tbd       | tbd             |  ✅           |
+    // | 2       | tbd         | tbd       | tbd             |  ❌ error txt |
+    // <!-- STEPS:END -->
+
+    var stepsBegin = Array.IndexOf(lines, "<!-- STEPS:BEGIN -->") + 3;
+    var stepsEnd = Array.IndexOf(lines, "<!-- STEPS:END -->");
+    var failed = false;
+  
+    for (var i = stepsBegin; i < stepsEnd; i++)
+    {
+      var splittedItems = lines[i].Split('|');
+      var stepId = splittedItems[1].Trim();
+      var lookupString = splittedItems[5];
+
+      var testResult = testResults
+        .FirstOrDefault(r => r.Step.Id.ToString().ToLowerInvariant() == stepId.ToLowerInvariant()
+          && r.IsSuccess == false);
+      failed = testResult != null;
+      lines[i] = !failed
+        ? lines[i].Replace(lookupString, " ✅ ")
+        : lines[i].Replace(lookupString, $" ❌ {testResult?.Error} ");
+    }
   }
 }
