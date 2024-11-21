@@ -77,7 +77,7 @@ public class RunCommand : CommandLineApplication
       "-t|--timeout",
       "Sets the timeout for awaiting the Playwright Locator in milliseconds.",
       CommandOptionType.SingleValue,
-      cfg => cfg.DefaultValue = 30000,
+      cfg => cfg.DefaultValue = 10000,
       true
     );
 

@@ -62,15 +62,15 @@ internal class TestCaseRun
     {
       var splittedItems = lines[i].Split('|');
       var stepId = splittedItems[1].Trim();
-      var lookupString = splittedItems[5];
-
       var testResult = testResults
         .FirstOrDefault(r => r.Step.Id.ToString().ToLowerInvariant() == stepId.ToLowerInvariant()
           && r.IsSuccess == false);
       failed = testResult != null;
-      lines[i] = !failed
-        ? lines[i].Replace(lookupString, " ✅ ")
-        : lines[i].Replace(lookupString, $" ❌ {testResult?.Error} ");
+
+      splittedItems[5] = !failed 
+        ? " ✅ " 
+        : $" ❌ {testResult?.Error} ";
+      lines[i] = string.Join('|', splittedItems);
     }
   }
 }
