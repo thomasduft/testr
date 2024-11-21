@@ -17,11 +17,11 @@ dotnet tool uninstall -g tomware.TestR
 
 echo ----
 echo Restore
-dotnet restore src/testr
+dotnet restore src/testr.Cli
 
 echo ----
 echo Packaging with Version = $1
-dotnet pack src/testr -c Release -p:PackageVersion=$1 -p:Version=$1 -o ./artifacts/
+dotnet pack src/testr.Cli -c Release -p:PackageVersion=$1 -p:Version=$1 -o ./artifacts/
 
 echo ----
 echo Installing testr globally with Version = $1
