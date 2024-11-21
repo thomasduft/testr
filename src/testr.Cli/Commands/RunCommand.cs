@@ -134,7 +134,7 @@ public class RunCommand : CommandLineApplication
     {
       foreach (var result in testStepResults.Where(r => !r.IsSuccess))
       {
-        Console.WriteLine($"Test Case Step failed: {result.Error}");
+        ConsoleHelper.WriteLineError($"Test Case Step failed: {result.Error}");
       }
 
       if (!_continueOnFailure.ParsedValue)

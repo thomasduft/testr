@@ -44,11 +44,13 @@ public class ValidateCommand : CommandLineApplication
     {
       foreach (var error in validationResult.Errors)
       {
-        Console.WriteLine($"Step {error.StepId}: {error.ErrorMessage}");
+        ConsoleHelper.WriteLineError($"Step {error.StepId}: {error.ErrorMessage}");
       }
 
       return await Task.FromResult(1);
     }
+
+    ConsoleHelper.WriteLineSuccess("Test Case is valid!");
 
     return await Task.FromResult(0);
   }
