@@ -115,7 +115,7 @@ public class RunCommand : CommandLineApplication
     {
       foreach (var error in validationResult.Errors)
       {
-        Console.WriteLine($"Step {error.StepId}: {error.ErrorMessage}");
+        ConsoleHelper.WriteLineError($"Step {error.StepId}: {error.ErrorMessage}");
       }
 
       return await Task.FromResult(1);
