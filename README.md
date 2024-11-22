@@ -18,7 +18,7 @@ The vision of this tool is to have a tool agnostic file based approach to mainta
   - ![Sample Run](TC-001-Login-Run.gif)
 4. each run will be historied with Test-Cases known as Runs (Test-Case type: Execution) - see [TC-001-Login Run sample](samples/Runs/TC-001-Login.md)
 
-> Note: In case of escaping strings please use a backslash `\` followed by a double quote `"` (e.g. Locator=GetByText Text=\"Invalid login attempt for user 'Albert'\" Action=IsVisible)
+> Note: In case of escaping strings please use a backslash `\` followed by a double quote `"` (e.g. Locator=GetByText Text=\\"Invalid login attempt for user 'Albert'\\" Action=IsVisible)
 
 ## Installation
 
