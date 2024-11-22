@@ -15,7 +15,7 @@ The vision of this tool is to have a tool agnostic file based approach to mainta
 1. Team creates Use-Cases
 2. out of the Use-Cases Test-Cases will be defined (Test-Case type: Definition) - see [TC-001-Login Definition sample](samples/Definitions/TC-001-Login.md)
 3. once a feature has been implemented the appropriate Test-Cases can be executed against an environment in an E2E automated manner
-  - ![Sample Run](TC-001-Login-Run.webm)
+  - ![Sample Run](TC-001-Login-Run.gif)
 4. each run will be historied with Test-Cases known as Runs (Test-Case type: Execution) - see [TC-001-Login Run sample](samples/Runs/TC-001-Login.md)
 
 ## Installation
