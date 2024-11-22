@@ -57,7 +57,7 @@ internal class TestCaseRun
     var stepsBegin = Array.IndexOf(lines, "<!-- STEPS:BEGIN -->") + 3;
     var stepsEnd = Array.IndexOf(lines, "<!-- STEPS:END -->");
     var failed = false;
-  
+
     for (var i = stepsBegin; i < stepsEnd; i++)
     {
       var splittedItems = lines[i].Split('|');
@@ -67,8 +67,8 @@ internal class TestCaseRun
           && r.IsSuccess == false);
       failed = testResult != null;
 
-      splittedItems[5] = !failed 
-        ? " ✅ " 
+      splittedItems[5] = !failed
+        ? " ✅ "
         : $" ❌ {testResult?.Error} ";
       lines[i] = string.Join('|', splittedItems);
     }

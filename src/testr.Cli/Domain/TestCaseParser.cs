@@ -76,13 +76,13 @@ internal class TestCaseParser
               testStep.Id = int.Parse(cellContent);
               break;
             case 1:
-              testStep.Description = cellContent;
+              testStep.Description = SanitizeWebString(cellContent);
               break;
             case 2:
-              testStep.TestData = cellContent;
+              testStep.TestData = SanitizeWebString(cellContent);
               break;
             case 3:
-              testStep.ExpectedResult = cellContent;
+              testStep.ExpectedResult = SanitizeWebString(cellContent);
               break;
           }
         }
@@ -116,5 +116,11 @@ internal class TestCaseParser
     var splittedItems = line!.Split(':');
 
     return splittedItems[1].Trim();
+  }
+
+  private string SanitizeWebString(string input)
+  {
+    return input
+      .Replace("&quot;", "\"");
   }
 }

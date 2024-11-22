@@ -1,3 +1,5 @@
+using System.Text.RegularExpressions;
+
 using Microsoft.Playwright;
 
 namespace tomware.TestR;
@@ -23,7 +25,7 @@ public class TestStepInstruction
     TestStep step
   )
   {
-    var testDataParameters = ParseTestData(step.TestData, ' ');
+    var testDataParameters = ParseTestData(step.TestData);
     if (testDataParameters.Count == 0)
       throw new InvalidDataException($"No TestData found for Test Step {step.Id}");
 
@@ -57,21 +59,21 @@ public class TestStepInstruction
   }
 
   private static Dictionary<string, string> ParseTestData(
-    string testData,
-    char separator
+    string testData
   )
   {
     var result = new Dictionary<string, string>();
     if (string.IsNullOrEmpty(testData))
       return result;
 
-    foreach (var pair in testData.Split(separator))
+    var pattern = @"(\w+)=(""[^""]*""|\S+)";
+    var matches = Regex.Matches(testData, pattern);
+
+    foreach (Match match in matches)
     {
-      var parts = pair.Split('=');
-      if (parts.Length == 2)
-      {
-        result[parts[0].Trim()] = parts[1].Trim();
-      }
+      var key = match.Groups[1].Value;
+      var value = match.Groups[2].Value;
+      result[key] = value;
     }
 
     return result;

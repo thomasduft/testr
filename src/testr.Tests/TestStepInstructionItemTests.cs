@@ -32,6 +32,29 @@ public class TestStepInstructionItemTests
   }
 
   [Fact]
+  public void FromTestStep_WithEscapedValueStringTestData_ShouldReturnInstance()
+  {
+    // Arrange
+    var step = new TestStep
+    {
+      Id = 1,
+      Description = "Test Description",
+      TestData = "Locator=GetByText Text=\"Invalid login attempt for user 'Albert'\" Action=IsVisible",
+      ExpectedResult = "-",
+      IsSuccess = false
+    };
+
+    // Act
+    var testStepInstructionItem = TestStepInstruction.FromTestStep(step);
+
+    // Assert
+    Assert.NotNull(testStepInstructionItem);
+    Assert.Equal(LocatorType.GetByText, testStepInstructionItem.Locator);
+    Assert.Equal("\"Invalid login attempt for user 'Albert'\"", testStepInstructionItem.Text);
+    Assert.Equal(ActionType.IsVisible, testStepInstructionItem.Action);
+  }
+
+  [Fact]
   public void FromTestStep_WithUnsupportedTestParameter_ShouldThrowInvalidDataException()
   {
     // Arrange
@@ -39,7 +62,7 @@ public class TestStepInstructionItemTests
     {
       Id = 1,
       Description = "Test Description",
-      TestData = "MyParameter=GetByLabel AriaRole=Button Text=ClickMe Value= Action=Click",
+      TestData = "MyParameter=GetByLabel AriaRole=Button Text=ClickMe Action=Click",
       ExpectedResult = "Expected Result",
       IsSuccess = false
     };
