@@ -2,10 +2,10 @@ Todo's:
 
 - [ ] Write some more tests for TestCaseValidator
 
-- [ ] Find / Think of a way of respecting Pre-Conditions
-  - reference happy case Test-Cases (e.g. to login)
-
 - [ ] add TestCaseManualCommand
   - lists a manual to the console or as MD file with available instructions of of to use the tool
+
+- [ ] Find / Think of a way of respecting Pre-Conditions
+  - reference happy case Test-Cases (e.g. to login)
 
 ----------------------------------------------------------------------------------------------------
