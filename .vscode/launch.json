@@ -29,8 +29,26 @@
       "program": "${workspaceFolder}/src/testr.Cli/bin/Debug/net8.0/tomware.TestR.dll",
       "args": [
         "run",
-        "TC-001-Login",
         "https://localhost:5001",
+        "-i",
+        "../../samples/Definitions",
+        "-o",
+        "../../samples/Runs"
+      ],
+      "cwd": "${workspaceFolder}/src/testr.Cli",
+      "stopAtEntry": false
+    },
+    {
+      "name": "testR:run-with-testcase",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build-testR",
+      "program": "${workspaceFolder}/src/testr.Cli/bin/Debug/net8.0/tomware.TestR.dll",
+      "args": [
+        "run",
+        "https://localhost:5001",
+        "-tc",
+        "TC-001-Login",
         "-i",
         "../../samples/Definitions",
         "-o",

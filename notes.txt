@@ -9,11 +9,3 @@ Todo's:
 
 ----------------------------------------------------------------------------------------------------
 Ideas:
-
-- [ ] add a command that executes all TestCases found in and beneath a directory
-  - TestCaseRunner
-  - testr runner https://localhost:5001 -i inputDirectory -o outputDirectory ...
-  - testr -tc TC-...
-     - refactor run command with optional `tc|test-case` flag
-       - if tc-flag given, only run desired test-case
-       - if tc-flag not given, run all TestCases found beneath directory

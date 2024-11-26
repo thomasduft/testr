@@ -5,8 +5,8 @@ namespace tomware.TestR;
 
 public class RunCommand : CommandLineApplication
 {
-  private readonly CommandArgument<string> _testCaseId;
   private readonly CommandArgument<string> _domain;
+  private readonly CommandOption<string> _testCaseId;
   private readonly CommandOption<string> _inputDirectory;
   private readonly CommandOption<string> _outputDirectory;
   private readonly CommandOption<bool> _headless;
@@ -21,16 +21,18 @@ public class RunCommand : CommandLineApplication
     Name = "run";
     Description = "Runs a Test Case definition (i.e. TC-Audit-001 \"https://localhost:5001\").";
 
-    _testCaseId = Argument<string>(
-      "test-case-id",
-      "The Test Case ID (e.g. TC-Audit-001).",
-      cfg => cfg.IsRequired()
-    );
-
     _domain = Argument<string>(
       "domain",
       "The domain to run the Test Case against.",
       cfg => cfg.IsRequired()
+    );
+
+    _testCaseId = Option<string>(
+      "-tc|--test-case-id",
+      "The Test Case ID (e.g. TC-Audit-001).",
+      CommandOptionType.SingleValue,
+      cfg => cfg.DefaultValue = null,
+      true
     );
 
     _inputDirectory = Option<string>(
@@ -102,13 +104,30 @@ public class RunCommand : CommandLineApplication
 
   private async Task<int> ExecuteAsync(CancellationToken cancellationToken)
   {
-    //1. Locate the Test Case definition file
-    var file = TestCaseFileLocator.FindFile(_inputDirectory.ParsedValue, _testCaseId.ParsedValue);
+    // Locate the Test Case definition files
+    var files = TestCaseFileLocator.FindFiles(
+      _inputDirectory.ParsedValue,
+      _testCaseId.ParsedValue
+    );
 
-    // 2. Read the Test Case definition
+    foreach (var file in files)
+    {
+      var result = await RunTestCaseAsync(file, cancellationToken);
+      if (result != 0)
+      {
+        return result;
+      }
+    }
+
+    return 0;
+  }
+
+  private async Task<int> RunTestCaseAsync(string file, CancellationToken cancellationToken)
+  {
+    // Read the Test Case definition
     var testCase = await TestCase.FromTestCaseFileAsync(file, cancellationToken);
 
-    // 3. Validate the Test Case definition
+    // Validate the Test Case definition
     var testCaseValidator = new TestCaseValidator(testCase);
     var validationResult = testCaseValidator.ValidateSteps(testCase.Steps);
     if (!validationResult.IsValid)
@@ -121,7 +140,7 @@ public class RunCommand : CommandLineApplication
       return await Task.FromResult(1);
     }
 
-    // 4. Run the Test Case steps
+    // Run the Test Case steps
     ExecutorConfig executorConfig = GetExecutorConfiguration();
     var executor = new TestCaseExecutor(executorConfig);
     var testStepResults = await executor.ExecuteAsync(
@@ -143,7 +162,7 @@ public class RunCommand : CommandLineApplication
       }
     }
 
-    // 5. Store the Test Case run
+    // Store the Test Case run
     var run = new TestCaseRun(testCase, testStepResults);
     await run.SaveAsync(
       _outputDirectory.ParsedValue,
