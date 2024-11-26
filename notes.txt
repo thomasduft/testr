@@ -7,3 +7,8 @@ Todo's:
   - reference happy case Test-Cases (e.g. to login)
 
 ----------------------------------------------------------------------------------------------------
+Ideas:
+
+- [ ] add a command that executes all TestCases found in and beneath a directory
+  - TestCaseRunner
+  - testr runner https://localhost:5001 -i inputDirectory -o outputDirectory ...
