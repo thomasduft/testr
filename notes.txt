@@ -1,6 +1,7 @@
 Todo's:
 
 - [ ] add TestCaseManualCommand
+  - testr man
   - lists a manual to the console or as MD file with available instructions of of to use the tool
 
 - [ ] Find / Think of a way of respecting Pre-Conditions
