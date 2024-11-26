@@ -4,7 +4,7 @@ using Microsoft.Playwright;
 
 namespace tomware.TestR;
 
-public class TestStepInstruction
+internal class TestStepInstruction
 {
   private readonly TestStep _step;
 

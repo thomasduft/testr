@@ -1,6 +1,6 @@
 using tomware.TestR;
 
-public record TestStepResult
+internal record TestStepResult
 {
   private readonly TestStep _step;
 

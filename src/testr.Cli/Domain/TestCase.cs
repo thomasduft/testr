@@ -1,6 +1,6 @@
 namespace tomware.TestR;
 
-public class TestCase
+internal class TestCase
 {
   public string Id { get; set; } = string.Empty;
   public string Title { get; set; } = string.Empty;

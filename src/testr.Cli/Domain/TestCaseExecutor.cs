@@ -2,7 +2,7 @@ using Microsoft.Playwright;
 
 using tomware.TestR;
 
-public class TestCaseExecutor
+internal class TestCaseExecutor
 {
   private readonly ExecutorConfig _config;
   private string _requestUri = string.Empty;

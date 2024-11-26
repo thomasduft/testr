@@ -1,6 +1,6 @@
 namespace tomware.TestR;
 
-public record TestCaseValidationResult
+internal record TestCaseValidationResult
 {
   private readonly List<TestStepValidationError> _errors = [];
 

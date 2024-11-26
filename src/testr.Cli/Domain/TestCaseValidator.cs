@@ -1,6 +1,6 @@
 namespace tomware.TestR;
 
-public class TestCaseValidator
+internal class TestCaseValidator
 {
   private readonly TestCase _testCase;
 
