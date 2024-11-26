@@ -28,7 +28,7 @@ The user must be registered in the system.
 
 - 2a - Remember Me
     - The system detect that the user's computer has a saved username and password.
-    - The system bypasses step 4 and 4.
+    - The system bypasses step 3 and 4.
     - Continue with Basic Flow, step 5.
 - 5a - Username does not exist
     - In step2, system determines that the username does not match an active user profile.
