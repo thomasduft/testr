@@ -1,4 +1,3 @@
-
 using McMaster.Extensions.CommandLineUtils;
 
 namespace tomware.TestR;
@@ -19,7 +18,7 @@ public class RunCommand : CommandLineApplication
   public RunCommand()
   {
     Name = "run";
-    Description = "Runs a Test Case definition (i.e. TC-Audit-001 \"https://localhost:5001\").";
+    Description = "Runs Test Case definitions (i.e. \"https://localhost:5001\" -tc TC-Audit-001).";
 
     _domain = Argument<string>(
       "domain",

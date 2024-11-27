@@ -15,7 +15,7 @@ The vision of this tool is to have a tool agnostic file based approach to mainta
 1. Team creates Use-Cases
 2. out of the Use-Cases Test-Cases will be defined (Test-Case type: Definition) - see [TC-001-Login Definition sample](samples/Definitions/TC-001-Login.md)
 3. once a feature has been implemented the appropriate Test-Cases can be executed against an environment in an E2E automated manner
-  - ![Sample Run](TC-001-Login-Run.gif)
+  ![Sample Run](TC-001-Login-Run.gif)
 4. each run will be historied with Test-Cases known as Runs (Test-Case type: Execution) - see [TC-001-Login Run sample](samples/Runs/TC-001-Login.md)
 
 > Note: In case of escaping strings please use a backslash `\` followed by a double quote `"` (e.g. Locator=GetByText Text=\\"Invalid login attempt for user 'Albert'\\" Action=IsVisible)
@@ -37,17 +37,17 @@ For local testing purpose run the `install.sh` script.
 ## Usage
 
 ```bash
-A cli tool to manage executable test cases.
+A cli tool to manage and run executable test cases.
 
 Usage: testR [command] [options]
 
 Options:
-  -?|-h|--help      Show help information.
+  -?|-h|--help  Show help information.
 
 Commands:
-  run               Runs a Test Case definition (i.e. TC-Audit-001 "https://localhost:5001").
-  test-case         Creates a new Test Case definition (i.e. test-case TC-Audit-001 "My TestCase Title").
-  validate          Validates a Test Case definition (i.e. TC-Audit-001).
+  run           Runs Test Case definitions (i.e. "https://localhost:5001" -tc TC-Audit-001).
+  test-case     Creates a new Test Case definition (i.e. test-case TC-Audit-001 "My TestCase Title").
+  validate      Validates a Test Case definition (i.e. TC-Audit-001).
 
 Run 'testR [command] -?|-h|--help' for more information about a command.
 ```
@@ -56,12 +56,13 @@ Run 'testR [command] -?|-h|--help' for more information about a command.
 
 #### run
 
-Runs a Test Case definition.
+Runs Test Case definitions.
 
 ```sh
-testR run [test-case-id] [domain] [options]
+testR run [domain] [options]
 
 Options:
+  -tc|--test-case-id            A specific Test Case ID to run.
   -i|--input-directory <DIR>    The input directory where the Test Case definition is located. (default: .)
   -o|--output-directory <DIR>   The output directory where the Test Case result will be stored. (default: .)
   --headless                    Runs the browser in headless mode.
@@ -88,7 +89,7 @@ Validates a Test Case definition.
 testR validate [test-case-id] [options]
 
 Options:
-  -i|--input-directory <DIR>    The input directory where the Test Case definition is located. (default: .)
+  -i|--input-directory    The input directory where the Test Case definition is located. (default: .)
 ```
 
 ## License
