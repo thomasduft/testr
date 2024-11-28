@@ -4,6 +4,7 @@ namespace tomware.TestR;
 
 internal static class Templates
 {
+  public const string Manual = "Manual";
   public const string TestCase = "TestCase";
 }
 

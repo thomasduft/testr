@@ -9,15 +9,29 @@ public class ManCommand : CommandLineApplication
   public ManCommand()
   {
     Name = "man";
-    Description = "Displays a manual page for the available Test-Data syntax.";
+    Description = "Displays a man page for helping with writing the Test-Data syntax within a Test Case.";
 
     OnExecuteAsync(ExecuteAsync);
   }
 
   private async Task<int> ExecuteAsync(CancellationToken cancellationToken)
   {
-    Console.WriteLine("Test-Data Syntax");
+    var content = await GetContent(
+      Templates.Manual
+    );
+
+    Console.Write(content);
 
     return await Task.FromResult(0);
+  }
+
+  private async ValueTask<string> GetContent(
+    string templateName
+  )
+  {
+    var source = ResourceLoader.GetTemplate(templateName);
+    var template = new FluidParser().Parse(source);
+
+    return await template.RenderAsync();
   }
 }

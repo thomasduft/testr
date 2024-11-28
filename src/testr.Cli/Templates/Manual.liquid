@@ -1,0 +1,58 @@
+# TESTR-TEST-DATA Manual Page
+
+## NAME
+testr-test-data - Test Data syntax for Test Cases using Playwright locators
+
+## SYNOPSIS
+Test Data syntax is used to define the actions and expectations for each test step in a Test Case. The syntax follows a key-value pair format.
+
+## DESCRIPTION
+The Test Data syntax allows you to specify locators, actions, and other parameters for each test step. The following keys are supported:
+
+### Locator
+Specifies the method to locate an element on the page. Supported values:
+- `BySelector`: Locate by a css-selector.
+- `GetByLabel`: Locate an element by its label.
+- `GetByRole`: Locate an element by its ARIA role.
+- `GetByTestId`: Locate by a data-testId attribute.
+- `GetByText`: Locate an element by its text content.
+
+### AriaRole
+Specifies the ARIA role of the element. This is used in conjunction with `GetByRole` locator. Supported values include:
+- `Button`
+- `Link`
+- `Textbox`
+- `Checkbox`
+- (and other ARIA roles)
+
+### Text
+Specifies the text content to locate the element. This is used in conjunction with `GetByText` and `GetByLabel` locators.
+
+### Value
+Specifies the value to be used in actions like `Fill`.
+
+### Action
+Specifies the action to be performed on the located element. Supported values:
+- `Click`: Click on the element.
+- `Fill`: Fill the element with the specified value.
+- `IsVisible`: Check if the element is visible.
+
+## EXAMPLES
+
+Example 1: Click a button by its label
+Locator=GetByLabel AriaRole=Button Text=Submit Action=Click
+
+Example 2: Fill a textbox by its label
+Locator=GetByLabel AriaRole=Textbox Text=Username Action=Fill Value=admin
+
+Example 3: Check if a text is visible
+Locator=GetByText Text="Welcome, User!" Action=IsVisible
+
+Example 4: Click a button by its ARIA role
+Locator=GetByRole AriaRole=Button Text=Login Action=Click
+
+## NOTES
+In case of escaping strings, use a backslash \ followed by a double quote " (e.g., Locator=GetByText Text=\"Invalid login attempt for user 'Albert'\" Action=IsVisible).
+
+## SEE ALSO
+Playwright Documentation: https://playwright.dev/docs/locators
