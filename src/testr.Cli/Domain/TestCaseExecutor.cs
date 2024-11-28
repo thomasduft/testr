@@ -119,6 +119,8 @@ internal class TestCaseExecutor
     TestStepInstruction instruction
   )
   {
+    ConsoleHelper.WriteLineYellow($"- Executing step: {instruction.TestStep.Id} - {instruction.TestStep.Description}");
+
     ILocator? locator = EvaluateLocator(page, instruction);
 
     return await ExecuteAction(instruction, locator);
