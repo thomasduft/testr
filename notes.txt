@@ -1,7 +1,10 @@
 Todo's:
 
-- [ ] Find / Think of a way of respecting Pre-Conditions
-  - reference happy case Test-Cases (e.g. to login)
+- [ ] Make sure also all Tag are properly validated in validation process
+  - Type
+  - Status
+  - Route
+  - Link 
 
 ----------------------------------------------------------------------------------------------------
 Ideas:
