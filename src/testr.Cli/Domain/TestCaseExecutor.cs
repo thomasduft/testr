@@ -14,8 +14,9 @@ internal class TestCaseExecutor
 
   public async Task<IEnumerable<TestStepResult>> ExecuteAsync(
     string domain,
-    string route,
-    IEnumerable<TestStepInstruction> instructions
+    TestCaseExecutionParam executionParam,
+    TestCaseExecutionParam? preconditionExecutionParam,
+    CancellationToken cancellationToken
   )
   {
     var results = new List<TestStepResult>();
@@ -32,9 +33,18 @@ internal class TestCaseExecutor
     var context = await GetBrowserContext(browser);
     var page = await context.NewPageAsync();
 
-    foreach (var instruction in instructions)
+    // execute precondition instructions if available
+    if (preconditionExecutionParam != null)
     {
-      var result = await TestAsync(page, domain, route, instruction);
+      foreach (var instruction in preconditionExecutionParam.Instructions)
+      {
+        await TestAsync(page, domain, preconditionExecutionParam.Route, instruction);
+      }
+    }
+
+    foreach (var instruction in executionParam.Instructions)
+    {
+      var result = await TestAsync(page, domain, executionParam.Route, instruction);
       results.Add(result);
     }
 

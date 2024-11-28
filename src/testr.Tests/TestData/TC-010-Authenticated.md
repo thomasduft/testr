@@ -1,19 +1,20 @@
-# TC-001-Login: Login
+# TC-010-Authenticated: Authenticated
 
 - **Date**: 2024-10-17
 - **Test Priority**: High
-- **Module Name**: Identity
+- **Module Name**: Dashboard
 - **Type**: Definition
 - **Status**: Unknown
-- **Route**: Login
+- **Route**: Home
 
 ## Description
 
-The purpose of this test-case is to satisfy the use-case UC-001-Login which is to authenticate as an administrator in the system.
+When authenticated as administrator I see the dashboard with two available workflows.
 
 ## Preconditions
 
 - The user administrator must be registered in the system.
+- **Link**: [The user must be authenticated](TC-001-Login.md).
 
 ## Steps
 
@@ -28,4 +29,4 @@ The purpose of this test-case is to satisfy the use-case UC-001-Login which is t
 
 ## Postcondition
 
-- The user is authenticated and has an active session.
+\-

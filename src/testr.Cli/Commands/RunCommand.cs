@@ -1,3 +1,4 @@
+
 using McMaster.Extensions.CommandLineUtils;
 
 namespace tomware.TestR;
@@ -142,12 +143,22 @@ public class RunCommand : CommandLineApplication
     }
 
     // Run the Test Case steps
+    var executionParam = new TestCaseExecutionParam(
+      testCase.Route,
+      testCase.Steps.Select(TestStepInstruction.FromTestStep)
+    );
+    var preconditionExecutionParam = await GetPreconditionTestCaseExecutionParam(
+      testCase,
+      cancellationToken
+    );
+
     ExecutorConfig executorConfig = GetExecutorConfiguration();
     var executor = new TestCaseExecutor(executorConfig);
     var testStepResults = await executor.ExecuteAsync(
       _domain.ParsedValue,
-      testCase.Route,
-      testCase.Steps.Select(step => TestStepInstruction.FromTestStep(step))
+      executionParam,
+      preconditionExecutionParam,
+      cancellationToken
     );
     var success = testStepResults.All(r => r.IsSuccess);
     if (!success)
@@ -173,6 +184,23 @@ public class RunCommand : CommandLineApplication
     ConsoleHelper.WriteLineSuccess($"Test Case {testCase.Id} executed successfully.");
 
     return await Task.FromResult(0);
+  }
+
+  private async Task<TestCaseExecutionParam?> GetPreconditionTestCaseExecutionParam(
+    TestCase testCase,
+    CancellationToken cancellationToken
+  )
+  {
+    if (!testCase.HasLinkedFile) return null;
+
+    var linkedTestCase = await TestCase.FromTestCaseFileAsync(
+      testCase.LinkedFile,
+      cancellationToken
+    );
+    return new TestCaseExecutionParam(
+      linkedTestCase.Route,
+      linkedTestCase.Steps.Select(TestStepInstruction.FromTestStep)
+    );
   }
 
   private ExecutorConfig GetExecutorConfiguration()

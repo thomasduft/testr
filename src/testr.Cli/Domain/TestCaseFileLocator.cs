@@ -27,7 +27,7 @@ internal static class TestCaseFileLocator
         .Split(":");
       if (splittedItems[0].Trim().ToLower().Contains(testCaseId.ToLower()))
       {
-        return file;
+        return new FileInfo(file).FullName;
       }
     }
 

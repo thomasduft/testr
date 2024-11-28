@@ -33,6 +33,28 @@ public class TestCaseParserTests
     AssertTestStep(testCase.Steps.Last(), 4, "displays the dashboard", "Locator=GetByRole AriaRole=Button Text=Logout Action=IsVisible", "Logout button visible in the main navigation");
   }
 
+  [Fact]
+  public async Task ToTestCaseAsync_ReadsExecutableTestCaseWithLink_ShouldReturnTestCase()
+  {
+    // Arrange
+    var file = Path.Combine(Environment.CurrentDirectory, "TestData", "TC-010-Authenticated.md");
+    var parser = new TestCaseParser(file);
+
+    // Act
+    var testCase = await parser.ToTestCaseAsync(default);
+
+    // Assert
+    Assert.NotNull(testCase);
+    Assert.Equal("TC-010-Authenticated", testCase.Id);
+    Assert.Equal("Authenticated", testCase.Title);
+    Assert.Equal("Definition", testCase.Type);
+    Assert.Equal("Unknown", testCase.Status);
+    Assert.Equal(file, testCase.File);
+    Assert.True(testCase.IsDefinition);
+    Assert.Equal("Home", testCase.Route);
+    Assert.EndsWith("TC-001-Login.md", testCase.LinkedFile);
+  }
+
   private void AssertTestStep(
     TestStep step,
     int id,

@@ -1,3 +1,3 @@
 namespace tomware.TestR;
 
-public record TestStepValidationError(int StepId, string ErrorMessage);
+internal record TestStepValidationError(int StepId, string ErrorMessage);

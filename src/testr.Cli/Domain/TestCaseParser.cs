@@ -1,3 +1,5 @@
+using System.Text.RegularExpressions;
+
 using HtmlAgilityPack;
 
 using Markdig;
@@ -25,15 +27,19 @@ internal class TestCaseParser
     var markdownContent = string.Join(Environment.NewLine, lines);
     var steps = GetTestSteps(markdownContent);
 
+    var link = FindTag(lines, "Link");
+    var linkedFile = GetLinkedFile(_file, link);
+
     return new TestCase
     {
       Id = testCaseId,
       Title = testCaseTitle,
-      Type = type,
-      Status = status,
-      Route = route,
+      Type = type!,
+      Status = status!,
+      Route = route!,
       Steps = steps,
-      File = _file
+      File = _file,
+      LinkedFile = linkedFile!
     };
   }
 
@@ -109,9 +115,10 @@ internal class TestCaseParser
     return (testCaseId, testCaseTitle);
   }
 
-  private string FindTag(string[] lines, string tag)
+  private string? FindTag(string[] lines, string tag)
   {
     var line = lines.FirstOrDefault(l => l.StartsWith($"- **{tag}**:"));
+    if (line == null) return null;
 
     var splittedItems = line!.Split(':');
 
@@ -122,5 +129,23 @@ internal class TestCaseParser
   {
     return input
       .Replace("&quot;", "\"");
+  }
+
+  private string? GetLinkedFile(string file, string? link)
+  {
+    if (string.IsNullOrWhiteSpace(link)) return null;
+    if (!link.Contains('(')) return null;
+
+    // Format: [The administrator must be authenticated](TC-001-Login.md)
+    string pattern = @"\(([^)]+)\)";
+    Match match = Regex.Match(link, pattern);
+
+    if (match.Success)
+    {
+      return Path.Combine(Path.GetDirectoryName(file)!, match.Groups[1].Value);
+    }
+
+    // Return null if no match is found
+    return null;
   }
 }

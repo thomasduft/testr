@@ -56,6 +56,25 @@
       ],
       "cwd": "${workspaceFolder}/src/testr.Cli",
       "stopAtEntry": false
+    },
+    {
+      "name": "testR:run-with-linked-testcase",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build-testR",
+      "program": "${workspaceFolder}/src/testr.Cli/bin/Debug/net8.0/tomware.TestR.dll",
+      "args": [
+        "run",
+        "https://localhost:5001",
+        "-tc",
+        "TC-100-Dashboard",
+        "-i",
+        "../../samples/Definitions",
+        "-o",
+        "../../samples/Runs"
+      ],
+      "cwd": "${workspaceFolder}/src/testr.Cli",
+      "stopAtEntry": false
     }
   ]
 }

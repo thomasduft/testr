@@ -1,6 +1,6 @@
 # TC-001-Login: Login
 
-- **Date**: 2024-11-26
+- **Date**: 2024-11-28
 - **Test Priority**: High
 - **Module Name**: Identity
 - **Type**: Execution
@@ -9,11 +9,11 @@
 
 ## Description
 
-The purpose of this test-case is to satisfy the use-case UC-001-Login which is to authenticate any user of the system.
+The purpose of this test-case is to satisfy the use-case UC-001-Login which is to authenticate as an administrator in the system.
 
 ## Preconditions
 
-- The user must be registered in the system.
+- The user administrator must be registered in the system.
 
 ## Steps
 
