@@ -126,6 +126,8 @@ public class RunCommand : CommandLineApplication
     // Read the Test Case definition
     var testCase = await TestCase.FromTestCaseFileAsync(file, cancellationToken);
 
+    ConsoleHelper.WriteLineYellow($"Running Test Case: {testCase.Id}");
+
     // Validate the Test Case definition
     var testCaseValidator = new TestCaseValidator(testCase);
     var validationResult = testCaseValidator.ValidateSteps(testCase.Steps);
@@ -167,6 +169,8 @@ public class RunCommand : CommandLineApplication
       _outputDirectory.ParsedValue,
       cancellationToken
     );
+
+    ConsoleHelper.WriteLineSuccess($"Test Case {testCase.Id} executed successfully.");
 
     return await Task.FromResult(0);
   }

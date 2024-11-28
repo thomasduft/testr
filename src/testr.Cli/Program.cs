@@ -6,6 +6,7 @@ var services = new ServiceCollection()
     .AddCliCommand<RunCommand>()
     .AddCliCommand<TestCaseCommand>()
     .AddCliCommand<ValidateCommand>()
+    .AddCliCommand<ManCommand>()
     .AddSingleton<Cli>();
 
 var provider = services.BuildServiceProvider();

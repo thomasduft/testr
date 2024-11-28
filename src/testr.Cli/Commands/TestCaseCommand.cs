@@ -31,13 +31,14 @@ public class TestCaseCommand : CommandLineApplication
 
   private async Task<int> ExecuteAsync(CancellationToken cancellationToken)
   {
+    var testCaseId = _testCaseId.Value;
     var title = _title.Value;
 
     var content = await GetContent(
       Templates.TestCase,
       new
       {
-        TestCaseId = _testCaseId.Value!,
+        TestCaseId = testCaseId,
         TestCaseTitle = title!,
         Date = DateStringProvider.GetDateString(),
         Author = UserNameProvider.GetUserName()
@@ -45,7 +46,7 @@ public class TestCaseCommand : CommandLineApplication
     );
 
     await File.WriteAllTextAsync(
-      CreateFileName(title!),
+      CreateFileName(testCaseId!),
       content,
       cancellationToken
     );
