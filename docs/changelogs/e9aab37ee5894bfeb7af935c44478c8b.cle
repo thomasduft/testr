@@ -1,0 +1,9 @@
+{
+  "Id": "e9aab37e-e589-4bfe-b7af-935c44478c8b",
+  "IssueId": "",
+  "Prefix": "Added",
+  "Tag": "",
+  "Message": "Added support to link to Test-Case that needs to be executed as a preconditional step.",
+  "CreatedAt": "2024-11-28T19:41:33.2110867+01:00",
+  "CreatedBy": "Thomas Duft"
+}
