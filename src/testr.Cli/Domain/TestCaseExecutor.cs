@@ -25,7 +25,6 @@ internal class TestCaseExecutor
     await using var browser = await GetBrowserType(playwright)
       .LaunchAsync(new BrowserTypeLaunchOptions
       {
-        // Channel = !string.IsNullOrWhiteSpace(_browserType) ? _browserType : null,
         Headless = _config.Headless,
         SlowMo = _config.Slow // by N milliseconds per operation,
       });
@@ -38,13 +37,25 @@ internal class TestCaseExecutor
     {
       foreach (var instruction in preconditionExecutionParam.Instructions)
       {
-        await TestAsync(page, domain, preconditionExecutionParam.Route, instruction);
+        await TestAsync(
+          page,
+          domain,
+          preconditionExecutionParam.Route,
+          instruction,
+          instruction => ConsoleHelper.WriteLine($"- Executing step: {instruction.TestStep.Id} - {instruction.TestStep.Description}")
+        );
       }
     }
 
     foreach (var instruction in executionParam.Instructions)
     {
-      var result = await TestAsync(page, domain, executionParam.Route, instruction);
+      var result = await TestAsync(
+        page,
+        domain,
+        executionParam.Route,
+        instruction,
+        instruction => ConsoleHelper.WriteLineYellow($"- Executing step: {instruction.TestStep.Id} - {instruction.TestStep.Description}")
+      );
       results.Add(result);
     }
 
@@ -86,7 +97,8 @@ internal class TestCaseExecutor
     IPage page,
     string domain,
     string route,
-    TestStepInstruction instruction
+    TestStepInstruction instruction,
+    Action<TestStepInstruction> consoleAction
   )
   {
     try
@@ -104,7 +116,7 @@ internal class TestCaseExecutor
         }
       }
 
-      await ProcessStepAsync(page, instruction);
+      await ProcessStepAsync(page, instruction, consoleAction);
 
       return TestStepResult.Success(instruction.TestStep);
     }
@@ -116,10 +128,11 @@ internal class TestCaseExecutor
 
   private static async Task<bool> ProcessStepAsync(
     IPage page,
-    TestStepInstruction instruction
+    TestStepInstruction instruction,
+    Action<TestStepInstruction> consoleAction
   )
   {
-    ConsoleHelper.WriteLineYellow($"- Executing step: {instruction.TestStep.Id} - {instruction.TestStep.Description}");
+    consoleAction(instruction);
 
     ILocator? locator = EvaluateLocator(page, instruction);
 
