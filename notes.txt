@@ -1,10 +1,12 @@
 Todo's:
 
-- [ ] Make sure also all Tag are properly validated in validation process
+- [ ] Make sure also all Tags are properly validated in validation process
   - Type
   - Status
   - Route
-  - Link 
+  - Link
+
+- [ ] Let a Use-Case be the driver for all the Test Cases that comes with it?
 
 ----------------------------------------------------------------------------------------------------
 Ideas:
