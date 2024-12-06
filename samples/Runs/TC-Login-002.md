@@ -1,6 +1,6 @@
-# TC-002-Login: Login with wrong or not existing Username
+# TC-Login-002: Login with wrong or not existing Username
 
-- **Date**: 2024-11-28
+- **Date**: 2024-12-06
 - **Test Priority**: High
 - **Module Name**: Identity
 - **Type**: Execution

@@ -1,4 +1,4 @@
-### UC-001-Login
+### UC-Login-001: Login
 
 - **Date**: 2024-10-17
 - **Author**: Thomas Duft

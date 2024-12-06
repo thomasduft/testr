@@ -1,10 +1,10 @@
-# TC-100-Dashboard: Dashboard as administrator
+# TC-Dashboard-100: Dashboard as administrator
 
-- **Date**: 2024-10-17
+- **Date**: 2024-12-06
 - **Test Priority**: High
 - **Module Name**: Dashboard
-- **Type**: Definition
-- **Status**: Unknown
+- **Type**: Execution
+- **Status**: Passed
 - **Route**: home
 
 ## Description
@@ -14,15 +14,15 @@ When authenticated as administrator I see the dashboard with two available workf
 ## Preconditions
 
 - The user administrator must be registered in the system.
-- **Link**: [The administrator must be authenticated](TC-001-Login.md).
+- **Link**: [The administrator must be authenticated](TC-Login-001.md).
 
 ## Steps
 
 <!-- STEPS:BEGIN -->
 | Step ID | Description            | Test Data                                                      | Expected Result              | Actual Result |
 | -------:| ---------------------- | -------------------------------------------------------------- | -----------------------------| ------------- |
-| 1       | nav Holiday            | Locator=GetByRole AriaRole=Link Text=HOLIDAY Action=IsVisible  | Holiday nav item is visible  | -             |
-| 2       | nav Issue              | Locator=GetByRole AriaRole=Link Text=ISSUE Action=IsVisible    | Issue nav item is visible    | -             |
+| 1       | nav Holiday            | Locator=GetByRole AriaRole=Link Text=HOLIDAY Action=IsVisible  | Holiday nav item is visible  | ✅ |
+| 2       | nav Issue              | Locator=GetByRole AriaRole=Link Text=ISSUE Action=IsVisible    | Issue nav item is visible    | ✅ |
 <!-- STEPS:END -->
 
 ## Postcondition

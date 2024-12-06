@@ -1,4 +1,4 @@
-# TC-003-Login: Login with wrong Password
+# TC-Login-003: Login with wrong Password
 
 - **Date**: 2024-10-17
 - **Test Priority**: High

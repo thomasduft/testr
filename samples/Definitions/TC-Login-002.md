@@ -1,4 +1,4 @@
-# TC-002-Login: Login with wrong or not existing Username
+# TC-Login-002: Login with wrong or not existing Username
 
 - **Date**: 2024-10-17
 - **Test Priority**: High
