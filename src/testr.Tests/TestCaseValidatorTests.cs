@@ -5,7 +5,7 @@ namespace testr.Tests;
 public class TestCaseValidatorTests
 {
   [Fact]
-  public async Task ValidateSteps_With4TestSteps_ShouldReturnNoValidationErrors()
+  public async Task Validate_With4TestSteps_ShouldReturnNoValidationErrors()
   {
     // Arrange
     var file = Path.Combine(Environment.CurrentDirectory, "TestData", "TC-001-Login.md");
@@ -14,7 +14,7 @@ public class TestCaseValidatorTests
     var validator = new TestCaseValidator(testCase);
 
     // Act
-    var result = validator.ValidateSteps(testCase.Steps);
+    var result = validator.Validate();
 
     // Assert
     Assert.NotNull(result);
@@ -22,7 +22,64 @@ public class TestCaseValidatorTests
   }
 
   [Fact]
-  public async Task ValidateSteps_WithWrongTestData_ShouldReturnOneValidationErrors()
+  public async Task Validate_WithNotAllowedType_ShouldReturnOneValidationError()
+  {
+    // Arrange
+    var file = Path.Combine(Environment.CurrentDirectory, "TestData", "TC-003-Login-with-wrong-type.md");
+    var testCase = await TestCase.FromTestCaseFileAsync(file, default);
+
+    var validator = new TestCaseValidator(testCase);
+
+    // Act
+    var result = validator.Validate();
+
+    // Assert
+    Assert.NotNull(result);
+    Assert.False(result.IsValid);
+    Assert.True(result.Errors.Count() == 1);
+    Assert.Equal("Type must be 'Definition' or 'Execution'.", result.Errors.First());
+  }
+
+  [Fact]
+  public async Task Validate_WithNotAllowedStatus_ShouldReturnOneValidationError()
+  {
+    // Arrange
+    var file = Path.Combine(Environment.CurrentDirectory, "TestData", "TC-003-Login-with-wrong-status.md");
+    var testCase = await TestCase.FromTestCaseFileAsync(file, default);
+
+    var validator = new TestCaseValidator(testCase);
+
+    // Act
+    var result = validator.Validate();
+
+    // Assert
+    Assert.NotNull(result);
+    Assert.False(result.IsValid);
+    Assert.True(result.Errors.Count() == 1);
+    Assert.Equal("Status must be either 'Passed', 'Failed' or 'Unknown'.", result.Errors.First());
+  }
+
+  [Fact]
+  public async Task Validate_WithWrongLinkedNotExistingFile_ShouldReturnOneValidationError()
+  {
+    // Arrange
+    var file = Path.Combine(Environment.CurrentDirectory, "TestData", "TC-003-Login-with-not-existing-linked-file.md");
+    var testCase = await TestCase.FromTestCaseFileAsync(file, default);
+
+    var validator = new TestCaseValidator(testCase);
+
+    // Act
+    var result = validator.Validate();
+
+    // Assert
+    Assert.NotNull(result);
+    Assert.False(result.IsValid);
+    Assert.True(result.Errors.Count() == 1);
+    Assert.StartsWith("Linked file ", result.Errors.First());
+  }
+
+  [Fact]
+  public async Task Validate_WithWrongTestData_ShouldReturnOneValidationErrors()
   {
     // Arrange
     var file = Path.Combine(Environment.CurrentDirectory, "TestData", "TC-003-Login-Validation-Errors.md");
@@ -31,12 +88,12 @@ public class TestCaseValidatorTests
     var validator = new TestCaseValidator(testCase);
 
     // Act
-    var result = validator.ValidateSteps(testCase.Steps);
+    var result = validator.Validate();
 
     // Assert
     Assert.NotNull(result);
     Assert.False(result.IsValid);
     Assert.True(result.Errors.Count() == 1);
-    Assert.Equal("Requested value 'GetRole' was not found.", result.Errors.First().ErrorMessage);
+    Assert.Equal("Step 4: Requested value 'GetRole' was not found.", result.Errors.First());
   }
 }

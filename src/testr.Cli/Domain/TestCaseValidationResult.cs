@@ -2,7 +2,8 @@ namespace tomware.TestR;
 
 internal record TestCaseValidationResult
 {
-  private readonly List<TestStepValidationError> _errors = [];
+  private readonly List<TestCaseValidationError> _testCaseValidationErrors = [];
+  private readonly List<TestStepValidationError> _testStepsValidationErrors = [];
 
   public string TestCaseId { get; private set; } = string.Empty;
 
@@ -10,12 +11,21 @@ internal record TestCaseValidationResult
 
   public bool IsValid
   {
-    get { return _errors.Count == 0; }
+    get
+    {
+      return _testCaseValidationErrors.Count == 0 && _testStepsValidationErrors.Count == 0;
+    }
   }
 
-  public IEnumerable<TestStepValidationError> Errors
+  public IEnumerable<string> Errors
   {
-    get { return _errors; }
+    get
+    {
+      return _testCaseValidationErrors
+        .Select(x => x.ToString())
+          .Concat(_testStepsValidationErrors
+            .Select(x => x.ToString()));
+    }
   }
 
   public TestCaseValidationResult(string testCaseId, string testCaseTitle)
@@ -24,8 +34,13 @@ internal record TestCaseValidationResult
     TestCaseTitle = testCaseTitle;
   }
 
+  public void AddError(string property, string errorMessage)
+  {
+    _testCaseValidationErrors.Add(new TestCaseValidationError(property, errorMessage));
+  }
+
   public void AddError(int stepId, string errorMessage)
   {
-    _errors.Add(new TestStepValidationError(stepId, errorMessage));
+    _testStepsValidationErrors.Add(new TestStepValidationError(stepId, errorMessage));
   }
 }

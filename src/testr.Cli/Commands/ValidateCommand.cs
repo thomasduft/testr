@@ -39,12 +39,12 @@ public class ValidateCommand : CommandLineApplication
 
     // 3. Validate the Test Case definition
     var testCaseValidator = new TestCaseValidator(testCase);
-    var validationResult = testCaseValidator.ValidateSteps(testCase.Steps);
+    var validationResult = testCaseValidator.Validate();
     if (!validationResult.IsValid)
     {
       foreach (var error in validationResult.Errors)
       {
-        ConsoleHelper.WriteLineError($"Step {error.StepId}: {error.ErrorMessage}");
+        ConsoleHelper.WriteLineError("{error}");
       }
 
       return await Task.FromResult(1);
