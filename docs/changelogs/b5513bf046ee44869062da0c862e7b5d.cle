@@ -1,9 +1,0 @@
-{
-  "Id": "b5513bf0-46ee-4486-9062-da0c862e7b5d",
-  "IssueId": "",
-  "Prefix": "Added",
-  "Tag": "",
-  "Message": "Added TestCommand and TestResultCommand",
-  "CreatedAt": "2024-10-23T10:25:29.3206582+02:00",
-  "CreatedBy": "thomasduft"
-}

@@ -1,9 +1,0 @@
-{
-  "Id": "5320a854-3be3-424b-97d3-a34013b1aecf",
-  "IssueId": "",
-  "Prefix": "Added",
-  "Tag": "",
-  "Message": "Added github based build workflow (build.yml)",
-  "CreatedAt": "2024-10-23T10:27:25.8019309+02:00",
-  "CreatedBy": "thomasduft"
-}
