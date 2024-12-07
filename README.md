@@ -1,4 +1,5 @@
-[![build](https://github.com/thomasduft/testr/actions/workflows/build.yml/badge.svg)](https://github.com/thomasduft/testr/actions/workflows/build.yml)
+[![build](https://github.com/thomasduft/testr/actions/workflows/build.yml/badge.svg)](https://github.com/thomasduft/testr/actions/workflows/build.yml) [![NuGet](https://img.shields.io/nuget/vpre/tomware.TestR.svg)](https://www.nuget.org/packages/tomware.TestR)
+
 
 # testR
 
@@ -31,8 +32,6 @@ dotnet build
 ```
 
 For local testing purpose run the `install.sh` script.
-
-> Note: Will eventually be available as a dotnet tool on [NuGet.org](https://www.nuget.org/).
 
 ## Usage
 
