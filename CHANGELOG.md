@@ -10,5 +10,5 @@
 - Added test-case command.
 - Added run command.
 - Added man command.
-- Added support to link to Test-Case that needs to be executed as a preconditional step.
+- Added support to link to Test-Case that needs to be executed as a precondition step.
 
