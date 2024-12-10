@@ -1,6 +1,6 @@
 # TC-Dashboard-100: Dashboard as administrator
 
-- **Date**: 2024-12-06
+- **Date**: 2024-12-10
 - **Test Priority**: High
 - **Module Name**: Dashboard
 - **Type**: Execution
@@ -14,7 +14,7 @@ When authenticated as administrator I see the dashboard with two available workf
 ## Preconditions
 
 - The user administrator must be registered in the system.
-- **Link**: [The administrator must be authenticated](TC-Login-001.md).
+- **Link**: [The administrator must be authenticated](../TC-Login-001.md).
 
 ## Steps
 

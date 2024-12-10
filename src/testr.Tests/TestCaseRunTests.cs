@@ -8,14 +8,15 @@ public class TestCaseRunTests
   public async Task SaveAsync_WithTestCaseDefinition_ShouldCreatePassedTestCaseRun()
   {
     // Arrange
-    var file = Path.Combine(Environment.CurrentDirectory, "TestData", "TC-001-Login.md");
+    var inputDirectory = Path.Combine(Environment.CurrentDirectory, "TestData");
+    var file = Path.Combine(inputDirectory, "TC-001-Login.md");
     var testCase = await TestCase.FromTestCaseFileAsync(file, default);
 
     var testCaseRun = new TestCaseRun(testCase, []);
     var outputDirectory = Path.Combine(Environment.CurrentDirectory, "TestRuns");
 
     // Act
-    await testCaseRun.SaveAsync(outputDirectory, default);
+    await testCaseRun.SaveAsync(inputDirectory, outputDirectory, default);
 
     // Assert
     var testCaseRunFile = Path.Combine(outputDirectory, $"{testCase.Id}.md");
@@ -32,7 +33,8 @@ public class TestCaseRunTests
   public async Task SaveAsync_WithTestCaseDefinition_ShouldCreateFailedTestCaseRun()
   {
     // Arrange
-    var file = Path.Combine(Environment.CurrentDirectory, "TestData", "TC-002-Login-Fails.md");
+    var inputDirectory = Path.Combine(Environment.CurrentDirectory, "TestData");
+    var file = Path.Combine(inputDirectory, "TC-002-Login-Fails.md");
     var testCase = await TestCase.FromTestCaseFileAsync(file, default);
 
     var results = new List<TestStepResult>{
@@ -45,7 +47,7 @@ public class TestCaseRunTests
     var outputDirectory = Path.Combine(Environment.CurrentDirectory, "TestRuns");
 
     // Act
-    await testCaseRun.SaveAsync(outputDirectory, default);
+    await testCaseRun.SaveAsync(inputDirectory, outputDirectory, default);
 
     // Assert
     var testCaseRunFile = Path.Combine(outputDirectory, $"{testCase.Id}.md");

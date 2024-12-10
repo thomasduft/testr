@@ -67,7 +67,7 @@
         "run",
         "https://localhost:5001",
         "-tc",
-        "TC-100-Dashboard",
+        "TC-Dashboard-100",
         "-i",
         "../../samples/Definitions",
         "-o",

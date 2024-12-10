@@ -15,6 +15,7 @@ internal class TestCaseRun
   }
 
   internal async Task SaveAsync(
+    string inputDirectory, 
     string outputDirectory,
     CancellationToken cancellationToken
   )
@@ -24,8 +25,16 @@ internal class TestCaseRun
     SetProperties(lines, _results.All(r => r.IsSuccess));
     UpdateTestSteps(lines, _results);
 
+    // Ensure directory structure based on the input directory
+    var relativePath = Path.GetRelativePath(inputDirectory, _testCase.File);
+    var outputDir = Path.Combine(outputDirectory, Path.GetDirectoryName(relativePath)!);
+    if (!Directory.Exists(outputDir))
+    {
+      Directory.CreateDirectory(outputDir);
+    }
+
     await File.WriteAllLinesAsync(
-      $"{outputDirectory}/{_testCase.Id}.md",
+      $"{outputDir}/{_testCase.Id}.md",
       lines,
       cancellationToken
     );

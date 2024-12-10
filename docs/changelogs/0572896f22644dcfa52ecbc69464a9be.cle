@@ -1,0 +1,9 @@
+{
+  "Id": "0572896f-2264-4dcf-a52e-cbc69464a9be",
+  "IssueId": "",
+  "Prefix": "Added",
+  "Tag": "",
+  "Message": "Added support to align test case runs with same directory structure as test case definitions are maintained. This allows proper markdown links working in test runs as well.",
+  "CreatedAt": "2024-12-10T11:20:05.3299435+01:00",
+  "CreatedBy": "Thomas Duft"
+}

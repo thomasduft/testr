@@ -112,7 +112,12 @@ public class RunCommand : CommandLineApplication
 
     foreach (var file in files)
     {
-      var result = await RunTestCaseAsync(file, cancellationToken);
+      var result = await RunTestCaseAsync(
+        _inputDirectory.ParsedValue,
+        _outputDirectory.ParsedValue,
+        file,
+        cancellationToken
+      );
       if (result != 0)
       {
         return result;
@@ -122,7 +127,12 @@ public class RunCommand : CommandLineApplication
     return 0;
   }
 
-  private async Task<int> RunTestCaseAsync(string file, CancellationToken cancellationToken)
+  private async Task<int> RunTestCaseAsync(
+    string inputDirectory,
+    string outputDirectory,
+    string file,
+    CancellationToken cancellationToken
+  )
   {
     // Read the Test Case definition
     var testCase = await TestCase.FromTestCaseFileAsync(file, cancellationToken);
@@ -177,7 +187,8 @@ public class RunCommand : CommandLineApplication
     // Store the Test Case run
     var run = new TestCaseRun(testCase, testStepResults);
     await run.SaveAsync(
-      _outputDirectory.ParsedValue,
+      inputDirectory,
+      outputDirectory,
       cancellationToken
     );
 

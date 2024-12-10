@@ -14,7 +14,7 @@ When authenticated as administrator I see the dashboard with two available workf
 ## Preconditions
 
 - The user administrator must be registered in the system.
-- **Link**: [The administrator must be authenticated](TC-Login-001.md).
+- **Link**: [The administrator must be authenticated](../TC-Login-001.md).
 
 ## Steps
 
