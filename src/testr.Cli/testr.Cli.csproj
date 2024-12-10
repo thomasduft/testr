@@ -13,6 +13,9 @@
     <Description>A cli tool to manage executable test cases.</Description>
     <Authors>Thomas Duft</Authors>
     <Company>tomware SOLUTIONS</Company>
+    <PackageTags>testing automation e2e test-case test-run</PackageTags>
+    <RepositoryUrl>https://github.com/thomasduft/testr</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/thomasduft/testr</PackageProjectUrl>
 
     <AssemblyVersion>$(Version)</AssemblyVersion>
     <FileVersion>$(Version)</FileVersion>
