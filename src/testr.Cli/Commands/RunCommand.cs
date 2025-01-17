@@ -60,7 +60,7 @@ public class RunCommand : CommandLineApplication
     );
 
     _continueOnFailure = Option<bool>(
-      "-c|--continue-on-failure",
+      "--continue-on-failure",
       "Continues the Test Case execution even if the Test Case fails.",
       CommandOptionType.NoValue,
       cfg => cfg.DefaultValue = false,

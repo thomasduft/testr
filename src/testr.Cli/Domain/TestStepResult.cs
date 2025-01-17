@@ -28,7 +28,14 @@ internal record TestStepResult
     return new TestStepResult(step)
     {
       IsSuccess = false,
-      Error = error
+      Error = SanitizeError(error)
     };
+  }
+
+  private static string SanitizeError(string error)
+  {
+    return error
+      .Replace("\r\n", " ")
+      .Replace("\n", " ");
   }
 }

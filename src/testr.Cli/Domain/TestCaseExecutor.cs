@@ -35,24 +35,24 @@ internal class TestCaseExecutor
     // execute precondition instructions if available
     if (preconditionExecutionParam != null)
     {
+      await NavigateToRouteAsync(page, domain, preconditionExecutionParam.Route);
+
       foreach (var instruction in preconditionExecutionParam.Instructions)
       {
         await TestAsync(
           page,
-          domain,
-          preconditionExecutionParam.Route,
           instruction,
           instruction => ConsoleHelper.WriteLine($"- Executing step: {instruction.TestStep.Id} - {instruction.TestStep.Description}")
         );
       }
     }
 
+    await NavigateToRouteAsync(page, domain, executionParam.Route);
+
     foreach (var instruction in executionParam.Instructions)
     {
       var result = await TestAsync(
         page,
-        domain,
-        executionParam.Route,
         instruction,
         instruction => ConsoleHelper.WriteLineYellow($"- Executing step: {instruction.TestStep.Id} - {instruction.TestStep.Description}")
       );
@@ -93,37 +93,44 @@ internal class TestCaseExecutor
     return context;
   }
 
-  private async Task<TestStepResult> TestAsync(
+  private async Task NavigateToRouteAsync(
     IPage page,
     string domain,
-    string route,
+    string route
+  )
+  {
+    var requestUri = $"{domain}/{route}";
+    if (requestUri != _requestUri)
+    {
+      await page.GotoAsync(requestUri);
+      _requestUri = requestUri;
+
+      // being safe and try again in certain case :-)
+      if (!page.Url.StartsWith(requestUri))
+      {
+        await Task.Delay(1000);
+
+        await page.GotoAsync(requestUri);
+      }
+    }
+  }
+
+  private async Task<TestStepResult> TestAsync(
+    IPage page,
     TestStepInstruction instruction,
     Action<TestStepInstruction> consoleAction
   )
   {
     try
     {
-      var requestUri = $"{domain}/{route}";
-      if (requestUri != _requestUri)
-      {
-        await page.GotoAsync(requestUri);
-        _requestUri = requestUri;
-
-        // being safe and try again in certain case :-)
-        if (!page.Url.StartsWith(requestUri))
-        {
-          await page.GotoAsync(requestUri);
-        }
-      }
-
       await ProcessStepAsync(page, instruction, consoleAction);
-
-      return TestStepResult.Success(instruction.TestStep);
     }
     catch (Exception ex)
     {
       return TestStepResult.Failed(instruction.TestStep, ex.Message);
     }
+
+    return TestStepResult.Success(instruction.TestStep);
   }
 
   private static async Task<bool> ProcessStepAsync(
