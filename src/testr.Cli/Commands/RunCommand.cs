@@ -218,7 +218,7 @@ public class RunCommand : CommandLineApplication
   {
     return new ExecutorConfig(
       _headless.ParsedValue,
-      _slow.DefaultValue,
+      _slow.ParsedValue,
       _timeout.ParsedValue,
       _browserType.ParsedValue,
       _recordVideoDir.ParsedValue
