@@ -9,12 +9,9 @@
   "customizations": {
     "vscode": {
       "extensions": [
-        "eamodio.gitlens",
         "editorconfig.editorconfig",
         "github.vscode-pull-request-github",
-        "hediet.vscode-drawio",
         "mikestead.dotenv",
-        "minhthai.vscode-todo-parser",
         "ms-dotnettools.csharp",
         "ms-dotnettools.csdevkit",
         "ryanluker.vscode-coverage-gutters",
