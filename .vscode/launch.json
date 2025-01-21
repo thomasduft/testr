@@ -75,6 +75,25 @@
       ],
       "cwd": "${workspaceFolder}/src/testr.Cli",
       "stopAtEntry": false
+    },
+    {
+      "name": "testR:pick-file",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build-testR",
+      "program": "${workspaceFolder}/src/testr.Cli/bin/Debug/net8.0/tomware.TestR.dll",
+      "args": [
+        "run",
+        "https://commitquality.com/",
+        "-tc",
+        "TC-Documents-001",
+        "-i",
+        "../../samples/Definitions",
+        "-o",
+        "../../samples/Runs"
+      ],
+      "cwd": "${workspaceFolder}/src/testr.Cli",
+      "stopAtEntry": false
     }
   ]
 }

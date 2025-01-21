@@ -33,6 +33,10 @@ dotnet build
 
 For local testing purpose run the `install.sh` script.
 
+In case of installing the tool in an official way use the following command:
+
+> `dotnet tool install -g tomware.TestR`
+
 ## Usage
 
 ```bash

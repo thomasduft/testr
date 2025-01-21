@@ -176,6 +176,10 @@ internal class TestCaseExecutor
     {
       await locator.FillAsync(instruction.Value);
     }
+    else if (instruction.Action == ActionType.PickFile)
+    {
+      await locator.SetInputFilesAsync(instruction.Value);
+    }
     else
     {
       return await locator.IsVisibleAsync();

@@ -4,5 +4,6 @@ public enum ActionType
 {
   Click,
   Fill,
+  PickFile,
   IsVisible
 }
