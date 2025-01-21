@@ -10,7 +10,7 @@
 
 ### Changed
 
-- Changed behviour of how to route to pages before running test steps.
+- Changed behavior of how to route to pages before running test steps.
 
 ## [0.2.0] - 2024-12-10
 
