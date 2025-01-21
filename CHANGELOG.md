@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.3.0] - 2025-01-21
+
+### Added
+
+- Added support for picking a file.
+
 ## [0.2.1] - 2025-01-18
 
 ### Changed
