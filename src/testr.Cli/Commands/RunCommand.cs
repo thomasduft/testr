@@ -134,8 +134,11 @@ public class RunCommand : CommandLineApplication
     CancellationToken cancellationToken
   )
   {
+    var domain = _domain.ParsedValue;
+
     // Read the Test Case definition
     var testCase = await TestCase.FromTestCaseFileAsync(file, cancellationToken);
+    testCase.SetDomain(domain);
 
     ConsoleHelper.WriteLineYellow($"Running Test Case: {testCase.Id}");
 
@@ -165,7 +168,7 @@ public class RunCommand : CommandLineApplication
     ExecutorConfig executorConfig = GetExecutorConfiguration();
     var executor = new TestCaseExecutor(executorConfig);
     var testStepResults = await executor.ExecuteAsync(
-      _domain.ParsedValue,
+      domain,
       executionParam,
       preconditionExecutionParam,
       cancellationToken

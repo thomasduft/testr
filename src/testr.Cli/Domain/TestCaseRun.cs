@@ -15,7 +15,7 @@ internal class TestCaseRun
   }
 
   internal async Task SaveAsync(
-    string inputDirectory, 
+    string inputDirectory,
     string outputDirectory,
     CancellationToken cancellationToken
   )
@@ -23,6 +23,7 @@ internal class TestCaseRun
     var lines = await File.ReadAllLinesAsync(_testCase.File, cancellationToken);
 
     SetProperties(lines, _results.All(r => r.IsSuccess));
+    if (_testCase.HasDomain) lines = AppendDomainProperty(lines, _testCase.Domain);
     UpdateTestSteps(lines, _results);
 
     // Ensure directory structure based on the input directory
@@ -52,6 +53,22 @@ internal class TestCaseRun
     var line = lines.FirstOrDefault(l => l.StartsWith($"- **{property}**:"));
     var splittedItems = line!.Split(':');
     lines[Array.IndexOf(lines, line)] = line.Replace(splittedItems[1].Trim(), value);
+  }
+
+  private string[] AppendDomainProperty(string[] lines, string domain)
+  {
+    // find Status property
+    var line = lines.FirstOrDefault(l => l.StartsWith($"- **Status**:"));
+    // add Domain property after Status property
+    var index = Array.IndexOf(lines, line) + 1;
+    var lineToInsert = $"- **Domain**: {domain}";
+
+    // insert new line at index
+    return lines
+      .Take(index)
+      .Concat([lineToInsert])
+      .Concat(lines.Skip(index))
+      .ToArray();
   }
 
   private void UpdateTestSteps(string[] lines, IEnumerable<TestStepResult> testResults)

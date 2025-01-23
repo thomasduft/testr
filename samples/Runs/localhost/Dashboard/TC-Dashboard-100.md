@@ -1,10 +1,11 @@
 # TC-Dashboard-100: Dashboard as administrator
 
-- **Date**: 2025-01-17
+- **Date**: 2025-01-23
 - **Test Priority**: High
 - **Module Name**: Dashboard
 - **Type**: Execution
 - **Status**: Passed
+- **Domain**: https://localhost:5001
 - **Route**: home
 
 ## Description

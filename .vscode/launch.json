@@ -31,9 +31,9 @@
         "run",
         "https://localhost:5001",
         "-i",
-        "../../samples/Definitions",
+        "../../samples/Definitions/localhost",
         "-o",
-        "../../samples/Runs"
+        "../../samples/Runs/localhost"
       ],
       "cwd": "${workspaceFolder}/src/testr.Cli",
       "stopAtEntry": false
@@ -48,11 +48,11 @@
         "run",
         "https://localhost:5001",
         "-tc",
-        "TC-001-Login",
+        "TC-Login-001",
         "-i",
-        "../../samples/Definitions",
+        "../../samples/Definitions/localhost",
         "-o",
-        "../../samples/Runs"
+        "../../samples/Runs/localhost"
       ],
       "cwd": "${workspaceFolder}/src/testr.Cli",
       "stopAtEntry": false
@@ -69,9 +69,9 @@
         "-tc",
         "TC-Dashboard-100",
         "-i",
-        "../../samples/Definitions",
+        "../../samples/Definitions/localhost",
         "-o",
-        "../../samples/Runs"
+        "../../samples/Runs/localhost"
       ],
       "cwd": "${workspaceFolder}/src/testr.Cli",
       "stopAtEntry": false
@@ -88,9 +88,9 @@
         "-tc",
         "TC-Documents-001",
         "-i",
-        "../../samples/Definitions",
+        "../../samples/Definitions/commitquality",
         "-o",
-        "../../samples/Runs"
+        "../../samples/Runs/commitquality"
       ],
       "cwd": "${workspaceFolder}/src/testr.Cli",
       "stopAtEntry": false
