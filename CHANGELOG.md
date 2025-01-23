@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.3.1] - 2025-01-23
+
+### Added
+
+- Added Domain property to test run result to indicate against which environment / domain the test case had been executed.
+
 ## [0.3.0] - 2025-01-21
 
 ### Added
