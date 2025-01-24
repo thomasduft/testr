@@ -27,7 +27,7 @@ public class TestStepInstructionItemTests
     Assert.Equal(LocatorType.GetByLabel, testStepInstructionItem.Locator);
     Assert.Equal(AriaRole.Button, testStepInstructionItem.AriaRole);
     Assert.Equal("ClickMe", testStepInstructionItem.Text);
-    Assert.Equal("", testStepInstructionItem.Value);
+    Assert.Equal(string.Empty, testStepInstructionItem.Value);
     Assert.Equal(ActionType.Click, testStepInstructionItem.Action);
   }
 
