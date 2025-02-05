@@ -6,7 +6,7 @@
       "type": "coreclr",
       "request": "launch",
       "preLaunchTask": "build:WebApi",
-      "program": "${workspaceRoot}/samples/WebApi/bin/Debug/net8.0/WebApi.dll",
+      "program": "${workspaceRoot}/samples/WebApi/bin/Debug/net9.0/WebApi.dll",
       "args": [
         "--urls",
         "https://localhost:5001"
@@ -26,7 +26,7 @@
       "type": "coreclr",
       "request": "launch",
       "preLaunchTask": "build-testR",
-      "program": "${workspaceFolder}/src/testr.Cli/bin/Debug/net8.0/tomware.TestR.dll",
+      "program": "${workspaceFolder}/src/testr.Cli/bin/Debug/net9.0/tomware.TestR.dll",
       "args": [
         "run",
         "https://localhost:5001",
@@ -43,7 +43,7 @@
       "type": "coreclr",
       "request": "launch",
       "preLaunchTask": "build-testR",
-      "program": "${workspaceFolder}/src/testr.Cli/bin/Debug/net8.0/tomware.TestR.dll",
+      "program": "${workspaceFolder}/src/testr.Cli/bin/Debug/net9.0/tomware.TestR.dll",
       "args": [
         "run",
         "https://localhost:5001",
@@ -62,7 +62,7 @@
       "type": "coreclr",
       "request": "launch",
       "preLaunchTask": "build-testR",
-      "program": "${workspaceFolder}/src/testr.Cli/bin/Debug/net8.0/tomware.TestR.dll",
+      "program": "${workspaceFolder}/src/testr.Cli/bin/Debug/net9.0/tomware.TestR.dll",
       "args": [
         "run",
         "https://localhost:5001",
@@ -81,7 +81,7 @@
       "type": "coreclr",
       "request": "launch",
       "preLaunchTask": "build-testR",
-      "program": "${workspaceFolder}/src/testr.Cli/bin/Debug/net8.0/tomware.TestR.dll",
+      "program": "${workspaceFolder}/src/testr.Cli/bin/Debug/net9.0/tomware.TestR.dll",
       "args": [
         "run",
         "https://commitquality.com/",
