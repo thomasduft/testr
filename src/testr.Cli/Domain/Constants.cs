@@ -5,7 +5,7 @@ internal static class Constants
   internal static class TestCaseType
   {
     public const string Definition = "Definition";
-    public const string Execution = "Execution";
+    public const string Run = "Run";
   }
 
   internal static class TestCaseStatus

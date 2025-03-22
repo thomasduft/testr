@@ -19,7 +19,7 @@ internal class TestCaseValidator
     // check property Type - can be Definition or Execution
     var allowedTypes = new[] {
       Constants.TestCaseType.Definition,
-      Constants.TestCaseType.Execution
+      Constants.TestCaseType.Run
     };
     if (!allowedTypes.Contains(_testCase.Type))
     {

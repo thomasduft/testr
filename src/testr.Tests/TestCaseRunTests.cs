@@ -25,8 +25,8 @@ public class TestCaseRunTests
     var testCaseRunExecution = await TestCase.FromTestCaseFileAsync(testCaseRunFile, default);
     Assert.Equal(testCase.Id, testCaseRunExecution.Id);
     Assert.Equal(testCase.Title, testCaseRunExecution.Title);
-    Assert.Equal("Execution", testCaseRunExecution.Type);
-    Assert.Equal("Passed", testCaseRunExecution.Status);
+    Assert.Equal(Constants.TestCaseType.Run, testCaseRunExecution.Type);
+    Assert.Equal(Constants.TestCaseStatus.Passed, testCaseRunExecution.Status);
   }
 
   [Fact]
@@ -56,7 +56,7 @@ public class TestCaseRunTests
     var testCaseRunExecution = await TestCase.FromTestCaseFileAsync(testCaseRunFile, default);
     Assert.Equal(testCase.Id, testCaseRunExecution.Id);
     Assert.Equal(testCase.Title, testCaseRunExecution.Title);
-    Assert.Equal("Execution", testCaseRunExecution.Type);
-    Assert.Equal("Failed", testCaseRunExecution.Status);
+    Assert.Equal(Constants.TestCaseType.Run, testCaseRunExecution.Type);
+    Assert.Equal(Constants.TestCaseStatus.Failed, testCaseRunExecution.Status);
   }
 }

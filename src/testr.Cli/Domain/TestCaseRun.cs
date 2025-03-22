@@ -44,8 +44,10 @@ internal class TestCaseRun
   private void SetProperties(string[] lines, bool result)
   {
     ReplacePropertyValue(lines, "Date", DateStringProvider.GetDateString());
-    ReplacePropertyValue(lines, "Type", "Execution");
-    ReplacePropertyValue(lines, "Status", result ? "Passed" : "Failed");
+    ReplacePropertyValue(lines, "Type", Constants.TestCaseType.Run);
+    ReplacePropertyValue(lines, "Status", result
+      ? Constants.TestCaseStatus.Passed
+      : Constants.TestCaseStatus.Failed);
   }
 
   private void ReplacePropertyValue(string[] lines, string property, string value)

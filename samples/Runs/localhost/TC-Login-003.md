@@ -1,9 +1,9 @@
 # TC-Login-003: Login with wrong Password
 
-- **Date**: 2025-02-05
+- **Date**: 2025-03-22
 - **Test Priority**: High
 - **Module Name**: Identity
-- **Type**: Execution
+- **Type**: Run
 - **Status**: Passed
 - **Domain**: https://localhost:5001
 - **Route**: Login

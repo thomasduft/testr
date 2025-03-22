@@ -14,10 +14,10 @@ A cli tool to manage executable test cases.
 The vision of this tool is to have a tool agnostic file based approach to maintain test cases. A common workflow looks like the following:
 
 1. Team creates Use-Cases
-2. out of the Use-Cases Test-Cases will be defined (Test-Case type: Definition) - see [TC-Login-001 Definition sample](samples/Definitions/localhost/TC-Login-001.md)
+2. out of the Use-Cases, Test-Cases will be defined (Test-Case type: Definition) - see [TC-Login-001 Definition sample](samples/Definitions/localhost/TC-Login-001.md)
 3. once a feature has been implemented the appropriate Test-Cases can be executed against an environment in an E2E automated manner
   ![Sample Run](TC-001-Login-Run.gif)
-4. each run will be historied with Test-Cases known as Runs (Test-Case type: Execution) - see [TC-Login-001 Run sample](samples/Runs/localhost/TC-Login-001.md)
+4. each run will be historied with Test-Cases known as Runs (Test-Case type: Run) - see [TC-Login-001 Run sample](samples/Runs/localhost/TC-Login-001.md)
 
 > Note: In case of escaping strings please use a backslash `\` followed by a double quote `"` (e.g. Locator=GetByText Text=\\"Invalid login attempt for user 'Albert'\\" Action=IsVisible)
 
