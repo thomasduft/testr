@@ -7,6 +7,7 @@ var services = new ServiceCollection()
     .AddCliCommand<TestCaseCommand>()
     .AddCliCommand<ValidateCommand>()
     .AddCliCommand<ManCommand>()
+    .AddCliCommand<InstallPlaywrightCommand>()
     .AddSingleton<Cli>();
 
 var provider = services.BuildServiceProvider();
