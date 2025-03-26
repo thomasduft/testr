@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.5.0] - 2025-03-26
+
+### Added
+
+- [#1](https://github.com/thomasduft/testr/issues/1): Added `Playwright`-command.
+
+### Changed
+
+- Changed TestCaseType Execution to Run.
+- Changed the run command to have the output directory for runs to be optional.
+
 ## [0.4.0] - 2025-02-05
 
 ### Added
