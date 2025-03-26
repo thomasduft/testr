@@ -17,3 +17,18 @@ jobs:
         dotnet-version: 9.0.x
     - name: Test
       run: ./build.sh test
+  e2e-test:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup dotnet
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 9.0.x
+    - name: Build & Install
+      run: ./build.sh build
+    - name: Installing chromium browser
+      run: dotnet run --project src/testr.Cli/testr.Cli.csproj -- playwright -c install -o chromium
+    - name: Run test case TC-Documents-001
+      run: dotnet run --project src/testr.Cli/testr.Cli.csproj -- run "https://commitquality.com" -tc "TC-Documents-001" -i "samples/Definitions/commitquality/" -o "samples/Runs/commitquality/"
