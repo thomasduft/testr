@@ -47,7 +47,7 @@ public class RunCommand : CommandLineApplication
       "-o|--output-directory",
       "The output directory where the Test Case result will be stored.",
       CommandOptionType.SingleValue,
-      cfg => cfg.DefaultValue = ".",
+      cfg => cfg.DefaultValue = null,
       true
     );
 
@@ -110,11 +110,15 @@ public class RunCommand : CommandLineApplication
       _testCaseId.ParsedValue
     );
 
+    var outputDirectory = _outputDirectory.HasValue()
+      ? _outputDirectory.ParsedValue
+      : null;
+
     foreach (var file in files)
     {
       var result = await RunTestCaseAsync(
         _inputDirectory.ParsedValue,
-        _outputDirectory.ParsedValue,
+        outputDirectory,
         file,
         cancellationToken
       );
@@ -129,7 +133,7 @@ public class RunCommand : CommandLineApplication
 
   private async Task<int> RunTestCaseAsync(
     string inputDirectory,
-    string outputDirectory,
+    string? outputDirectory,
     string file,
     CancellationToken cancellationToken
   )
@@ -187,13 +191,16 @@ public class RunCommand : CommandLineApplication
       }
     }
 
-    // Store the Test Case run
-    var run = new TestCaseRun(testCase, testStepResults);
-    await run.SaveAsync(
-      inputDirectory,
-      outputDirectory,
-      cancellationToken
-    );
+    if (!string.IsNullOrWhiteSpace(outputDirectory))
+    {
+      // Store the Test Case run
+      var run = new TestCaseRun(testCase, testStepResults);
+      await run.SaveAsync(
+        inputDirectory,
+        outputDirectory,
+        cancellationToken
+      );
+    }
 
     ConsoleHelper.WriteLineSuccess($"Test Case {testCase.Id} executed successfully.");
 
