@@ -1,0 +1,9 @@
+{
+  "Id": "d4d1720b-8202-48d1-9996-592ecaf92826",
+  "IssueId": "",
+  "Prefix": "Changed",
+  "Tag": "",
+  "Message": "Changed the run command to have the output directory for runs to be optional.",
+  "CreatedAt": "2025-03-26T08:00:12.6157456+00:00",
+  "CreatedBy": "thomasduft"
+}
