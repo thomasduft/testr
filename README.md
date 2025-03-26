@@ -49,6 +49,7 @@ Options:
 
 Commands:
   man           Displays a man page for helping with writing the Test-Data syntax within a Test Case.
+  playwright    Offers Playwright specific commands.
   run           Runs Test Case definitions (i.e. "https://localhost:5001" -tc TC-Audit-001).
   test-case     Creates a new Test Case definition (i.e. test-case TC-Audit-001 "My TestCase Title").
   validate      Validates a Test Case definition (i.e. TC-Audit-001).

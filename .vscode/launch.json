@@ -94,6 +94,18 @@
       ],
       "cwd": "${workspaceFolder}/src/testr.Cli",
       "stopAtEntry": false
+    },
+    {
+      "name": "testR:install-playwright",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build-testR",
+      "program": "${workspaceFolder}/src/testr.Cli/bin/Debug/net9.0/tomware.TestR.dll",
+      "args": [
+        "install-playwright"
+      ],
+      "cwd": "${workspaceFolder}/src/testr.Cli",
+      "stopAtEntry": false
     }
   ]
 }

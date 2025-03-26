@@ -23,7 +23,7 @@
     <PackageIcon>icon.png</PackageIcon>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-  
+
     <PackAsTool>true</PackAsTool>
     <ToolCommandName>testr</ToolCommandName>
     <PackageOutputPath>./nupkg</PackageOutputPath>
@@ -36,7 +36,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Fluid.Core" Version="2.19.0" />
+    <PackageReference Include="CliWrap" Version="3.8.2" />
+    <PackageReference Include="Fluid.Core" Version="2.21.0" />
     <PackageReference Include="HtmlAgilityPack" Version="1.12.0" />
     <PackageReference Include="Markdig" Version="0.40.0" />
     <PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="4.1.1" />
