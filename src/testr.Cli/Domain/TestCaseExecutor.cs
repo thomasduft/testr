@@ -19,8 +19,6 @@ internal class TestCaseExecutor
     CancellationToken cancellationToken
   )
   {
-    var results = new List<TestStepResult>();
-
     using var playwright = await Playwright.CreateAsync();
     await using var browser = await GetBrowserType(playwright)
       .LaunchAsync(new BrowserTypeLaunchOptions
@@ -49,6 +47,7 @@ internal class TestCaseExecutor
 
     await NavigateToRouteAsync(page, domain, executionParam.Route);
 
+    var results = new List<TestStepResult>();
     foreach (var instruction in executionParam.Instructions)
     {
       var result = await TestAsync(
@@ -115,7 +114,7 @@ internal class TestCaseExecutor
     }
   }
 
-  private async Task<TestStepResult> TestAsync(
+  private static async Task<TestStepResult> TestAsync(
     IPage page,
     TestStepInstruction instruction,
     Action<TestStepInstruction> consoleAction
@@ -133,7 +132,7 @@ internal class TestCaseExecutor
     return TestStepResult.Success(instruction.TestStep);
   }
 
-  private static async Task<bool> ProcessStepAsync(
+  private static Task<bool> ProcessStepAsync(
     IPage page,
     TestStepInstruction instruction,
     Action<TestStepInstruction> consoleAction
@@ -143,7 +142,7 @@ internal class TestCaseExecutor
 
     ILocator? locator = EvaluateLocator(page, instruction);
 
-    return await ExecuteAction(instruction, locator);
+    return ExecuteAction(instruction, locator);
   }
 
   private static ILocator EvaluateLocator(
@@ -163,28 +162,28 @@ internal class TestCaseExecutor
     return locator;
   }
 
-  private static async Task<bool> ExecuteAction(
+  private static Task<bool> ExecuteAction(
     TestStepInstruction instruction,
     ILocator locator
   )
   {
     if (instruction.Action == ActionType.Click)
     {
-      await locator.ClickAsync();
+      locator.ClickAsync();
     }
     else if (instruction.Action == ActionType.Fill)
     {
-      await locator.FillAsync(instruction.Value);
+      locator.FillAsync(instruction.Value);
     }
     else if (instruction.Action == ActionType.PickFile)
     {
-      await locator.SetInputFilesAsync(instruction.Value);
+      locator.SetInputFilesAsync(instruction.Value);
     }
-    else
+    else if (instruction.Action == ActionType.IsVisible)
     {
-      return await locator.IsVisibleAsync();
+      return locator.IsVisibleAsync();
     }
 
-    return await Task.FromResult(true);
+    return Task.FromResult(true);
   }
 }
