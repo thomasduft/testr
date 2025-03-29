@@ -16,14 +16,14 @@ internal class TestCaseValidator
   {
     var result = new TestCaseValidationResult(TestCaseId, TestCaseTitle);
 
-    // check property Type - can be Definition or Execution
+    // check property Type - can be Definition or Run
     var allowedTypes = new[] {
       Constants.TestCaseType.Definition,
       Constants.TestCaseType.Run
     };
     if (!allowedTypes.Contains(_testCase.Type))
     {
-      result.AddError("Type", "Type must be 'Definition' or 'Execution'.");
+      result.AddError("Type", "Type must be 'Definition' or 'Run'.");
     }
 
     // check property Status
@@ -51,7 +51,7 @@ internal class TestCaseValidator
 
       try
       {
-        _ = TestStepInstruction.FromTestStep(step);
+        TestStepInstruction.FromTestStep(step);
       }
       catch (Exception ex)
       {

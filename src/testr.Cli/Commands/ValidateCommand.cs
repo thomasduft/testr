@@ -44,7 +44,7 @@ public class ValidateCommand : CommandLineApplication
     {
       foreach (var error in validationResult.Errors)
       {
-        ConsoleHelper.WriteLineError("{error}");
+        ConsoleHelper.WriteLineError(error);
       }
 
       return await Task.FromResult(1);

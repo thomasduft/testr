@@ -37,7 +37,7 @@ public class TestCaseValidatorTests
     Assert.NotNull(result);
     Assert.False(result.IsValid);
     Assert.True(result.Errors.Count() == 1);
-    Assert.Equal("Type must be 'Definition' or 'Execution'.", result.Errors.First());
+    Assert.Equal("Type must be 'Definition' or 'Run'.", result.Errors.First());
   }
 
   [Fact]
