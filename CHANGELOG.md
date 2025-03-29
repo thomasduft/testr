@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.5.1] - 2025-03-29
+
+### Fixed
+
+- Updated error messages for test case validation.
+
 ## [0.5.0] - 2025-03-26
 
 ### Added
