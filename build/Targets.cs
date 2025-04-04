@@ -63,12 +63,12 @@ app.OnExecuteAsync(async _ =>
     Run("dotnet", $"clean {solution} -c Release -v m --nologo");
   });
 
-  Target(Build, DependsOn(Clean), () =>
+  Target(Build, dependsOn: [Clean], () =>
   {
     Run("dotnet", $"build {solution} -c Release --nologo");
   });
 
-  Target(Test, DependsOn(Build), () =>
+  Target(Test, dependsOn: [Build], () =>
   {
     var projects = GetFiles(".", $"*.csproj");
     foreach (var project in projects.OrderBy(x => x))
@@ -80,7 +80,7 @@ app.OnExecuteAsync(async _ =>
     }
   });
 
-  Target(Release, DependsOn(Test), () =>
+  Target(Release, dependsOn: [Test], () =>
   {
     if (string.IsNullOrWhiteSpace(versionOption.Value()))
     {
@@ -117,7 +117,7 @@ app.OnExecuteAsync(async _ =>
     }
   });
 
-  Target(Pack, DependsOn(Build, CleanArtifacts), () =>
+  Target(Pack, dependsOn: [Build, CleanArtifacts], () =>
   {
     if (string.IsNullOrWhiteSpace(versionOption.Value()))
     {
