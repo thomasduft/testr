@@ -36,8 +36,6 @@ public class MigrationService : IMigrationService
     await RegisterApplicationsAsync(scope.ServiceProvider, cancellationToken);
     await RegisterScopesAsync(scope.ServiceProvider, cancellationToken);
 
-    // TODO: seed roles workflow_admin,
-    // TODO: seed users admin/alice/bob
     await SeedRole(scope.ServiceProvider);
     await SeedUser(scope.ServiceProvider, Users.AdminUser, Roles.WorkflowAdministrator);
     await SeedUser(scope.ServiceProvider, Users.AliceUser, null);

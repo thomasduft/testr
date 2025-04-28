@@ -20,7 +20,6 @@ namespace WebApi.Workflows.Holiday
 
     Task<IWorkflowResult<AssigneeWorkflowResult>> RejectAsync(ApproveHolidayViewModel model);
 
-    // TODO: Check for common kind of viewmodel that shows state, short description, id?!
     Task<IEnumerable<Holiday>> MyWorkAsync();
   }
 

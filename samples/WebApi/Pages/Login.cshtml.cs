@@ -77,7 +77,7 @@ public class LoginModel : PageModel
 
         if (returnUrl == "/")
         {
-          return RedirectToPage("./Logout"); // TODO: redirecto to Profile-page!
+          return RedirectToPage("./Logout");
         }
 
         return LocalRedirect(returnUrl);
