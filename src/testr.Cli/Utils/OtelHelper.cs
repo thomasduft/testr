@@ -14,7 +14,7 @@ internal static class OtelHelper
         .CreateDefault()
         .AddService("testR.Cli"))
       .AddMeter("tomware.TestR.Cli.Metrics");
-      // .AddConsoleExporter();
+    // .AddConsoleExporter();
     if (args.Contains(OtlpOption))
     {
       var otlpIndex = Array.IndexOf(args, OtlpOption);
@@ -35,8 +35,7 @@ internal static class OtelHelper
           .ToArray();
       }
     }
-    var meterProvider = meterProviderBuilder.Build();
 
-    return meterProvider;
+    return meterProviderBuilder.Build();
   }
 }
