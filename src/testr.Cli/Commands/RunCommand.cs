@@ -1,3 +1,5 @@
+using System.Diagnostics;
+using System.Diagnostics.Metrics;
 
 using McMaster.Extensions.CommandLineUtils;
 
@@ -5,6 +7,13 @@ namespace tomware.TestR;
 
 public class RunCommand : CommandLineApplication
 {
+  private static readonly Meter TestCaseMeter
+    = new("tomware.TestR.Cli.Metrics");
+  private static readonly Counter<int> TestCaseCounter
+    = TestCaseMeter.CreateCounter<int>("testr_test_case");
+
+  private readonly Stopwatch _stopwatch = new();
+
   private readonly CommandArgument<string> _domain;
   private readonly CommandOption<string> _testCaseId;
   private readonly CommandOption<string> _inputDirectory;
@@ -138,6 +147,7 @@ public class RunCommand : CommandLineApplication
     CancellationToken cancellationToken
   )
   {
+    _stopwatch.Reset();
     var domain = _domain.ParsedValue;
 
     // Read the Test Case definition
@@ -171,13 +181,22 @@ public class RunCommand : CommandLineApplication
 
     ExecutorConfig executorConfig = GetExecutorConfiguration();
     var executor = new TestCaseExecutor(executorConfig);
+    _stopwatch.Start();
     var testStepResults = await executor.ExecuteAsync(
       domain,
       executionParam,
       preconditionExecutionParam,
       cancellationToken
     );
+    _stopwatch.Stop();
     var success = testStepResults.All(r => r.IsSuccess);
+
+    TestCaseCounter.Add(1, [
+      new("Duration", _stopwatch.ElapsedMilliseconds),
+      new("Status", success ? Constants.TestCaseStatus.Passed : Constants.TestCaseStatus.Failed),
+      new("TestCase", testCase.Id)
+    ]);
+
     if (!success)
     {
       foreach (var result in testStepResults.Where(r => !r.IsSuccess))

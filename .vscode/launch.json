@@ -90,7 +90,9 @@
         "-i",
         "../../samples/Definitions/commitquality",
         "-o",
-        "../../samples/Runs/commitquality"
+        "../../samples/Runs/commitquality",
+        "--otlp",
+        "http://localhost:9090/api/v1/otlp/v1/metrics"
       ],
       "cwd": "${workspaceFolder}/src/testr.Cli",
       "stopAtEntry": false
@@ -102,7 +104,11 @@
       "preLaunchTask": "build-testR",
       "program": "${workspaceFolder}/src/testr.Cli/bin/Debug/net9.0/tomware.TestR.dll",
       "args": [
-        "install-playwright"
+        "playwright",
+        "-c",
+        "install",
+        "-o",
+        "chromium"
       ],
       "cwd": "${workspaceFolder}/src/testr.Cli",
       "stopAtEntry": false
