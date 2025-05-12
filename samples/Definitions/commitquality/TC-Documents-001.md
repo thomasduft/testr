@@ -3,7 +3,7 @@
 - **Date**: 2024-11-21
 - **Author**: Thomas Duft
 - **Test Priority**: High
-- **Module Name**: Documents
+- **Module**: Documents
 - **Type**: Definition
 - **Status**: Unknown
 - **Route**: practice-file-upload

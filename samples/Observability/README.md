@@ -25,3 +25,7 @@ Grafana Default credentials:
 
 - [OpenTelemetry .NET](https://opentelemetry.io/docs/languages/dotnet/getting-started/)
 - [Use OpenTelemetry with Prometheus, Grafana, and Jaeger](https://learn.microsoft.com/en-us/dotnet/core/diagnostics/observability-prgrja-example)
+
+## Notes
+
+- topk(1, testr_test_case) by (...labels...)

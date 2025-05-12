@@ -9,8 +9,8 @@ public class RunCommand : CommandLineApplication
 {
   private static readonly Meter TestCaseMeter
     = new("tomware.TestR.Cli.Metrics");
-  private static readonly Counter<int> TestCaseCounter
-    = TestCaseMeter.CreateCounter<int>("testr_test_case");
+  private static readonly Gauge<int> TestCaseGauge
+    = TestCaseMeter.CreateGauge<int>("testr_test_case");
 
   private readonly Stopwatch _stopwatch = new();
 
@@ -191,10 +191,11 @@ public class RunCommand : CommandLineApplication
     _stopwatch.Stop();
     var success = testStepResults.All(r => r.IsSuccess);
 
-    TestCaseCounter.Add(1, [
-      new("Duration", _stopwatch.ElapsedMilliseconds),
+    TestCaseGauge.Record(1, [
+      new("TestCaseId", testCase.Id),
+      new("Module", testCase.Module),
       new("Status", success ? Constants.TestCaseStatus.Passed : Constants.TestCaseStatus.Failed),
-      new("TestCase", testCase.Id)
+      new("Duration", _stopwatch.ElapsedMilliseconds),
     ]);
 
     if (!success)

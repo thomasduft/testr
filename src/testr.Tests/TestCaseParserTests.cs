@@ -18,6 +18,7 @@ public class TestCaseParserTests
     Assert.NotNull(testCase);
     Assert.Equal("TC-001-Login", testCase.Id);
     Assert.Equal("Login", testCase.Title);
+    Assert.Equal("Identity", testCase.Module);
     Assert.Equal("Definition", testCase.Type);
     Assert.Equal("Unknown", testCase.Status);
     Assert.Equal("Login", testCase.Route);
@@ -47,6 +48,7 @@ public class TestCaseParserTests
     Assert.NotNull(testCase);
     Assert.Equal("TC-010-Authenticated", testCase.Id);
     Assert.Equal("Authenticated", testCase.Title);
+    Assert.Equal("Dashboard", testCase.Module);
     Assert.Equal("Definition", testCase.Type);
     Assert.Equal("Unknown", testCase.Status);
     Assert.Equal(file, testCase.File);

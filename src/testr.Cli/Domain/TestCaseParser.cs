@@ -20,6 +20,7 @@ internal class TestCaseParser
     var lines = await File.ReadAllLinesAsync(_file, cancellationToken);
 
     var (testCaseId, testCaseTitle) = GetTestCaseIdAndTitle(lines);
+    var module = FindTag(lines, "Module");
     var type = FindTag(lines, "Type");
     var status = FindTag(lines, "Status");
     var route = FindTag(lines, "Route");
@@ -34,6 +35,7 @@ internal class TestCaseParser
     {
       Id = testCaseId,
       Title = testCaseTitle,
+      Module = module,
       Type = type!,
       Status = status!,
       Route = route!,

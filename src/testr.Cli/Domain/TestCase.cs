@@ -6,6 +6,7 @@ internal class TestCase
 
   public string Id { get; set; } = string.Empty;
   public string Title { get; set; } = string.Empty;
+  public string? Module {get; set; } = "Unkown";
   public string Type { get; set; } = string.Empty;
   public string Status { get; set; } = string.Empty;
   public string Route { get; set; } = string.Empty;
