@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.6.0] - 2025-05-17
+
+### Added
+
+- Added support for OpenTelemetry.
+
 ## [0.5.1] - 2025-03-29
 
 ### Fixed
