@@ -192,10 +192,10 @@ public class RunCommand : CommandLineApplication
     var success = testStepResults.All(r => r.IsSuccess);
 
     TestCaseGauge.Record(1, [
-      new("TestCaseId", testCase.Id),
-      new("Module", testCase.Module),
-      new("Status", success ? Constants.TestCaseStatus.Passed : Constants.TestCaseStatus.Failed),
-      new("Duration", _stopwatch.ElapsedMilliseconds),
+      new("test_case_id", testCase.Id),
+      new("module", testCase.Module),
+      new("status", success ? Constants.TestCaseStatus.Passed : Constants.TestCaseStatus.Failed),
+      new("duration", _stopwatch.ElapsedMilliseconds),
     ]);
 
     if (!success)
