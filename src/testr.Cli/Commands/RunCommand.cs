@@ -196,6 +196,7 @@ public class RunCommand : CommandLineApplication
       new("module", testCase.Module),
       new("status", success ? Constants.TestCaseStatus.Passed : Constants.TestCaseStatus.Failed),
       new("duration", _stopwatch.ElapsedMilliseconds),
+      new("timestamp", DateTimeOffset.UtcNow)
     ]);
 
     if (!success)

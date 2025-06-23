@@ -1,0 +1,194 @@
+{
+  "id": 1,
+  "type": "table",
+  "title": "Latest Test Results",
+  "gridPos": {
+    "x": 0,
+    "y": 0,
+    "h": 10,
+    "w": 24
+  },
+  "fieldConfig": {
+    "defaults": {
+      "custom": {
+        "align": "auto",
+        "cellOptions": {
+          "type": "auto"
+        },
+        "inspect": true,
+        "filterable": true
+      },
+      "mappings": [],
+      "thresholds": {
+        "mode": "absolute",
+        "steps": [
+          {
+            "color": "green",
+            "value": null
+          },
+          {
+            "color": "red",
+            "value": 80
+          }
+        ]
+      }
+    },
+    "overrides": [
+      {
+        "matcher": {
+          "id": "byName",
+          "options": "Status"
+        },
+        "properties": [
+          {
+            "id": "custom.width",
+            "value": 100
+          }
+        ]
+      },
+      {
+        "matcher": {
+          "id": "byName",
+          "options": "Module"
+        },
+        "properties": [
+          {
+            "id": "custom.width",
+            "value": 150
+          }
+        ]
+      },
+      {
+        "matcher": {
+          "id": "byName",
+          "options": "Duration [ms]"
+        },
+        "properties": [
+          {
+            "id": "custom.width",
+            "value": 100
+          }
+        ]
+      },
+      {
+        "matcher": {
+          "id": "byName",
+          "options": "Recorded at"
+        },
+        "properties": [
+          {
+            "id": "custom.width",
+            "value": 150
+          }
+        ]
+      }
+    ]
+  },
+  "transformations": [
+    {
+      "id": "labelsToFields",
+      "options": {
+        "mode": "columns"
+      }
+    },
+    {
+      "id": "groupBy",
+      "options": {
+        "fields": {
+          "duration": {
+            "aggregations": [],
+            "operation": "groupby"
+          },
+          "instance": {
+            "aggregations": [],
+            "operation": "groupby"
+          },
+          "module": {
+            "aggregations": [],
+            "operation": "groupby"
+          },
+          "status": {
+            "aggregations": [],
+            "operation": "groupby"
+          },
+          "test_case_id": {
+            "aggregations": [],
+            "operation": "groupby"
+          },
+          "Time": {
+            "aggregations": [
+              "lastNotNull"
+            ],
+            "operation": null
+          },
+          "timestamp": {
+            "aggregations": [],
+            "operation": "groupby"
+          }
+        }
+      }
+    },
+    {
+      "id": "merge",
+      "options": {}
+    },
+    {
+      "id": "organize",
+      "options": {
+        "excludeByName": {
+          "instance": true
+        },
+        "indexByName": {
+          "instance": 0,
+          "timestamp": 1,
+          "module": 2,
+          "test_case_id": 3,
+          "duration": 4,
+          "status": 5
+        },
+        "renameByName": {
+          "duration": "Duration [ms]",
+          "module": "Module",
+          "status": "Status",
+          "test_case_id": "Test Case",
+          "timestamp": "Recorded at"
+        },
+        "includeByName": {}
+      }
+    }
+  ],
+  "pluginVersion": "12.0.0",
+  "targets": [
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "941a9c31-eeb6-4585-b1f7-e73a21d28575"
+      },
+      "editorMode": "code",
+      "expr": "topk(1, testr_test_case) by (instance, job, test_case_id, status, duration, timestamp)",
+      "interval": "",
+      "legendFormat": "",
+      "range": true,
+      "refId": "A"
+    }
+  ],
+  "datasource": {
+    "type": "prometheus",
+    "uid": "941a9c31-eeb6-4585-b1f7-e73a21d28575"
+  },
+  "options": {
+    "showHeader": true,
+    "cellHeight": "sm",
+    "footer": {
+      "show": false,
+      "reducer": [
+        "sum"
+      ],
+      "countRows": false,
+      "fields": "",
+      "enablePagination": true
+    },
+    "frameIndex": 1,
+    "sortBy": []
+  }
+}

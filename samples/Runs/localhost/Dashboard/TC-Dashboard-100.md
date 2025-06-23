@@ -1,6 +1,6 @@
 # TC-Dashboard-100: Dashboard as administrator
 
-- **Date**: 2025-05-12
+- **Date**: 2025-06-23
 - **Test Priority**: High
 - **Module**: Dashboard
 - **Type**: Run

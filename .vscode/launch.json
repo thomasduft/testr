@@ -71,7 +71,9 @@
         "-i",
         "../../samples/Definitions/localhost",
         "-o",
-        "../../samples/Runs/localhost"
+        "../../samples/Runs/localhost",
+        "--otlp",
+        "http://localhost:9090/api/v1/otlp/v1/metrics"
       ],
       "cwd": "${workspaceFolder}/src/testr.Cli",
       "stopAtEntry": false
