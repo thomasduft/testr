@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.7.0] - 2025-06-25
+
+### Added
+
+- Added support for variable substitution in test steps.
+
 ## [0.6.0] - 2025-05-17
 
 ### Added
