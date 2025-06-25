@@ -1,0 +1,9 @@
+{
+  "Id": "7393b4ee-0e6e-4067-9bc0-87ca27eabdb5",
+  "IssueId": "",
+  "Prefix": "Added",
+  "Tag": "",
+  "Message": "Added support for variable substitution in test steps.",
+  "CreatedAt": "2025-06-25T12:56:12.4547868+02:00",
+  "CreatedBy": "Thomas Duft"
+}

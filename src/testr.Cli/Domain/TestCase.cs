@@ -17,10 +17,20 @@ internal class TestCase
   public bool HasLinkedFile => !string.IsNullOrEmpty(LinkedFile);
   public string Domain => _domain;
   public bool HasDomain => !string.IsNullOrEmpty(_domain);
+  public Dictionary<string, string> Variables { get; set; } = [];
 
-  public void SetDomain(string domain)
+  public TestCase WithDomain(string domain)
   {
     _domain = domain;
+
+    return this;
+  }
+
+  public TestCase WithVariables(Dictionary<string, string> variables)
+  {
+    Variables = variables;
+
+    return this;
   }
 
   public static async Task<TestCase> FromTestCaseFileAsync(

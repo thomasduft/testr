@@ -22,7 +22,8 @@ internal class TestStepInstruction
   }
 
   public static TestStepInstruction FromTestStep(
-    TestStep step
+    TestStep step,
+    Dictionary<string, string> variables
   )
   {
     var testDataParameters = ParseTestData(step.TestData);
@@ -30,7 +31,6 @@ internal class TestStepInstruction
       throw new InvalidDataException($"No TestData found for Test Step {step.Id}");
 
     TestStepInstruction testStepInstruction = new(step);
-
     foreach (var parameter in testDataParameters)
     {
       switch (parameter.Key)
@@ -45,7 +45,7 @@ internal class TestStepInstruction
           testStepInstruction.Text = parameter.Value;
           break;
         case nameof(Value):
-          testStepInstruction.Value = parameter.Value;
+          testStepInstruction.Value = ReplaceVariables(parameter.Value, variables);
           break;
         case nameof(Action):
           testStepInstruction.Action = Enum.Parse<ActionType>(parameter.Value);
@@ -56,6 +56,19 @@ internal class TestStepInstruction
     }
 
     return testStepInstruction;
+  }
+
+  private static string ReplaceVariables(
+    string value,
+    Dictionary<string, string> variables
+  )
+  {
+    if (!value.StartsWith('@')) return value;
+
+    var key = value.Replace("@", string.Empty);
+    return variables.TryGetValue(key, out var variableValue)
+      ? variableValue
+      : throw new InvalidOperationException($"Variable with key '{value}' could not be resolved!");
   }
 
   private static Dictionary<string, string> ParseTestData(

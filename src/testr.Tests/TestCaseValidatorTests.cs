@@ -9,7 +9,12 @@ public class TestCaseValidatorTests
   {
     // Arrange
     var file = Path.Combine(Environment.CurrentDirectory, "TestData", "TC-001-Login.md");
-    var testCase = await TestCase.FromTestCaseFileAsync(file, default);
+    var testCase = await TestCase
+      .FromTestCaseFileAsync(file, default);
+    testCase.WithVariables(new Dictionary<string, string>
+    {
+      {"Password", "my-super-secret"}
+    });
 
     var validator = new TestCaseValidator(testCase);
 

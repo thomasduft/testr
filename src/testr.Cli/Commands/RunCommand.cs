@@ -24,6 +24,7 @@ public class RunCommand : CommandLineApplication
   private readonly CommandOption<int> _timeout;
   private readonly CommandOption<BrowserType> _browserType;
   private readonly CommandOption<string> _recordVideoDir;
+  private readonly CommandOption<string> _variables;
 
   public RunCommand()
   {
@@ -108,6 +109,14 @@ public class RunCommand : CommandLineApplication
       true
     );
 
+    _variables = Option<string>(
+      "-v|--variable",
+      "Key-Value based variable used for replacing property values in a Test Step data configuration.",
+      CommandOptionType.MultipleValue,
+      cfg => cfg.DefaultValue = null,
+      true
+    );
+
     OnExecuteAsync(ExecuteAsync);
   }
 
@@ -149,10 +158,19 @@ public class RunCommand : CommandLineApplication
   {
     _stopwatch.Reset();
     var domain = _domain.ParsedValue;
+    var variables = _variables.HasValue()
+      ? _variables.Values
+        .Where(item => item!.Contains('='))
+        .Select(item => item!.Split('=', 2))
+        .Where(parts => parts.Length == 2)
+        .ToDictionary(parts => parts[0], parts => parts[1])
+      : [];
 
     // Read the Test Case definition
     var testCase = await TestCase.FromTestCaseFileAsync(file, cancellationToken);
-    testCase.SetDomain(domain);
+    testCase
+      .WithDomain(domain)
+      .WithVariables(variables);
 
     ConsoleHelper.WriteLineYellow($"Running Test Case: {testCase.Id}");
 
@@ -172,7 +190,8 @@ public class RunCommand : CommandLineApplication
     // Run the Test Case steps
     var executionParam = new TestCaseExecutionParam(
       testCase.Route,
-      testCase.Steps.Select(TestStepInstruction.FromTestStep)
+      testCase.Steps.Select(step => TestStepInstruction
+        .FromTestStep(step, testCase.Variables))
     );
     var preconditionExecutionParam = await GetPreconditionTestCaseExecutionParam(
       testCase,
@@ -241,7 +260,8 @@ public class RunCommand : CommandLineApplication
     );
     return new TestCaseExecutionParam(
       linkedTestCase.Route,
-      linkedTestCase.Steps.Select(TestStepInstruction.FromTestStep)
+      linkedTestCase.Steps.Select(step => TestStepInstruction
+        .FromTestStep(step, testCase.Variables))
     );
   }
 

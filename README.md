@@ -67,15 +67,24 @@ Runs Test Case definitions.
 testR run [domain] [options]
 
 Options:
-  -tc|--test-case-id            A specific Test Case ID to run.
-  -i|--input-directory          The input directory where the Test Case definition is located. (default: .)
-  -o|--output-directory         The output directory where the Test Case result will be stored. (default: .)
-  --headless                    Runs the browser in headless mode.
-  --continue-on-failure         Continues execution even if a test step fails.
-  -s|--slow <MS>                Sets the slow motion delay in milliseconds.
-  -t|--timeout <MS>             Sets the timeout for awaiting the Playwright Locator in milliseconds. (default: 30000)
-  -bt|--browser-type            Sets the browser type to run the Test Case against (Chrome, Firefox, Webkit). (default: Chrome)
-  -rvd|--record-video-dir       Records a video of the Test Case execution to the specified directory.
+  -tc|--test-case-id       The Test Case ID (e.g. TC-Audit-001).
+  -i|--input-directory     The input directory where the Test Case definition is located.
+                           Default value is: ..
+  -o|--output-directory    The output directory where the Test Case result will be stored.
+  --headless               Runs the browser in headless mode.
+                           Default value is: False.
+  --continue-on-failure    Continues the Test Case execution even if the Test Case fails.
+                           Default value is: False.
+  -s|--slow                Slows down the execution by the specified amount of milliseconds.
+                           Default value is: 500.
+  -t|--timeout             Sets the timeout for awaiting the Playwright Locator in milliseconds.
+                           Default value is: 10000.
+  -bt|--browser-type       Sets the browser type to run the Test Case against (currently supported Browsers: Chrome, Firefox, Webkit).
+                           Allowed values are: Chrome, Firefox, Webkit.
+                           Default value is: Chrome.
+  -rvd|--record-video-dir  Records a video of the Test Case execution to the specified directory.
+  -v|--variable            Key-Value based variable used for replacing property values in a Test Step data configuration.
+  -?|-h|--help             Show help information.
 ```
 
 #### test-case
@@ -95,6 +104,36 @@ testR validate [test-case-id] [options]
 
 Options:
   -i|--input-directory    The input directory where the Test Case definition is located. (default: .)
+```
+
+#### Variables Support for Test Data
+
+In order to pass in dynamic or confidential data `testR` supports so called `Variables` in a Test Case Step definition.
+
+A variable is a `Value`-property value starting with a `@`-sign (see below the `@Password`-variable).
+
+```markdown
+| 1 | enter password | Locator=GetByLabel Text=Password Action=Fill Value=@Password | password is entered | - |
+```
+
+In order to look it up and replace it during execution of the Test Case you need to pass in the appropriate value via the `-v|--variable`-command line argument option.
+
+For the above sample the command line argument option looks like the following:
+
+```bash
+  .... -v Password=password ...
+```
+
+> Caution: The `Key`-value is case sensitive!
+
+#### OpenTelemetry Support
+
+`testR` includes built-in support for OpenTelemetry (OTLP) to enable observability and monitoring of test case executions. This feature allows you to collect metrics, traces, and logs from your test runs and send them to compatible observability platforms.
+
+To enable OpenTelemetry support, use the `--otlp` option when running test cases:
+
+```bash
+testR run https://localhost:5001 --test-case-id TC-Login-001 --otlp "http://localhost:9090/api/v1/otlp/v1/metrics"
 ```
 
 ## License

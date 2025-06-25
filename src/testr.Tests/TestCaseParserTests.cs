@@ -29,7 +29,7 @@ public class TestCaseParserTests
     Assert.Equal(4, testCase.Steps.Count());
 
     AssertTestStep(testCase.Steps.First(), 1, "enter username", "Locator=GetByLabel Text=Username Action=Fill Value=admin", "username is entered");
-    AssertTestStep(testCase.Steps.Skip(1).First(), 2, "enter password", "Locator=GetByLabel Text=Password Action=Fill Value=password", "password is entered");
+    AssertTestStep(testCase.Steps.Skip(1).First(), 2, "enter password", "Locator=GetByLabel Text=Password Action=Fill Value=@Password", "password is entered");
     AssertTestStep(testCase.Steps.Skip(2).First(), 3, "click login button", "Locator=GetByRole AriaRole=Button Text=Login Action=Click", "system validates the user credentials and redirects to dashboard");
     AssertTestStep(testCase.Steps.Last(), 4, "displays the dashboard", "Locator=GetByRole AriaRole=Button Text=Logout Action=IsVisible", "Logout button visible in the main navigation");
   }

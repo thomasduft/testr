@@ -20,7 +20,7 @@ public class TestStepInstructionItemTests
     };
 
     // Act
-    var testStepInstructionItem = TestStepInstruction.FromTestStep(step);
+    var testStepInstructionItem = TestStepInstruction.FromTestStep(step, []);
 
     // Assert
     Assert.NotNull(testStepInstructionItem);
@@ -45,13 +45,41 @@ public class TestStepInstructionItemTests
     };
 
     // Act
-    var testStepInstructionItem = TestStepInstruction.FromTestStep(step);
+    var testStepInstructionItem = TestStepInstruction.FromTestStep(step, []);
 
     // Assert
     Assert.NotNull(testStepInstructionItem);
     Assert.Equal(LocatorType.GetByText, testStepInstructionItem.Locator);
     Assert.Equal("\"Invalid login attempt for user 'Albert'\"", testStepInstructionItem.Text);
     Assert.Equal(ActionType.IsVisible, testStepInstructionItem.Action);
+  }
+
+  [Fact]
+  public void FromTestStep_WithValueAsVariable_ShouldReturnInstance()
+  {
+    // Arrange
+    Dictionary<string, string> variables = new Dictionary<string, string>
+    {
+      {"@Password", "my-super-secret"}
+    };
+    var step = new TestStep
+    {
+      Id = 1,
+      Description = "Test Description",
+      TestData = "Locator=GetByLabel Text=Password Action=Fill Value=@Password",
+      ExpectedResult = "-",
+      IsSuccess = false
+    };
+
+    // Act
+    var testStepInstructionItem = TestStepInstruction.FromTestStep(step, variables);
+
+    // Assert
+    Assert.NotNull(testStepInstructionItem);
+    Assert.Equal(LocatorType.GetByLabel, testStepInstructionItem.Locator);
+    Assert.Equal(ActionType.Fill, testStepInstructionItem.Action);
+    Assert.Equal("Password", testStepInstructionItem.Text);
+    Assert.Equal("my-super-secret", testStepInstructionItem.Value);
   }
 
   [Fact]
@@ -69,7 +97,7 @@ public class TestStepInstructionItemTests
 
     // Act
     // Assert
-    Assert.Throws<InvalidDataException>(() => TestStepInstruction.FromTestStep(step));
+    Assert.Throws<InvalidDataException>(() => TestStepInstruction.FromTestStep(step, []));
   }
 
   [Fact]
@@ -86,6 +114,6 @@ public class TestStepInstructionItemTests
 
     // Act
     // Assert
-    Assert.Throws<InvalidDataException>(() => TestStepInstruction.FromTestStep(step));
+    Assert.Throws<InvalidDataException>(() => TestStepInstruction.FromTestStep(step, []));
   }
 }

@@ -51,7 +51,7 @@ internal class TestCaseValidator
 
       try
       {
-        TestStepInstruction.FromTestStep(step);
+        TestStepInstruction.FromTestStep(step, _testCase.Variables);
       }
       catch (Exception ex)
       {
