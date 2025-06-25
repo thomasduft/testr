@@ -60,7 +60,7 @@ public class TestStepInstructionItemTests
     // Arrange
     Dictionary<string, string> variables = new Dictionary<string, string>
     {
-      {"@Password", "my-super-secret"}
+      {"Password", "my-super-secret"}
     };
     var step = new TestStep
     {

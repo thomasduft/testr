@@ -101,4 +101,22 @@ public class TestCaseValidatorTests
     Assert.True(result.Errors.Count() == 1);
     Assert.Equal("Step 4: Requested value 'GetRole' was not found.", result.Errors.First());
   }
+
+  [Fact]
+  public async Task Validate_WithMissingVariables_ShouldReturnValidationErrors()
+  {
+    // Arrange
+    var file = Path.Combine(Environment.CurrentDirectory, "TestData", "TC-001-Login.md");
+    var testCase = await TestCase
+      .FromTestCaseFileAsync(file, default);
+
+    var validator = new TestCaseValidator(testCase);
+
+    // Act
+    var result = validator.Validate();
+
+    // Assert
+    Assert.NotNull(result);
+    Assert.False(result.IsValid);
+  }
 }
