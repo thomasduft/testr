@@ -128,7 +128,7 @@ For the above sample the command line argument option looks like the following:
 
 #### OpenTelemetry Support
 
-`testR` includes built-in support for OpenTelemetry (OTLP) to enable observability and monitoring of test case executions. This feature allows you to collect metrics, traces, and logs from your test runs and send them to compatible observability platforms.
+`testR` includes built-in support for OpenTelemetry (OTLP) to enable observability and monitoring of test case executions. This feature allows you to collect metrics from your test runs and send them to compatible observability platforms.
 
 To enable OpenTelemetry support, use the `--otlp` option when running test cases:
 
