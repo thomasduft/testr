@@ -213,7 +213,14 @@ public class RunCommand : CommandLineApplication
     TestCaseGauge.Record(1, [
       new("test_case_id", testCase.Id),
       new("module", testCase.Module),
-      new("status", success ? Constants.TestCaseStatus.Passed : Constants.TestCaseStatus.Failed),
+      new("status", success
+        ? Constants.TestCaseStatus.Passed
+        : Constants.TestCaseStatus.Failed),
+      new("error_message", success
+        ? string.Empty
+        : string.Join(',', testStepResults
+          .Where(r => !r.IsSuccess)
+          .Select(r => r.Error))),
       new("duration", _stopwatch.ElapsedMilliseconds),
       new("timestamp", DateTimeOffset.UtcNow)
     ]);
