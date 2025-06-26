@@ -1,194 +1,233 @@
 {
-  "id": 1,
-  "type": "table",
-  "title": "Latest Test Results",
-  "gridPos": {
-    "x": 0,
-    "y": 0,
-    "h": 10,
-    "w": 24
-  },
-  "fieldConfig": {
-    "defaults": {
-      "custom": {
-        "align": "auto",
-        "cellOptions": {
-          "type": "auto"
-        },
-        "inspect": true,
-        "filterable": true
-      },
-      "mappings": [],
-      "thresholds": {
-        "mode": "absolute",
-        "steps": [
-          {
-            "color": "green",
-            "value": null
-          },
-          {
-            "color": "red",
-            "value": 80
-          }
-        ]
-      }
-    },
-    "overrides": [
+  "annotations": {
+    "list": [
       {
-        "matcher": {
-          "id": "byName",
-          "options": "Status"
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
         },
-        "properties": [
-          {
-            "id": "custom.width",
-            "value": 100
-          }
-        ]
-      },
-      {
-        "matcher": {
-          "id": "byName",
-          "options": "Module"
-        },
-        "properties": [
-          {
-            "id": "custom.width",
-            "value": 150
-          }
-        ]
-      },
-      {
-        "matcher": {
-          "id": "byName",
-          "options": "Duration [ms]"
-        },
-        "properties": [
-          {
-            "id": "custom.width",
-            "value": 100
-          }
-        ]
-      },
-      {
-        "matcher": {
-          "id": "byName",
-          "options": "Recorded at"
-        },
-        "properties": [
-          {
-            "id": "custom.width",
-            "value": 150
-          }
-        ]
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
       }
     ]
   },
-  "transformations": [
-    {
-      "id": "labelsToFields",
-      "options": {
-        "mode": "columns"
-      }
-    },
-    {
-      "id": "groupBy",
-      "options": {
-        "fields": {
-          "duration": {
-            "aggregations": [],
-            "operation": "groupby"
-          },
-          "instance": {
-            "aggregations": [],
-            "operation": "groupby"
-          },
-          "module": {
-            "aggregations": [],
-            "operation": "groupby"
-          },
-          "status": {
-            "aggregations": [],
-            "operation": "groupby"
-          },
-          "test_case_id": {
-            "aggregations": [],
-            "operation": "groupby"
-          },
-          "Time": {
-            "aggregations": [
-              "lastNotNull"
-            ],
-            "operation": null
-          },
-          "timestamp": {
-            "aggregations": [],
-            "operation": "groupby"
-          }
-        }
-      }
-    },
-    {
-      "id": "merge",
-      "options": {}
-    },
-    {
-      "id": "organize",
-      "options": {
-        "excludeByName": {
-          "instance": true
-        },
-        "indexByName": {
-          "instance": 0,
-          "timestamp": 1,
-          "module": 2,
-          "test_case_id": 3,
-          "duration": 4,
-          "status": 5
-        },
-        "renameByName": {
-          "duration": "Duration [ms]",
-          "module": "Module",
-          "status": "Status",
-          "test_case_id": "Test Case",
-          "timestamp": "Recorded at"
-        },
-        "includeByName": {}
-      }
-    }
-  ],
-  "pluginVersion": "12.0.0",
-  "targets": [
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 2,
+  "links": [],
+  "panels": [
     {
       "datasource": {
         "type": "prometheus",
         "uid": "941a9c31-eeb6-4585-b1f7-e73a21d28575"
       },
-      "editorMode": "code",
-      "expr": "topk(1, testr_test_case) by (instance, job, test_case_id, status, duration, timestamp)",
-      "interval": "",
-      "legendFormat": "",
-      "range": true,
-      "refId": "A"
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "filterable": true,
+            "inspect": true
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Status"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 100
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Module"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 150
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Duration [ms]"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 100
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Recorded at"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 150
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 1,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "enablePagination": true,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "frameIndex": 1,
+        "showHeader": true,
+        "sortBy": []
+      },
+      "pluginVersion": "12.0.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "941a9c31-eeb6-4585-b1f7-e73a21d28575"
+          },
+          "editorMode": "code",
+          "expr": "topk(1, testr_test_case) by (instance, job, test_case_id, status, duration, timestamp)",
+          "interval": "",
+          "legendFormat": "",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "Latest Test Results",
+      "transformations": [
+        {
+          "id": "labelsToFields",
+          "options": {
+            "mode": "columns"
+          }
+        },
+        {
+          "id": "groupBy",
+          "options": {
+            "fields": {
+              "Time": {
+                "aggregations": [
+                  "lastNotNull"
+                ]
+              },
+              "duration": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "instance": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "module": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "status": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "test_case_id": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "timestamp": {
+                "aggregations": [],
+                "operation": "groupby"
+              }
+            }
+          }
+        },
+        {
+          "id": "merge",
+          "options": {}
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "instance": true
+            },
+            "includeByName": {},
+            "indexByName": {
+              "duration": 4,
+              "instance": 0,
+              "module": 2,
+              "status": 5,
+              "test_case_id": 3,
+              "timestamp": 1
+            },
+            "renameByName": {
+              "duration": "Duration [ms]",
+              "module": "Module",
+              "status": "Status",
+              "test_case_id": "Test Case",
+              "timestamp": "Recorded at"
+            }
+          }
+        }
+      ],
+      "type": "table"
     }
   ],
-  "datasource": {
-    "type": "prometheus",
-    "uid": "941a9c31-eeb6-4585-b1f7-e73a21d28575"
+  "preload": false,
+  "refresh": "",
+  "schemaVersion": 41,
+  "tags": [],
+  "templating": {
+    "list": []
   },
-  "options": {
-    "showHeader": true,
-    "cellHeight": "sm",
-    "footer": {
-      "show": false,
-      "reducer": [
-        "sum"
-      ],
-      "countRows": false,
-      "fields": "",
-      "enablePagination": true
-    },
-    "frameIndex": 1,
-    "sortBy": []
-  }
+  "time": {
+    "from": "now-5m",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "Latest Test Results",
+  "uid": "e40f8713-6740-44b1-bcaa-7ef69e496e90",
+  "version": 2
 }
