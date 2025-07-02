@@ -158,19 +158,12 @@ public class RunCommand : CommandLineApplication
   {
     _stopwatch.Reset();
     var domain = _domain.ParsedValue;
-    var variables = _variables.HasValue()
-      ? _variables.Values
-        .Where(item => item!.Contains('='))
-        .Select(item => item!.Split('=', 2))
-        .Where(parts => parts.Length == 2)
-        .ToDictionary(parts => parts[0], parts => parts[1])
-      : [];
 
     // Read the Test Case definition
     var testCase = await TestCase.FromTestCaseFileAsync(file, cancellationToken);
     testCase
       .WithDomain(domain)
-      .WithVariables(variables);
+      .WithVariables(VariablesHelper.CreateVariables(_variables.Values));
 
     ConsoleHelper.WriteLineYellow($"Running Test Case: {testCase.Id}");
 

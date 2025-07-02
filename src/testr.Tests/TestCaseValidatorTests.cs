@@ -5,7 +5,7 @@ namespace testr.Tests;
 public class TestCaseValidatorTests
 {
   [Fact]
-  public async Task Validate_With4TestSteps_ShouldReturnNoValidationErrors()
+  public async Task Validate_With4TestStepsAndRealVariables_ShouldReturnNoValidationErrors()
   {
     // Arrange
     var file = Path.Combine(Environment.CurrentDirectory, "TestData", "TC-001-Login.md");
@@ -15,6 +15,25 @@ public class TestCaseValidatorTests
     {
       {"Password", "my-super-secret"}
     });
+
+    var validator = new TestCaseValidator(testCase);
+
+    // Act
+    var result = validator.Validate();
+
+    // Assert
+    Assert.NotNull(result);
+    Assert.True(result.IsValid);
+  }
+
+  [Fact]
+  public async Task Validate_With4TestStepsAndDummyVariables_ShouldReturnNoValidationErrors()
+  {
+    // Arrange
+    var file = Path.Combine(Environment.CurrentDirectory, "TestData", "TC-001-Login.md");
+    var testCase = await TestCase
+      .FromTestCaseFileAsync(file, default);
+    testCase.WithVariables(VariablesHelper.CreateDummyVariables(testCase.Steps));
 
     var validator = new TestCaseValidator(testCase);
 

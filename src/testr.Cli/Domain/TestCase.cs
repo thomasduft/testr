@@ -18,6 +18,7 @@ internal class TestCase
   public string Domain => _domain;
   public bool HasDomain => !string.IsNullOrEmpty(_domain);
   public Dictionary<string, string> Variables { get; set; } = [];
+  public bool HasVariables => Variables.Count > 0;
 
   public TestCase WithDomain(string domain)
   {

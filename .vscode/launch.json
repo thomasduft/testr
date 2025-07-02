@@ -120,6 +120,21 @@
       ],
       "cwd": "${workspaceFolder}/src/testr.Cli",
       "stopAtEntry": false
-    }
+    },
+    {
+      "name": "testR:validate-TC-Login-001",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build-testR",
+      "program": "${workspaceFolder}/src/testr.Cli/bin/Debug/net9.0/tomware.TestR.dll",
+      "args": [
+        "validate",
+        "TC-Login-001",
+        "-i",
+        "../../samples/Definitions/localhost"
+      ],
+      "cwd": "${workspaceFolder}/src/testr.Cli",
+      "stopAtEntry": false
+    },
   ]
 }

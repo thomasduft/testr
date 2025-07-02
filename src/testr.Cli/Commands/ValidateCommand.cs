@@ -36,6 +36,9 @@ public class ValidateCommand : CommandLineApplication
 
     // 2. Read the Test Case definition
     var testCase = await TestCase.FromTestCaseFileAsync(file, cancellationToken);
+    testCase.WithVariables(
+      VariablesHelper.CreateDummyVariables(testCase.Steps)
+    );
 
     // 3. Validate the Test Case definition
     var testCaseValidator = new TestCaseValidator(testCase);
