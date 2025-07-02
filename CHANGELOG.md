@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.7.1] - 2025-07-02
+
+### Fixed
+
+- Fixed validation command for test cases that contain variables.
+
 ## [0.7.0] - 2025-06-25
 
 ### Added

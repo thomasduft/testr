@@ -1,9 +1,0 @@
-{
-  "Id": "51458661-5966-40f2-8fd7-c8354380eadc",
-  "IssueId": "",
-  "Prefix": "Fixed",
-  "Tag": "",
-  "Message": "Fixed validation command for test cases that contain variables.",
-  "CreatedAt": "2025-07-02T05:09:47.4358615+00:00",
-  "CreatedBy": "thomasduft"
-}
