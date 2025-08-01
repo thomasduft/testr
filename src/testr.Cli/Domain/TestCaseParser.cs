@@ -41,12 +41,6 @@ internal class TestCaseParser
     };
   }
 
-  private IEnumerable<TestStep> GetTestSteps(string markdownContent)
-  {
-    var parser = new MarkdownTableParser(markdownContent);
-    return parser.ParseTestSteps();
-  }
-
   private (string TestCaseId, string TestCaseTitle) GetTestCaseIdAndTitle(string[] lines)
   {
     // we are just reading the first line
@@ -70,6 +64,12 @@ internal class TestCaseParser
     var splittedItems = line!.Split(':');
 
     return splittedItems[1].Trim();
+  }
+
+  private IEnumerable<TestStep> GetTestSteps(string markdownContent)
+  {
+    var parser = new MarkdownTableParser(markdownContent);
+    return parser.ParseTestSteps();
   }
 
   private string? GetLinkedFile(string file, string? link)

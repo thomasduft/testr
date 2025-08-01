@@ -165,7 +165,7 @@ public class RunCommand : CommandLineApplication
       .WithDomain(domain)
       .WithVariables(VariablesHelper.CreateVariables(_variables.Values));
 
-    ConsoleHelper.WriteLineYellow($"Running Test Case: {testCase.Id}");
+    ConsoleHelper.WriteLineYellow($"Running Test Case Id '{testCase.Id}': {testCase.Title}");
 
     // Validate the Test Case definition
     var testCaseValidator = new TestCaseValidator(testCase);

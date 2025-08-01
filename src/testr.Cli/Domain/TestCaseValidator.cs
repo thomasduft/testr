@@ -23,7 +23,7 @@ internal class TestCaseValidator
     };
     if (!allowedTypes.Contains(_testCase.Type))
     {
-      result.AddError("Type", "Type must be 'Definition' or 'Run'.");
+      result.AddError("Type", $"Type must be '{Constants.TestCaseType.Definition}' or '{Constants.TestCaseType.Run}'.");
     }
 
     // check property Status
@@ -34,7 +34,7 @@ internal class TestCaseValidator
     };
     if (!allowedStatus.Contains(_testCase.Status))
     {
-      result.AddError("Status", "Status must be either 'Passed', 'Failed' or 'Unknown'.");
+      result.AddError("Status", $"Status must be either '{Constants.TestCaseStatus.Passed}', '{Constants.TestCaseStatus.Failed}' or '{Constants.TestCaseStatus.Unknown}'.");
     }
 
     // check property Link if contains link should be a valid markdown link pointing to a file
