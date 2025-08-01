@@ -13,7 +13,7 @@ internal static class VariablesHelper
     }
 
     return variables
-      .Select(v => v.Split('='))
+      .Select(v => v!.Split('='))
       .Where(parts => parts.Length == 2)
       .ToDictionary(parts => parts[0].Trim(), parts => parts[1].Trim());
   }
