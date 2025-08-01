@@ -36,7 +36,6 @@ internal class MarkdownTableParser
 
     // Parse the table rows
     var tableRows = ExtractTableRows(stepsSection);
-
     foreach (var row in tableRows)
     {
       var testStep = ParseTableRow(row);
@@ -173,8 +172,7 @@ internal class MarkdownTableParser
       {
         var actualResult = cells[4].Trim();
         // Check for success/failure indicators
-        testStep.IsSuccess = actualResult.Contains("✅") ||
-                           actualResult.Equals("-", StringComparison.OrdinalIgnoreCase);
+        testStep.IsSuccess = actualResult.Contains("✅");
       }
 
       return testStep;

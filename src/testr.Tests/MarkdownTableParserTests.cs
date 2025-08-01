@@ -85,7 +85,7 @@ public class MarkdownTableParserTests
     Assert.Equal(3, testSteps.Count);
     Assert.True(testSteps[0].IsSuccess);   // ✅ indicates success
     Assert.False(testSteps[1].IsSuccess);  // ❌ indicates failure
-    Assert.True(testSteps[2].IsSuccess);   // - indicates not run yet (considered success)
+    Assert.False(testSteps[2].IsSuccess);  // - indicates not run yet (considered failure)
   }
 
   [Fact]
