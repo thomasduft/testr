@@ -1,9 +1,5 @@
 using System.Text.RegularExpressions;
 
-using HtmlAgilityPack;
-
-using Markdig;
-
 namespace tomware.TestR;
 
 internal class TestCaseParser
@@ -47,59 +43,8 @@ internal class TestCaseParser
 
   private IEnumerable<TestStep> GetTestSteps(string markdownContent)
   {
-    var testSteps = new List<TestStep>();
-
-    var pipeline = new MarkdownPipelineBuilder()
-        .UseAdvancedExtensions()
-        .Build();
-
-    var html = Markdown.ToHtml(markdownContent, pipeline);
-    var hap = new HtmlDocument();
-    hap.LoadHtml(html);
-
-    // Extract the table content
-    var tableNodes = hap.DocumentNode
-      .Descendants("table")
-      .ToList();
-    foreach (var tableNode in tableNodes)
-    {
-      // Extract rows from the table
-      var rowNodes = tableNode.Descendants("tr").ToList();
-
-      foreach (var rowNode in rowNodes.Skip(1))
-      {
-        // Extract cells from the row
-        var testStep = new TestStep();
-        var cellNodes = rowNode.Descendants("td").ToList();
-
-        // List each cell's content
-        for (var i = 0; i < cellNodes.Count; i++)
-        {
-          var cellNode = cellNodes[i];
-          var cellContent = cellNode.InnerText.Trim();
-
-          switch (i)
-          {
-            case 0:
-              testStep.Id = int.Parse(cellContent);
-              break;
-            case 1:
-              testStep.Description = SanitizeWebString(cellContent);
-              break;
-            case 2:
-              testStep.TestData = SanitizeWebString(cellContent);
-              break;
-            case 3:
-              testStep.ExpectedResult = SanitizeWebString(cellContent);
-              break;
-          }
-        }
-
-        testSteps.Add(testStep);
-      }
-    }
-
-    return testSteps.OrderBy(ts => ts.Id);
+    var parser = new MarkdownTableParser(markdownContent);
+    return parser.ParseTestSteps();
   }
 
   private (string TestCaseId, string TestCaseTitle) GetTestCaseIdAndTitle(string[] lines)
@@ -125,12 +70,6 @@ internal class TestCaseParser
     var splittedItems = line!.Split(':');
 
     return splittedItems[1].Trim();
-  }
-
-  private string SanitizeWebString(string input)
-  {
-    return input
-      .Replace("&quot;", "\"");
   }
 
   private string? GetLinkedFile(string file, string? link)
