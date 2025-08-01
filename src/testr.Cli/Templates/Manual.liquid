@@ -1,59 +1,253 @@
 # TESTR-TEST-DATA Manual Page
 
 ## NAME
-testr-test-data - Test Data syntax for Test Cases using Playwright locators
+testr-test-data - Test Data syntax for Test Cases using Playwright .NET locators
 
 ## SYNOPSIS
-Test Data syntax is used to define the actions and expectations for each test step in a Test Case. The syntax follows a key-value pair format.
+Test Data syntax is used to define the actions and expectations for each test step in a Test Case. The syntax follows a key-value pair format where each parameter is specified as `Key=Value` separated by spaces.
 
 ## DESCRIPTION
-The Test Data syntax allows you to specify locators, actions, and other parameters for each test step. The following keys are supported:
+The Test Data syntax allows you to specify locators, actions, and other parameters for each test step using Playwright .NET locators. The following keys are supported:
 
 ### Locator
-Specifies the method to locate an element on the page. Supported values:
-- `BySelector`: Locate by a css-selector.
-- `GetByLabel`: Locate an element by its label.
-- `GetByRole`: Locate an element by its ARIA role.
-- `GetByTestId`: Locate by a data-testId attribute.
-- `GetByText`: Locate an element by its text content.
+Specifies the method to locate an element on the page. **Required for all test steps.**
+Supported values:
+- `BySelector`: Locate by a CSS selector (use `Text` parameter for the selector string).
+- `GetByLabel`: Locate an element by its associated label text.
+- `GetByRole`: Locate an element by its ARIA role (requires `AriaRole` parameter).
+- `GetByTestId`: Locate by a data-testid attribute (use `Text` parameter for the test ID).
+- `GetByText`: Locate an element by its visible text content.
 
 ### AriaRole
-Specifies the ARIA role of the element. This is used in conjunction with `GetByRole` locator. Supported values include:
-- `Button`
-- `Link`
-- `Textbox`
-- `Checkbox`
-- (and other ARIA roles)
+Specifies the ARIA role of the element. **Required when using `GetByRole` locator.**
+Supported values include (case-sensitive):
+- `Button` - Button elements
+- `Link` - Link elements
+- `Textbox` - Input fields and text areas
+- `Checkbox` - Checkbox inputs
+- And other standard ARIA roles supported by Playwright
 
 ### Text
-Specifies the text content to locate the element. This is used in conjunction with `GetByText` and `GetByLabel` locators.
+Specifies the text content to locate the element. **Required for most locator types.**
+- For `GetByLabel`: The label text associated with the input
+- For `GetByText`: The visible text content of the element
+- For `GetByTestId`: The data-testid attribute value
+- For `BySelector`: The CSS selector string
+- For `GetByRole`: The accessible name of the element (optional)
 
 ### Value
-Specifies the value to be used in actions like `Fill`.
+Specifies the value to be used in actions. **Required for `Fill` and `PickFile` actions.**
+- For `Fill`: The text to enter into the input field
+- For `PickFile`: The file path (relative or absolute) to the file to upload
+- Supports variable substitution using `@VariableName` syntax
 
 ### Action
-Specifies the action to be performed on the located element. Supported values:
-- `Click`: Click on the element.
-- `Fill`: Fill the element with the specified value.
-- `PickFile`: Pick the element and choose a file. Use the `Value`-text property to specify the path of the file.
-- `IsVisible`: Check if the element is visible.
+Specifies the action to be performed on the located element. **Required for all test steps.**
+Supported values:
+- `Click`: Click on the element
+- `Fill`: Fill the element with the specified value (requires `Value` parameter)
+- `PickFile`: Upload a file to a file input (requires `Value` parameter with file path)
+- `IsVisible`: Assert that the element is visible (returns boolean)
+
+## WORKFLOW
+To create and run test cases with testr CLI:
+
+1. **Create a new test case:**
+   ```
+   testr test-case TC-001-Login "User Login Test"
+   ```
+
+2. **Edit the generated markdown file** and add your test steps in the table format:
+   ```markdown
+   <!-- STEPS:BEGIN -->
+   | Step ID | Description | Test Data | Expected Result | Actual Result |
+   | ------: | ----------- | --------- | --------------- | ------------- |
+   | 1       | Enter username | Locator=GetByLabel Text=Username Action=Fill Value=admin | Username is filled | - |
+   <!-- STEPS:END -->
+   ```
+
+3. **Validate your test case:**
+   ```
+   testr validate TC-001-Login
+   ```
+
+4. **Run the test case:**
+   ```
+   testr run https://localhost:5001 -tc TC-001-Login
+   ```
+
+## VARIABLES
+Variables allow you to parameterize test data and can be passed via command line:
+
+- **Define variables in test data:** Use `@VariableName` syntax in the `Value` parameter
+- **Pass variables at runtime:** Use `-v Key=Value` when running tests
+- **Example:**
+  - Test Data: `Locator=GetByLabel Text=Password Action=Fill Value=@Password`
+  - Command: `testr run https://localhost:5001 -tc TC-001-Login -v Password=mySecretPassword`
 
 ## EXAMPLES
 
-Example 1: Click a button by its label
-Locator=GetByLabel AriaRole=Button Text=Submit Action=Click
+### Basic Form Interactions
 
-Example 2: Fill a textbox by its label
-Locator=GetByLabel AriaRole=Textbox Text=Username Action=Fill Value=admin
+**Example 1: Fill a username field by label**
+```
+Locator=GetByLabel Text=Username Action=Fill Value=admin
+```
 
-Example 3: Check if a text is visible
-Locator=GetByText Text="Welcome, User!" Action=IsVisible
+**Example 2: Fill a password field with variable**
+```
+Locator=GetByLabel Text=Password Action=Fill Value=@Password
+```
 
-Example 4: Click a button by its ARIA role
+**Example 3: Click a submit button by role**
+```
 Locator=GetByRole AriaRole=Button Text=Login Action=Click
+```
+
+**Example 4: Click a link by role**
+```
+Locator=GetByRole AriaRole=Link Text="Forgot Password?" Action=Click
+```
+
+### Element Verification
+
+**Example 5: Check if welcome message is visible**
+```
+Locator=GetByText Text="Welcome, User!" Action=IsVisible
+```
+
+**Example 6: Verify logout button is visible by role**
+```
+Locator=GetByRole AriaRole=Button Text=Logout Action=IsVisible
+```
+
+### Advanced Locators
+
+**Example 7: Locate by CSS selector**
+```
+Locator=BySelector Text=#login-form .submit-btn Action=Click
+```
+
+**Example 8: Locate by test ID**
+```
+Locator=GetByTestId Text=submit-button Action=Click
+```
+
+**Example 9: File upload using test ID**
+```
+Locator=GetByTestId Text=file-input Action=PickFile Value=../../test-files/document.pdf
+```
+
+### Complex Text with Escaping
+
+**Example 10: Handle text with quotes and special characters**
+```
+Locator=GetByText Text=\"Invalid login attempt for user 'admin'\" Action=IsVisible
+```
+
+**Example 11: Fill field with multi-word text**
+```
+Locator=GetByLabel Text="First Name" Action=Fill Value=John
+```
+
+### Complete Test Step Examples
+
+Here's how these test data entries appear in a complete test case table:
+
+```markdown
+<!-- STEPS:BEGIN -->
+| Step ID | Description            | Test Data                                                      | Expected Result                                                  | Actual Result |
+| -------:| ---------------------- | -------------------------------------------------------------- | ---------------------------------------------------------------- | ------------- |
+| 1       | enter username         | Locator=GetByLabel Text=Username Action=Fill Value=admin       | username is entered                                              | -             |
+| 2       | enter password         | Locator=GetByLabel Text=Password Action=Fill Value=@Password    | password is entered                                              | -             |
+| 3       | click login button     | Locator=GetByRole AriaRole=Button Text=Login Action=Click      | system validates credentials and redirects to dashboard         | -             |
+| 4       | verify dashboard       | Locator=GetByRole AriaRole=Button Text=Logout Action=IsVisible | logout button visible in the main navigation                    | -             |
+| 5       | upload document        | Locator=GetByTestId Text=file-input Action=PickFile Value=./test.pdf | file is successfully uploaded                               | -             |
+<!-- STEPS:END -->
+```
+
+## COMMON PATTERNS
+
+### Form Validation Testing
+```
+Locator=GetByText Text="This field is required" Action=IsVisible
+Locator=GetByText Text="Invalid email format" Action=IsVisible
+```
+
+### Navigation Testing
+```
+Locator=GetByRole AriaRole=Link Text=Dashboard Action=Click
+Locator=GetByRole AriaRole=Link Text="User Profile" Action=Click
+```
+
+### Modal and Dialog Testing
+```
+Locator=GetByRole AriaRole=Button Text="Open Dialog" Action=Click
+Locator=GetByRole AriaRole=Button Text="Confirm" Action=Click
+Locator=GetByRole AriaRole=Button Text="Cancel" Action=Click
+```
+
+## TROUBLESHOOTING
+
+### Common Issues:
+1. **Element not found**: Verify the locator strategy and text match exactly what appears in the DOM
+2. **Action fails**: Ensure the element is interactable (visible, enabled)
+3. **Variable not resolved**: Check that variable is passed with `-v Key=Value` in the run command
+4. **Text escaping**: Use backslash before quotes: `Text=\"quoted text\"`
+
+### Best Practices:
+- Use `GetByRole` with ARIA roles for better accessibility and stability
+- Prefer `GetByLabel` for form inputs over CSS selectors
+- Use `GetByTestId` for elements specifically marked for testing
+- Keep test data parameterized with variables for different environments
+- Use descriptive test step descriptions that match the actual user action
+
+## COMMAND LINE OPTIONS
+
+### Running Tests with Options:
+```bash
+# Run with variables
+testr run https://localhost:5001 -tc TC-001-Login -v Password=secret123 -v Username=testuser
+
+# Run in headed mode (default is headless)
+testr run https://localhost:5001 -tc TC-001-Login --headless=false
+
+# Run with different browser
+testr run https://localhost:5001 -tc TC-001-Login -bt Firefox
+
+# Run with video recording
+testr run https://localhost:5001 -tc TC-001-Login -rvd ./recordings
+
+# Run with custom timeout
+testr run https://localhost:5001 -tc TC-001-Login -t 60000
+```
 
 ## NOTES
-In case of escaping strings, use a backslash \ followed by a double quote " (e.g., Locator=GetByText Text=\"Invalid login attempt for user 'Albert'\" Action=IsVisible).
+- Test Data parameters are case-sensitive
+- Use backslash escaping for quotes in text: `Text=\"escaped quotes\"`
+- Variable names in `@VariableName` format are case-sensitive
+- File paths in `PickFile` action support both relative and absolute paths
+- Empty or missing required parameters will cause test validation to fail
 
 ## SEE ALSO
-Playwright Documentation: https://playwright.dev/docs/locators
+
+### CLI Commands:
+- `testr test-case <id> "<title>"` - Create a new test case definition
+- `testr validate <test-case-id>` - Validate a test case definition
+- `testr run <domain> -tc <test-case-id>` - Execute a test case
+- `testr man` - Display this manual page
+- `testr playwright -c install` - Install Playwright browsers
+
+### Documentation:
+- Playwright .NET Documentation: https://playwright.dev/dotnet/docs/locators
+- ARIA Roles Reference: https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles
+- CSS Selectors Guide: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Selectors
+
+### Test Case Structure:
+Test cases are markdown files with metadata and a steps table. The basic structure includes:
+- Metadata (Date, Module, Type, Status, Route)
+- Description and Preconditions
+- Steps table with test data
+- Postconditions
+
+For complete examples, see the samples directory in the testr repository.
