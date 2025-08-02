@@ -283,4 +283,251 @@ Some content without steps section.
     // Assert
     Assert.Empty(testSteps);
   }
+
+  [Fact]
+  public void UpdateTestStepsWithResults_WithSuccessfulResults_ShouldAddCheckmarks()
+  {
+    // Arrange
+    var markdown = @"
+# Test Case
+
+## Steps
+
+| Step ID | Description | Test Data | Expected Result | Actual Result |
+| -------:| ----------- | --------- | --------------- | ------------- |
+| 1       | enter username | test data | expected | - |
+| 2       | enter password | test data | expected | - |
+";
+
+    var testResults = new List<TestStepResult>
+    {
+      TestStepResult.Success(new TestStep { Id = 1 }),
+      TestStepResult.Success(new TestStep { Id = 2 })
+    };
+
+    var parser = new MarkdownTableParser(markdown);
+
+    // Act
+    var result = parser.UpdateTestStepsWithResults(testResults);
+
+    // Assert
+    Assert.Contains("| 1 | enter username | test data | expected | ✅ |", result);
+    Assert.Contains("| 2 | enter password | test data | expected | ✅ |", result);
+  }
+
+  [Fact]
+  public void UpdateTestStepsWithResults_WithFailedResults_ShouldAddErrorMessages()
+  {
+    // Arrange
+    var markdown = @"
+# Test Case
+
+## Steps
+
+| Step ID | Description | Test Data | Expected Result | Actual Result |
+| -------:| ----------- | --------- | --------------- | ------------- |
+| 1       | enter username | test data | expected | - |
+| 2       | click button | test data | expected | - |
+";
+
+    var testResults = new List<TestStepResult>
+    {
+      TestStepResult.Success(new TestStep { Id = 1 }),
+      TestStepResult.Failed(new TestStep { Id = 2 }, "Button not found")
+    };
+
+    var parser = new MarkdownTableParser(markdown);
+
+    // Act
+    var result = parser.UpdateTestStepsWithResults(testResults);
+
+    // Assert
+    Assert.Contains("| 1 | enter username | test data | expected | ✅ |", result);
+    Assert.Contains("| 2 | click button | test data | expected | ❌ Button not found |", result);
+  }
+
+  [Fact]
+  public void UpdateTestStepsWithResults_WithMixedResults_ShouldUpdateCorrectly()
+  {
+    // Arrange
+    var markdown = @"
+# Test Case
+
+## Steps
+
+| Step ID | Description | Test Data | Expected Result | Actual Result |
+| -------:| ----------- | --------- | --------------- | ------------- |
+| 1       | step one | data1 | result1 | - |
+| 2       | step two | data2 | result2 | - |
+| 3       | step three | data3 | result3 | - |
+";
+
+    var testResults = new List<TestStepResult>
+    {
+      TestStepResult.Success(new TestStep { Id = 1 }),
+      TestStepResult.Failed(new TestStep { Id = 2 }, "Error in step 2"),
+      TestStepResult.Success(new TestStep { Id = 3 })
+    };
+
+    var parser = new MarkdownTableParser(markdown);
+
+    // Act
+    var result = parser.UpdateTestStepsWithResults(testResults);
+
+    // Assert
+    Assert.Contains("| 1 | step one | data1 | result1 | ✅ |", result);
+    Assert.Contains("| 2 | step two | data2 | result2 | ❌ Error in step 2 |", result);
+    Assert.Contains("| 3 | step three | data3 | result3 | ✅ |", result);
+  }
+
+  [Fact]
+  public void UpdateTestStepsWithResults_WithNoActualResultColumn_ShouldAddColumn()
+  {
+    // Arrange
+    var markdown = @"
+# Test Case
+
+## Steps
+
+| Step ID | Description | Test Data | Expected Result |
+| -------:| ----------- | --------- | --------------- |
+| 1       | enter username | test data | expected |
+| 2       | enter password | test data | expected |
+";
+
+    var testResults = new List<TestStepResult>
+    {
+      TestStepResult.Success(new TestStep { Id = 1 }),
+      TestStepResult.Failed(new TestStep { Id = 2 }, "Login failed")
+    };
+
+    var parser = new MarkdownTableParser(markdown);
+
+    // Act
+    var result = parser.UpdateTestStepsWithResults(testResults);
+
+    // Assert
+    Assert.Contains("| 1 | enter username | test data | expected | ✅ |", result);
+    Assert.Contains("| 2 | enter password | test data | expected | ❌ Login failed |", result);
+  }
+
+  [Fact]
+  public void UpdateTestStepsWithResults_WithEmptyResults_ShouldMarkAllAsSuccess()
+  {
+    // Arrange
+    var markdown = @"
+# Test Case
+
+## Steps
+
+| Step ID | Description | Test Data | Expected Result | Actual Result |
+| -------:| ----------- | --------- | --------------- | ------------- |
+| 1       | enter username | test data | expected | - |
+| 2       | enter password | test data | expected | - |
+";
+
+    var testResults = new List<TestStepResult>(); // Empty results
+
+    var parser = new MarkdownTableParser(markdown);
+
+    // Act
+    var result = parser.UpdateTestStepsWithResults(testResults);
+
+    // Assert
+    Assert.Contains("| 1 | enter username | test data | expected | ✅ |", result);
+    Assert.Contains("| 2 | enter password | test data | expected | ✅ |", result);
+  }
+
+  [Fact]
+  public void UpdateTestStepsWithResults_WithNoTable_ShouldReturnOriginalContent()
+  {
+    // Arrange
+    var markdown = @"
+# Test Case
+
+## Description
+This is a test case without a steps table.
+";
+
+    var testResults = new List<TestStepResult>
+    {
+      TestStepResult.Success(new TestStep { Id = 1 })
+    };
+
+    var parser = new MarkdownTableParser(markdown);
+
+    // Act
+    var result = parser.UpdateTestStepsWithResults(testResults);
+
+    // Assert
+    Assert.Equal(markdown, result);
+  }
+
+  [Fact]
+  public void UpdateTestStepsWithResults_WithComplexErrorMessage_ShouldEscapeCorrectly()
+  {
+    // Arrange
+    var markdown = @"
+# Test Case
+
+## Steps
+
+| Step ID | Description | Test Data | Expected Result | Actual Result |
+| -------:| ----------- | --------- | --------------- | ------------- |
+| 1       | complex test | test data | expected | - |
+";
+
+    var testResults = new List<TestStepResult>
+    {
+      TestStepResult.Failed(new TestStep { Id = 1 }, "Error with | pipes and special chars")
+    };
+
+    var parser = new MarkdownTableParser(markdown);
+
+    // Act
+    var result = parser.UpdateTestStepsWithResults(testResults);
+
+    // Assert
+    Assert.Contains("| 1 | complex test | test data | expected | ❌ Error with | pipes and special chars |", result);
+  }
+
+  [Fact]
+  public void UpdateTestStepsWithResults_WithMultipleTables_ShouldUpdateOnlyStepsTable()
+  {
+    // Arrange
+    var markdown = @"
+# Test Case
+
+## Some other table
+| Column A | Column B |
+| -------- | -------- |
+| Data 1   | Data 2   |
+
+## Steps
+
+| Step ID | Description | Test Data | Expected Result | Actual Result |
+| -------:| ----------- | --------- | --------------- | ------------- |
+| 1       | test step | test data | expected | - |
+
+## Another table
+| Different | Table |
+| --------- | ----- |
+| data      | here  |
+";
+
+    var testResults = new List<TestStepResult>
+    {
+      TestStepResult.Failed(new TestStep { Id = 1 }, "Test failed")
+    };
+
+    var parser = new MarkdownTableParser(markdown);
+
+    // Act
+    var result = parser.UpdateTestStepsWithResults(testResults);
+
+    // Assert
+    Assert.Contains("| Data 1   | Data 2   |", result); // Other table unchanged
+    Assert.Contains("| 1 | test step | test data | expected | ❌ Test failed |", result); // Steps table updated
+    Assert.Contains("| data      | here  |", result); // Another table unchanged
+  }
 }

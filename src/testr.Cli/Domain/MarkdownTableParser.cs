@@ -48,6 +48,45 @@ internal class MarkdownTableParser
     return testSteps.OrderBy(ts => ts.Id);
   }
 
+
+  /// <summary>
+  /// Updates the "Actual Result" column in test steps table with test execution results
+  /// </summary>
+  /// <param name="testResults">Collection of test step results to apply</param>
+  /// <returns>Updated markdown content with results applied to the table</returns>
+  public string UpdateTestStepsWithResults(IEnumerable<TestStepResult> testResults)
+  {
+    var lines = _content.Split('\n');
+    var inTable = false;
+
+    // First pass: find the test steps table
+    for (int i = 0; i < lines.Length; i++)
+    {
+      var line = lines[i].Trim();
+
+      if (line.StartsWith("|") && line.EndsWith("|"))
+      {
+        if (!inTable && IsValidStepsTableHeader(line))
+        {
+          inTable = true;
+        }
+        else if (inTable && !IsSeparatorRow(line))
+        {
+          // This is a data row in our table
+          var updatedRow = UpdateTableRowWithResults(line, testResults);
+          lines[i] = updatedRow;
+        }
+      }
+      else if (inTable)
+      {
+        // End of table
+        break;
+      }
+    }
+
+    return string.Join('\n', lines);
+  }
+
   /// <summary>
   /// Extracts test steps by finding markdown tables with the expected column structure
   /// </summary>
@@ -266,6 +305,44 @@ internal class MarkdownTableParser
     cells.Add(currentCell);
 
     return cells;
+  }
+
+  /// <summary>
+  /// Updates a single table row with test execution results
+  /// </summary>
+  private string UpdateTableRowWithResults(string row, IEnumerable<TestStepResult> testResults)
+  {
+    try
+    {
+      var cells = ParseTableCells(row);
+
+      // Ensure we have at least 5 cells (including Actual Result column)
+      while (cells.Count < 5)
+      {
+        cells.Add(" - ");
+      }
+
+      // Parse Step ID (first cell)
+      if (int.TryParse(cells[0].Trim(), out var stepId))
+      {
+        // Find matching test result
+        var testResult = testResults
+          .FirstOrDefault(r => r.Step.Id == stepId && !r.IsSuccess);
+
+        // Update the Actual Result column (5th cell, index 4)
+        cells[4] = testResult != null
+          ? $" ❌ {testResult.Error} "
+          : " ✅ ";
+      }
+
+      // Reconstruct the row
+      return $"| {string.Join(" | ", cells.Select(c => c.Trim()))} |";
+    }
+    catch
+    {
+      // If parsing fails, return original row
+      return row;
+    }
   }
 
   /// <summary>
