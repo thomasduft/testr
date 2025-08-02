@@ -1,0 +1,9 @@
+{
+  "Id": "b160f305-54d1-4c3b-bff9-c5d9724ca3d2",
+  "IssueId": "",
+  "Prefix": "Fixed",
+  "Tag": "",
+  "Message": "Fixed proper handling of executing Playwright actions in \u0060TestCaseExecutor\u0060.",
+  "CreatedAt": "2025-08-02T19:00:11.3807084+02:00",
+  "CreatedBy": "thomasduft"
+}
