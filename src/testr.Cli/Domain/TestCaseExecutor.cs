@@ -117,7 +117,7 @@ internal class TestCaseExecutor
     }
   }
 
-  private static async Task<TestStepResult> TestAsync(
+  private async Task<TestStepResult> TestAsync(
     IPage page,
     TestStepInstruction instruction,
     Action<TestStepInstruction> consoleAction
@@ -125,7 +125,11 @@ internal class TestCaseExecutor
   {
     try
     {
-      await ProcessStepAsync(page, instruction, consoleAction);
+      var (result, errorMessage) = await ProcessStepAsync(page, instruction, consoleAction);
+      if (!result)
+      {
+        return TestStepResult.Failed(instruction.TestStep, errorMessage);
+      }
     }
     catch (Exception ex)
     {
@@ -135,7 +139,7 @@ internal class TestCaseExecutor
     return TestStepResult.Success(instruction.TestStep);
   }
 
-  private static Task<bool> ProcessStepAsync(
+  private Task<(bool result, string errorMessage)> ProcessStepAsync(
     IPage page,
     TestStepInstruction instruction,
     Action<TestStepInstruction> consoleAction
@@ -148,7 +152,7 @@ internal class TestCaseExecutor
     return ExecuteAction(instruction, locator);
   }
 
-  private static ILocator EvaluateLocator(
+  private ILocator EvaluateLocator(
     IPage page,
     TestStepInstruction instruction
   )
@@ -165,28 +169,32 @@ internal class TestCaseExecutor
     return locator;
   }
 
-  private static Task<bool> ExecuteAction(
+  private async Task<(bool result, string errorMessage)> ExecuteAction(
     TestStepInstruction instruction,
     ILocator locator
   )
   {
     if (instruction.Action == ActionType.Click)
     {
-      locator.ClickAsync();
+      await locator.ClickAsync();
     }
     else if (instruction.Action == ActionType.Fill)
     {
-      locator.FillAsync(instruction.Value);
+      await locator.FillAsync(instruction.Value);
     }
     else if (instruction.Action == ActionType.PickFile)
     {
-      locator.SetInputFilesAsync(instruction.Value);
+      await locator.SetInputFilesAsync(instruction.Value);
     }
     else if (instruction.Action == ActionType.IsVisible)
     {
-      return locator.IsVisibleAsync();
+      var isVisible = await locator.IsVisibleAsync();
+      if (!isVisible)
+      {
+        return (false, $"Element was not visible.");
+      }
     }
 
-    return Task.FromResult(true);
+    return (true, string.Empty);
   }
 }

@@ -2,17 +2,13 @@ using tomware.TestR;
 
 internal record TestStepResult
 {
-  private readonly TestStep _step;
-
-  public string TestStep { get; set; } = string.Empty;
-  public bool IsSuccess { get; set; } = false;
-  public string Error { get; set; } = string.Empty;
-
-  public TestStep Step => _step;
+  public int TestStepId { get; private set; }
+  public bool IsSuccess { get; private set; } = false;
+  public string Error { get; private set; } = string.Empty;
 
   public TestStepResult(TestStep step)
   {
-    _step = step;
+    TestStepId = step.Id;
   }
 
   public static TestStepResult Success(TestStep step)

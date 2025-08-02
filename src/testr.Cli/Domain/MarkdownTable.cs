@@ -327,7 +327,7 @@ internal class MarkdownTable
       {
         // Find matching test result
         var testResult = testResults
-          .FirstOrDefault(r => r.Step.Id == stepId && !r.IsSuccess);
+          .FirstOrDefault(r => r.TestStepId == stepId && !r.IsSuccess);
 
         // Update the Actual Result column (5th cell, index 4)
         cells[4] = testResult != null

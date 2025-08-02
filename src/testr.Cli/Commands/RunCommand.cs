@@ -222,7 +222,7 @@ public class RunCommand : CommandLineApplication
     {
       foreach (var result in testStepResults.Where(r => !r.IsSuccess))
       {
-        ConsoleHelper.WriteLineError($"Test Case Step failed: {result.Error}");
+        ConsoleHelper.WriteLineError($"Test case step '{result.TestStepId}' failed with error: {result.Error}");
       }
 
       if (!_continueOnFailure.ParsedValue)
@@ -242,7 +242,10 @@ public class RunCommand : CommandLineApplication
       );
     }
 
-    ConsoleHelper.WriteLineSuccess($"Test case '{testCase.Title}' ({testCase.Id}) executed successfully.");
+    if (success)
+    {
+      ConsoleHelper.WriteLineSuccess($"Test case '{testCase.Title}' ({testCase.Id}) executed successfully.");
+    }
 
     return await Task.FromResult(0);
   }

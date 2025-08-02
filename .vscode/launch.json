@@ -56,7 +56,8 @@
         "-o",
         "../../samples/Runs/localhost",
         "-v",
-        "Password=password"
+        "Password=password",
+        "--continue-on-failure"
       ],
       "cwd": "${workspaceFolder}/src/testr.Cli",
       "stopAtEntry": false
