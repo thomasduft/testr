@@ -165,7 +165,7 @@ public class RunCommand : CommandLineApplication
       .WithDomain(domain)
       .WithVariables(VariablesHelper.CreateVariables(_variables.Values));
 
-    ConsoleHelper.WriteLineYellow($"Running Test Case Id '{testCase.Id}': {testCase.Title}");
+    ConsoleHelper.WriteLineYellow($"Running test case '{testCase.Title}' ({testCase.Id})");
 
     // Validate the Test Case definition
     var testCaseValidator = new TestCaseValidator(testCase);
@@ -191,7 +191,7 @@ public class RunCommand : CommandLineApplication
       cancellationToken
     );
 
-    ExecutorConfig executorConfig = GetExecutorConfiguration();
+    var executorConfig = GetExecutorConfiguration();
     var executor = new TestCaseExecutor(executorConfig);
     _stopwatch.Start();
     var testStepResults = await executor.ExecuteAsync(
@@ -242,7 +242,7 @@ public class RunCommand : CommandLineApplication
       );
     }
 
-    ConsoleHelper.WriteLineSuccess($"Test Case {testCase.Id} executed successfully.");
+    ConsoleHelper.WriteLineSuccess($"Test case '{testCase.Title}' ({testCase.Id}) executed successfully.");
 
     return await Task.FromResult(0);
   }
