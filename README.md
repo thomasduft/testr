@@ -1,141 +1,203 @@
-[![build](https://github.com/thomasduft/testr/actions/workflows/build.yml/badge.svg)](https://github.com/thomasduft/testr/actions/workflows/build.yml) [![NuGet](https://img.shields.io/nuget/vpre/tomware.TestR.svg)](https://www.nuget.org/packages/tomware.TestR)
+[![build](https://github.com/thomasduft/testr/actions/workflows/build.yml/badge.svg)](https://github.com/thomasduft/testr/actions/workflows/build.yml) [![NuGet](https://img.shields.io/nuget/vpre/tomware.testr.svg)](https://www.nuget.org/packages/tomware.testr)
 
+# testr
 
-# testR
-
-A cli tool to manage executable test cases.
+A command-line tool for managing and executing automated test cases with browser support.
 
 ## Introduction
 
-`testR` is a command-line tool designed to manage and execute test cases. It supports running test cases against different browsers, validating test case definitions, and creating new test case definitions.
+`testr` is a powerful CLI tool designed to streamline test case management and execution. It provides comprehensive support for running automated end-to-end tests across multiple browsers, validating test case definitions, and creating new test cases with a file-based approach.
 
-### Vision
+### Key Features
 
-The vision of this tool is to have a tool agnostic file based approach to maintain test cases. A common workflow looks like the following:
+- 🌐 **Multi-browser support** - Run tests on Chrome, Firefox, and WebKit
+- 📝 **File-based test definitions** - Maintain test cases as markdown files
+- 🔄 **Test execution history** - Track and store test run results
+- 🧪 **Dynamic variables** - Support for parameterized test data
+- 📊 **OpenTelemetry integration** - Built-in observability and monitoring
+- ✅ **Test validation** - Validate test case definitions before execution
 
-1. Team creates Use-Cases
-2. out of the Use-Cases, Test-Cases will be defined (Test-Case type: Definition) - see [TC-Login-001 Definition sample](samples/Definitions/localhost/TC-Login-001.md)
-3. once a feature has been implemented the appropriate Test-Cases can be executed against an environment in an E2E automated manner
-  ![Sample Run](TC-001-Login-Run.gif)
-4. each run will be historied with Test-Cases known as Runs (Test-Case type: Run) - see [TC-Login-001 Run sample](samples/Runs/localhost/TC-Login-001.md)
+## Vision & Workflow
 
-> Note: In case of escaping strings please use a backslash `\` followed by a double quote `"` (e.g. Locator=GetByText Text=\\"Invalid login attempt for user 'Albert'\\" Action=IsVisible)
+The vision of `testr` is to provide a tool-agnostic, file-based approach to test case management. The typical workflow follows these steps:
+
+1. **Define Use Cases** - Teams create high-level use case documentation
+2. **Create Test Case Definitions** - Convert use cases into executable test case definitions
+   📄 [Example: TC-Login-001 Definition](samples/Definitions/localhost/TC-Login-001.md)
+3. **Execute Tests** - Run automated end-to-end tests against target environments
+   ![Sample Test Run](TC-001-Login-Run.gif)
+4. **Store Results** - Each execution creates a historical test run record
+   📄 [Example: TC-Login-001 Run](samples/Runs/localhost/TC-Login-001.md)
+
+> **Note:** When escaping strings in test data, use a backslash `\` followed by a double quote `"`. For example:
+> `Locator=GetByText Text=\\"Invalid login attempt for user 'Albert'\\" Action=IsVisible`
 
 ## Installation
 
-To install `testR`, clone the repository and build the project using the .NET CLI:
+### Prerequisites
 
-```sh
+- [.NET 9.0 SDK](https://dotnet.microsoft.com/download/dotnet/9.0) or later
+
+### Option 1: Install from NuGet (Recommended)
+
+Install `testr` globally using the .NET tool command:
+
+```bash
+dotnet tool install -g tomware.testr
+```
+
+### Option 2: Build from Source
+
+Clone the repository and build the project:
+
+```bash
 git clone https://github.com/thomasduft/testr.git
 cd testr
 dotnet build
 ```
 
-For local testing purpose run the `install.sh` script.
+For local development and testing, run the installation script:
 
-In case of installing the tool in an official way use the following command:
-
-> `dotnet tool install -g tomware.TestR`
+```bash
+./install.sh
+```
 
 ## Usage
+
+### Quick Start
+
+```bash
+# Create a new test case
+testr test-case TC-Login-001 "User Login Test"
+
+# Validate a test case definition
+testr validate TC-Login-001
+
+# Run a test case
+testr run https://localhost:5001 --test-case-id TC-Login-001
+```
+
+### Command Overview
 
 ```bash
 A cli tool to manage and run executable test cases.
 
-Usage: testR [command] [options]
+Usage: testr [command] [options]
 
 Options:
   -?|-h|--help  Show help information.
 
 Commands:
-  man           Displays a man page for helping with writing the Test-Data syntax within a Test Case.
-  playwright    Offers Playwright specific commands.
-  run           Runs Test Case definitions (i.e. "https://localhost:5001" -tc TC-Audit-001).
-  test-case     Creates a new Test Case definition (i.e. test-case TC-Audit-001 "My TestCase Title").
-  validate      Validates a Test Case definition (i.e. TC-Audit-001).
+  man           Display syntax help for writing test data within test cases
+  playwright    Playwright-specific commands and utilities
+  run           Execute test case definitions
+  test-case     Create new test case definitions
+  validate      Validate existing test case definitions
 
-Run 'testR [command] -?|-h|--help' for more information about a command.
+Run 'testr [command] -?|-h|--help' for more information about a command.
 ```
 
-### Commands
+## Detailed Command Reference
 
-#### run
+### `run` - Execute Test Cases
 
-Runs Test Case definitions.
+Execute test case definitions against target environments.
 
-```sh
-testR run [domain] [options]
-
-Options:
-  -tc|--test-case-id       The Test Case ID (e.g. TC-Audit-001).
-  -i|--input-directory     The input directory where the Test Case definition is located.
-                           Default value is: ..
-  -o|--output-directory    The output directory where the Test Case result will be stored.
-  --headless               Runs the browser in headless mode.
-                           Default value is: False.
-  --continue-on-failure    Continues the Test Case execution even if the Test Case fails.
-                           Default value is: False.
-  -s|--slow                Slows down the execution by the specified amount of milliseconds.
-                           Default value is: 500.
-  -t|--timeout             Sets the timeout for awaiting the Playwright Locator in milliseconds.
-                           Default value is: 10000.
-  -bt|--browser-type       Sets the browser type to run the Test Case against (currently supported Browsers: Chrome, Firefox, Webkit).
-                           Allowed values are: Chrome, Firefox, Webkit.
-                           Default value is: Chrome.
-  -rvd|--record-video-dir  Records a video of the Test Case execution to the specified directory.
-  -v|--variable            Key-Value based variable used for replacing property values in a Test Step data configuration.
-  -?|-h|--help             Show help information.
+```bash
+testr run [domain] [options]
 ```
 
-#### test-case
+**Options:**
+- `-tc|--test-case-id` - Test Case ID to execute (e.g., `TC-Audit-001`)
+- `-i|--input-directory` - Directory containing test case definitions (default: `.`)
+- `-o|--output-directory` - Directory for storing test results
+- `--headless` - Run browser in headless mode (default: `false`)
+- `--continue-on-failure` - Continue execution on test failures (default: `false`)
+- `-s|--slow` - Slow down execution by specified milliseconds (default: `500`)
+- `-t|--timeout` - Playwright locator timeout in milliseconds (default: `10000`)
+- `-bt|--browser-type` - Browser to use: `Chrome`, `Firefox`, `Webkit` (default: `Chrome`)
+- `-rvd|--record-video-dir` - Directory for recording test execution videos
+- `-v|--variable` - Define variables for test data replacement
+- `--otlp` - OpenTelemetry endpoint for metrics collection
 
-Creates a new Test Case definition.
-
-```sh
-testR test-case [test-case-id] [title]
+**Example:**
+```bash
+testr run https://localhost:5001 \
+  --test-case-id TC-Login-001 \
+  --browser-type Chrome \
+  --record-video-dir ./videos \
+  --variable Username=testuser --variable Password=secret123
 ```
 
-#### validate
+### `test-case` - Create Test Cases
 
-Validates a Test Case definition.
+Create new test case definition files.
 
-```sh
-testR validate [test-case-id] [options]
-
-Options:
-  -i|--input-directory    The input directory where the Test Case definition is located. (default: .)
+```bash
+testr test-case [test-case-id] [title]
 ```
 
-#### Variables Support for Test Data
+**Example:**
+```bash
+testr test-case TC-Registration-001 "User Registration Flow"
+```
 
-In order to pass in dynamic or confidential data `testR` supports so called `Variables` in a Test Case Step definition.
+### `validate` - Validate Test Cases
 
-A variable is a `Value`-property value starting with a `@`-sign (see below the `@Password`-variable).
+Validate the syntax and structure of test case definitions.
+
+```bash
+testr validate [test-case-id] [options]
+```
+
+**Options:**
+- `-i|--input-directory` - Directory containing test case definitions (default: `.`)
+
+**Example:**
+```bash
+testr validate TC-Login-001 --input-directory ./test-definitions
+```
+
+## Advanced Features
+
+### Variable Support
+
+Use variables to inject dynamic or sensitive data into test cases. Variables are defined in test steps using the `@` prefix:
 
 ```markdown
 | 1 | enter password | Locator=GetByLabel Text=Password Action=Fill Value=@Password | password is entered | - |
 ```
 
-In order to look it up and replace it during execution of the Test Case you need to pass in the appropriate value via the `-v|--variable`-command line argument option.
-
-For the above sample the command line argument option looks like the following:
+Pass variable values at runtime:
 
 ```bash
-  .... -v Password=password ...
+testr run https://localhost:5001 \
+  --test-case-id TC-Login-001 \
+  --variable Password=mysecretpassword \
+  --variable Username=testuser
 ```
 
-> Caution: The `Key`-value is case sensitive!
+> ⚠️ **Important:** Variable keys are case-sensitive!
 
-#### OpenTelemetry Support
+### OpenTelemetry Integration
 
-`testR` includes built-in support for OpenTelemetry (OTLP) to enable observability and monitoring of test case executions. This feature allows you to collect metrics from your test runs and send them to compatible observability platforms.
-
-To enable OpenTelemetry support, use the `--otlp` option when running test cases:
+Enable comprehensive observability and monitoring for your test executions:
 
 ```bash
-testR run https://localhost:5001 --test-case-id TC-Login-001 --otlp "http://localhost:9090/api/v1/otlp/v1/metrics"
+testr run https://localhost:5001 \
+  --test-case-id TC-Login-001 \
+  --otlp "http://localhost:9090/api/v1/otlp/v1/metrics"
 ```
+
+This allows you to:
+- Track test execution metrics
+- Monitor performance trends
+- Integrate with observability platforms like Prometheus and Grafana
 
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+---
+
+**Happy Testing!** 🚀
