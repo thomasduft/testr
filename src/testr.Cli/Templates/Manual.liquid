@@ -155,15 +155,13 @@ Locator=GetByLabel Text="First Name" Action=Fill Value=John
 Here's how these test data entries appear in a complete test case table:
 
 ```markdown
-<!-- STEPS:BEGIN -->
 | Step ID | Description            | Test Data                                                      | Expected Result                                                  | Actual Result |
 | -------:| ---------------------- | -------------------------------------------------------------- | ---------------------------------------------------------------- | ------------- |
 | 1       | enter username         | Locator=GetByLabel Text=Username Action=Fill Value=admin       | username is entered                                              | -             |
-| 2       | enter password         | Locator=GetByLabel Text=Password Action=Fill Value=@Password    | password is entered                                              | -             |
-| 3       | click login button     | Locator=GetByRole AriaRole=Button Text=Login Action=Click      | system validates credentials and redirects to dashboard         | -             |
-| 4       | verify dashboard       | Locator=GetByRole AriaRole=Button Text=Logout Action=IsVisible | logout button visible in the main navigation                    | -             |
-| 5       | upload document        | Locator=GetByTestId Text=file-input Action=PickFile Value=./test.pdf | file is successfully uploaded                               | -             |
-<!-- STEPS:END -->
+| 2       | enter password         | Locator=GetByLabel Text=Password Action=Fill Value=@Password    | password is entered                                             | -             |
+| 3       | click login button     | Locator=GetByRole AriaRole=Button Text=Login Action=Click      | system validates credentials and redirects to dashboard          | -             |
+| 4       | verify dashboard       | Locator=GetByRole AriaRole=Button Text=Logout Action=IsVisible | logout button visible in the main navigation                     | -             |
+| 5       | upload document        | Locator=GetByTestId Text=file-input Action=PickFile Value=./test.pdf | file is successfully uploaded                              | -             |
 ```
 
 ## COMMON PATTERNS

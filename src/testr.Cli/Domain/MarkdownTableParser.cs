@@ -28,7 +28,7 @@ internal class MarkdownTableParser
     var testSteps = new List<TestStep>();
 
     // Find the test steps section between comments
-    var stepsSection = ExtractStepsSection();
+    var stepsSection = ExtractStepsSectionFromTables();
     if (string.IsNullOrEmpty(stepsSection))
     {
       return testSteps;
@@ -49,29 +49,60 @@ internal class MarkdownTableParser
   }
 
   /// <summary>
-  /// Extracts the content between <!-- STEPS:BEGIN --> and <!-- STEPS:END --> comments
+  /// Extracts test steps by finding markdown tables with the expected column structure
   /// </summary>
-  private string ExtractStepsSection()
+  private string ExtractStepsSectionFromTables()
   {
-    var beginPattern = @"<!--\s*STEPS:BEGIN\s*-->";
-    var endPattern = @"<!--\s*STEPS:END\s*-->";
+    var lines = _content.Split('\n');
+    var result = new List<string>();
+    var inTable = false;
+    var foundValidHeader = false;
 
-    var beginMatch = Regex.Match(_content, beginPattern, RegexOptions.IgnoreCase);
-    if (!beginMatch.Success)
+    for (int i = 0; i < lines.Length; i++)
     {
-      return string.Empty;
+      var line = lines[i].Trim();
+
+      // Check if this line looks like a table row
+      if (line.StartsWith("|") && line.EndsWith("|"))
+      {
+        if (!inTable)
+        {
+          // Check if this looks like our expected header
+          if (IsValidStepsTableHeader(line))
+          {
+            foundValidHeader = true;
+            inTable = true;
+            result.Add(line);
+          }
+        }
+        else
+        {
+          // We're already in a table, add this row
+          result.Add(line);
+        }
+      }
+      else if (inTable)
+      {
+        // We were in a table but this line doesn't look like a table row
+        // End the table extraction
+        break;
+      }
     }
 
-    var endMatch = Regex.Match(_content, endPattern, RegexOptions.IgnoreCase);
-    if (!endMatch.Success || endMatch.Index <= beginMatch.Index)
-    {
-      return string.Empty;
-    }
+    return foundValidHeader ? string.Join("\n", result) : string.Empty;
+  }
 
-    var startIndex = beginMatch.Index + beginMatch.Length;
-    var length = endMatch.Index - startIndex;
-
-    return _content.Substring(startIndex, length);
+  /// <summary>
+  /// Checks if a table header row matches the expected structure for test steps
+  /// </summary>
+  private static bool IsValidStepsTableHeader(string headerLine)
+  {
+    // Expected header should contain these key columns
+    var normalizedHeader = headerLine.ToLowerInvariant();
+    return normalizedHeader.Contains("step") &&
+           normalizedHeader.Contains("description") &&
+           normalizedHeader.Contains("expected") &&
+           (normalizedHeader.Contains("test data") || normalizedHeader.Contains("testdata"));
   }
 
   /// <summary>

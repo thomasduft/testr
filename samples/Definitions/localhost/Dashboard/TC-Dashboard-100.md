@@ -18,12 +18,10 @@ When authenticated as administrator I see the dashboard with two available workf
 
 ## Steps
 
-<!-- STEPS:BEGIN -->
 | Step ID | Description            | Test Data                                                      | Expected Result              | Actual Result |
 | -------:| ---------------------- | -------------------------------------------------------------- | -----------------------------| ------------- |
 | 1       | nav Holiday            | Locator=GetByRole AriaRole=Link Text=HOLIDAY Action=IsVisible  | Holiday nav item is visible  | -             |
 | 2       | nav Issue              | Locator=GetByRole AriaRole=Link Text=ISSUE Action=IsVisible    | Issue nav item is visible    | -             |
-<!-- STEPS:END -->
 
 ## Postcondition
 

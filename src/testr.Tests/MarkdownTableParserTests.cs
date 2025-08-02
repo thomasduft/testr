@@ -13,14 +13,12 @@ public class MarkdownTableParserTests
 
 ## Steps
 
-<!-- STEPS:BEGIN -->
 | Step ID | Description            | Test Data                                                      | Expected Result                                                  | Actual Result |
 | -------:| ---------------------- | -------------------------------------------------------------- | ---------------------------------------------------------------- | ------------- |
 | 1       | enter username         | Locator=GetByLabel Text=Username Action=Fill Value=admin       | username is entered                                              | -             |
 | 2       | enter password         | Locator=GetByLabel Text=Password Action=Fill Value=@Password   | password is entered                                              | -             |
 | 3       | click login button     | Locator=GetByRole AriaRole=Button Text=Login Action=Click      | system validates the user credentials and redirects to dashboard | -             |
 | 4       | displays the dashboard | Locator=GetByRole AriaRole=Button Text=Logout Action=IsVisible | Logout button visible in the main navigation                     | -             |
-<!-- STEPS:END -->
 
 ## Postcondition
 ";
@@ -45,11 +43,9 @@ public class MarkdownTableParserTests
   {
     // Arrange
     var markdown = @"
-<!-- STEPS:BEGIN -->
 | Step ID | Description | Test Data | Expected Result | Actual Result |
 | -------:| ----------- | --------- | --------------- | ------------- |
 | 1       | test escaped | Locator=GetByText Text=""Invalid login attempt for user 'Albert'"" Action=IsVisible | shows error message | - |
-<!-- STEPS:END -->
 ";
 
     var parser = new MarkdownTableParser(markdown);
@@ -67,13 +63,11 @@ public class MarkdownTableParserTests
   {
     // Arrange
     var markdown = @"
-<!-- STEPS:BEGIN -->
 | Step ID | Description | Test Data | Expected Result | Actual Result |
 | -------:| ----------- | --------- | --------------- | ------------- |
 | 1       | success step | test data | expected | ✅ |
 | 2       | failed step  | test data | expected | ❌ error message |
 | 3       | pending step | test data | expected | - |
-<!-- STEPS:END -->
 ";
 
     var parser = new MarkdownTableParser(markdown);
@@ -113,13 +107,11 @@ Some content without steps section.
   {
     // Arrange
     var markdown = @"
-<!-- STEPS:BEGIN -->
 | Step ID | Description   | Test Data | Expected Result | Actual Result |
 | -------:| ------------- | --------- | --------------- | ------------- |
 | 1       | valid step    | test data | expected        | -             |
 | invalid | invalid id    | test data | expected        | -             |
 | 2       | another valid | test data | expected        | -             |
-<!-- STEPS:END -->
 ";
 
     var parser = new MarkdownTableParser(markdown);
@@ -138,13 +130,11 @@ Some content without steps section.
   {
     // Arrange
     var markdown = @"
-<!-- STEPS:BEGIN -->
 | Step ID | Description      | Test Data | Expected Result | Actual Result |
 | -------:| ---------------- | --------- | --------------- | ------------- |
 | 1       | complete step    | test data | expected        | -             |
 | 2       | incomplete       |           |                 |
 | 3       | another complete | test data | expected        | -             |
-<!-- STEPS:END -->
 ";
 
     var parser = new MarkdownTableParser(markdown);
@@ -164,11 +154,9 @@ Some content without steps section.
   {
     // Arrange
     var markdown = @"
-<!--STEPS:BEGIN-->
 | Step ID | Description | Test Data | Expected Result | Actual Result |
 | -------:| ----------- | --------- | --------------- | ------------- |
 | 1       | test step   | test data | expected        | -             |
-<!--   STEPS:END   -->
 ";
 
     var parser = new MarkdownTableParser(markdown);
@@ -182,17 +170,21 @@ Some content without steps section.
   }
 
   [Fact]
-  public void ParseTestSteps_WithNewlineBeforeTable_ShouldWork()
+  public void ParseTestSteps_WithoutHtmlComments_ShouldParseTableDirectly()
   {
     // Arrange
     var markdown = @"
-<!-- STEPS:BEGIN -->
+# Test Case
 
-| Step ID | Description | Test Data | Expected Result | Actual Result |
-| -------:| ----------- | --------- | --------------- | ------------- |
-| 1       | test step 1 | test data 1 | expected 1    | -             |
-| 2       | test step 2 | test data 2 | expected 2    | -             |
-<!-- STEPS:END -->
+## Steps
+
+| Step ID | Description            | Test Data                                                      | Expected Result                                                  | Actual Result |
+| -------:| ---------------------- | -------------------------------------------------------------- | ---------------------------------------------------------------- | ------------- |
+| 1       | enter username         | Locator=GetByLabel Text=Username Action=Fill Value=admin       | username is entered                                              | -             |
+| 2       | enter password         | Locator=GetByLabel Text=Password Action=Fill Value=@Password   | password is entered                                              | -             |
+| 3       | click login button     | Locator=GetByRole AriaRole=Button Text=Login Action=Click      | system validates the user credentials and redirects to dashboard | -             |
+
+## Postcondition
 ";
 
     var parser = new MarkdownTableParser(markdown);
@@ -201,25 +193,38 @@ Some content without steps section.
     var testSteps = parser.ParseTestSteps().ToList();
 
     // Assert
-    Assert.Equal(2, testSteps.Count);
-    Assert.Equal(1, testSteps[0].Id);
-    Assert.Equal("test step 1", testSteps[0].Description);
-    Assert.Equal(2, testSteps[1].Id);
-    Assert.Equal("test step 2", testSteps[1].Description);
+    Assert.Equal(3, testSteps.Count);
+
+    var firstStep = testSteps[0];
+    Assert.Equal(1, firstStep.Id);
+    Assert.Equal("enter username", firstStep.Description);
+    Assert.Equal("Locator=GetByLabel Text=Username Action=Fill Value=admin", firstStep.TestData);
+    Assert.Equal("username is entered", firstStep.ExpectedResult);
   }
 
   [Fact]
-  public void ParseTestSteps_WithNewlineAfterTable_ShouldWork()
+  public void ParseTestSteps_WithMultipleTables_ShouldParseFirstValidTable()
   {
     // Arrange
     var markdown = @"
-<!-- STEPS:BEGIN -->
-| Step ID | Description | Test Data | Expected Result | Actual Result |
-| -------:| ----------- | --------- | --------------- | ------------- |
-| 1       | test step 1 | test data 1 | expected 1    | -             |
-| 2       | test step 2 | test data 2 | expected 2    | -             |
+# Test Case
 
-<!-- STEPS:END -->
+## Some other table
+| Column A | Column B |
+| -------- | -------- |
+| Data 1   | Data 2   |
+
+## Steps
+
+| Step ID | Description     | Test Data | Expected Result | Actual Result |
+| -------:| --------------- | --------- | --------------- | ------------- |
+| 1       | first step      | test data | expected        | -             |
+| 2       | second step     | test data | expected        | -             |
+
+## Another table
+| Different | Table |
+| --------- | ----- |
+| data      | here  |
 ";
 
     var parser = new MarkdownTableParser(markdown);
@@ -230,8 +235,52 @@ Some content without steps section.
     // Assert
     Assert.Equal(2, testSteps.Count);
     Assert.Equal(1, testSteps[0].Id);
-    Assert.Equal("test step 1", testSteps[0].Description);
+    Assert.Equal("first step", testSteps[0].Description);
     Assert.Equal(2, testSteps[1].Id);
-    Assert.Equal("test step 2", testSteps[1].Description);
+    Assert.Equal("second step", testSteps[1].Description);
+  }
+
+  [Fact]
+  public void ParseTestSteps_WithDifferentColumnOrder_ShouldStillWork()
+  {
+    // Arrange
+    var markdown = @"
+| Step ID | Description     | Expected Result | Test Data | Actual Result |
+| -------:| --------------- | --------------- | --------- | ------------- |
+| 1       | first step      | expected        | test data | -             |
+";
+
+    var parser = new MarkdownTableParser(markdown);
+
+    // Act
+    var testSteps = parser.ParseTestSteps().ToList();
+
+    // Assert
+    Assert.Single(testSteps);
+    Assert.Equal(1, testSteps[0].Id);
+    Assert.Equal("first step", testSteps[0].Description);
+    // Note: The current implementation assumes a specific column order,
+    // so this test demonstrates current behavior limitations
+  }
+
+  [Fact]
+  public void ParseTestSteps_WithInvalidTableHeader_ShouldReturnEmpty()
+  {
+    // Arrange
+    var markdown = @"
+# Test Case
+
+| Column A | Column B | Column C |
+| -------- | -------- | -------- |
+| Data 1   | Data 2   | Data 3   |
+";
+
+    var parser = new MarkdownTableParser(markdown);
+
+    // Act
+    var testSteps = parser.ParseTestSteps().ToList();
+
+    // Assert
+    Assert.Empty(testSteps);
   }
 }
