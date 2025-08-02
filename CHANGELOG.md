@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.7.2] - 2025-08-02
+
+### Fixed
+
+- Fixed proper handling of executing Playwright actions in `TestCaseExecutor`.
+
 ## [0.7.1] - 2025-07-02
 
 ### Fixed
