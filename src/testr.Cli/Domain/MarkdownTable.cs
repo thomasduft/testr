@@ -6,11 +6,11 @@ namespace tomware.TestR;
 /// A lightweight markdown table parser specifically designed for parsing test steps
 /// from markdown tables in the format used by TestR test cases.
 /// </summary>
-internal class MarkdownTableParser
+internal class MarkdownTable
 {
   private readonly string _content;
 
-  public MarkdownTableParser(string content)
+  public MarkdownTable(string content)
   {
     _content = content;
   }

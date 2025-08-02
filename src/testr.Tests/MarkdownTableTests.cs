@@ -2,7 +2,7 @@ using tomware.TestR;
 
 namespace testr.Tests;
 
-public class MarkdownTableParserTests
+public class MarkdownTableTests
 {
   [Fact]
   public void ParseTestSteps_WithValidTable_ShouldReturnTestSteps()
@@ -23,10 +23,10 @@ public class MarkdownTableParserTests
 ## Postcondition
 ";
 
-    var parser = new MarkdownTableParser(markdown);
+    var table = new MarkdownTable(markdown);
 
     // Act
-    var testSteps = parser.ParseTestSteps().ToList();
+    var testSteps = table.ParseTestSteps().ToList();
 
     // Assert
     Assert.Equal(4, testSteps.Count);
@@ -48,10 +48,10 @@ public class MarkdownTableParserTests
 | 1       | test escaped | Locator=GetByText Text=""Invalid login attempt for user 'Albert'"" Action=IsVisible | shows error message | - |
 ";
 
-    var parser = new MarkdownTableParser(markdown);
+    var table = new MarkdownTable(markdown);
 
     // Act
-    var testSteps = parser.ParseTestSteps().ToList();
+    var testSteps = table.ParseTestSteps().ToList();
 
     // Assert
     Assert.Single(testSteps);
@@ -70,10 +70,10 @@ public class MarkdownTableParserTests
 | 3       | pending step | test data | expected | - |
 ";
 
-    var parser = new MarkdownTableParser(markdown);
+    var table = new MarkdownTable(markdown);
 
     // Act
-    var testSteps = parser.ParseTestSteps().ToList();
+    var testSteps = table.ParseTestSteps().ToList();
 
     // Assert
     Assert.Equal(3, testSteps.Count);
@@ -93,10 +93,10 @@ public class MarkdownTableParserTests
 Some content without steps section.
 ";
 
-    var parser = new MarkdownTableParser(markdown);
+    var table = new MarkdownTable(markdown);
 
     // Act
-    var testSteps = parser.ParseTestSteps().ToList();
+    var testSteps = table.ParseTestSteps().ToList();
 
     // Assert
     Assert.Empty(testSteps);
@@ -114,10 +114,10 @@ Some content without steps section.
 | 2       | another valid | test data | expected        | -             |
 ";
 
-    var parser = new MarkdownTableParser(markdown);
+    var table = new MarkdownTable(markdown);
 
     // Act
-    var testSteps = parser.ParseTestSteps().ToList();
+    var testSteps = table.ParseTestSteps().ToList();
 
     // Assert
     Assert.Equal(2, testSteps.Count);
@@ -137,10 +137,10 @@ Some content without steps section.
 | 3       | another complete | test data | expected        | -             |
 ";
 
-    var parser = new MarkdownTableParser(markdown);
+    var table = new MarkdownTable(markdown);
 
     // Act
-    var testSteps = parser.ParseTestSteps().ToList();
+    var testSteps = table.ParseTestSteps().ToList();
 
     // Assert
     Assert.Equal(3, testSteps.Count);
@@ -159,10 +159,10 @@ Some content without steps section.
 | 1       | test step   | test data | expected        | -             |
 ";
 
-    var parser = new MarkdownTableParser(markdown);
+    var table = new MarkdownTable(markdown);
 
     // Act
-    var testSteps = parser.ParseTestSteps().ToList();
+    var testSteps = table.ParseTestSteps().ToList();
 
     // Assert
     Assert.Single(testSteps);
@@ -187,10 +187,10 @@ Some content without steps section.
 ## Postcondition
 ";
 
-    var parser = new MarkdownTableParser(markdown);
+    var table = new MarkdownTable(markdown);
 
     // Act
-    var testSteps = parser.ParseTestSteps().ToList();
+    var testSteps = table.ParseTestSteps().ToList();
 
     // Assert
     Assert.Equal(3, testSteps.Count);
@@ -227,10 +227,10 @@ Some content without steps section.
 | data      | here  |
 ";
 
-    var parser = new MarkdownTableParser(markdown);
+    var table = new MarkdownTable(markdown);
 
     // Act
-    var testSteps = parser.ParseTestSteps().ToList();
+    var testSteps = table.ParseTestSteps().ToList();
 
     // Assert
     Assert.Equal(2, testSteps.Count);
@@ -250,10 +250,10 @@ Some content without steps section.
 | 1       | first step      | expected        | test data | -             |
 ";
 
-    var parser = new MarkdownTableParser(markdown);
+    var table = new MarkdownTable(markdown);
 
     // Act
-    var testSteps = parser.ParseTestSteps().ToList();
+    var testSteps = table.ParseTestSteps().ToList();
 
     // Assert
     Assert.Single(testSteps);
@@ -275,10 +275,10 @@ Some content without steps section.
 | Data 1   | Data 2   | Data 3   |
 ";
 
-    var parser = new MarkdownTableParser(markdown);
+    var table = new MarkdownTable(markdown);
 
     // Act
-    var testSteps = parser.ParseTestSteps().ToList();
+    var testSteps = table.ParseTestSteps().ToList();
 
     // Assert
     Assert.Empty(testSteps);
@@ -305,10 +305,10 @@ Some content without steps section.
       TestStepResult.Success(new TestStep { Id = 2 })
     };
 
-    var parser = new MarkdownTableParser(markdown);
+    var table = new MarkdownTable(markdown);
 
     // Act
-    var result = parser.UpdateTestStepsWithResults(testResults);
+    var result = table.UpdateTestStepsWithResults(testResults);
 
     // Assert
     Assert.Contains("| 1 | enter username | test data | expected | ✅ |", result);
@@ -336,10 +336,10 @@ Some content without steps section.
       TestStepResult.Failed(new TestStep { Id = 2 }, "Button not found")
     };
 
-    var parser = new MarkdownTableParser(markdown);
+    var table = new MarkdownTable(markdown);
 
     // Act
-    var result = parser.UpdateTestStepsWithResults(testResults);
+    var result = table.UpdateTestStepsWithResults(testResults);
 
     // Assert
     Assert.Contains("| 1 | enter username | test data | expected | ✅ |", result);
@@ -369,10 +369,10 @@ Some content without steps section.
       TestStepResult.Success(new TestStep { Id = 3 })
     };
 
-    var parser = new MarkdownTableParser(markdown);
+    var table = new MarkdownTable(markdown);
 
     // Act
-    var result = parser.UpdateTestStepsWithResults(testResults);
+    var result = table.UpdateTestStepsWithResults(testResults);
 
     // Assert
     Assert.Contains("| 1 | step one | data1 | result1 | ✅ |", result);
@@ -401,10 +401,10 @@ Some content without steps section.
       TestStepResult.Failed(new TestStep { Id = 2 }, "Login failed")
     };
 
-    var parser = new MarkdownTableParser(markdown);
+    var table = new MarkdownTable(markdown);
 
     // Act
-    var result = parser.UpdateTestStepsWithResults(testResults);
+    var result = table.UpdateTestStepsWithResults(testResults);
 
     // Assert
     Assert.Contains("| 1 | enter username | test data | expected | ✅ |", result);
@@ -428,10 +428,10 @@ Some content without steps section.
 
     var testResults = new List<TestStepResult>(); // Empty results
 
-    var parser = new MarkdownTableParser(markdown);
+    var table = new MarkdownTable(markdown);
 
     // Act
-    var result = parser.UpdateTestStepsWithResults(testResults);
+    var result = table.UpdateTestStepsWithResults(testResults);
 
     // Assert
     Assert.Contains("| 1 | enter username | test data | expected | ✅ |", result);
@@ -454,10 +454,10 @@ This is a test case without a steps table.
       TestStepResult.Success(new TestStep { Id = 1 })
     };
 
-    var parser = new MarkdownTableParser(markdown);
+    var table = new MarkdownTable(markdown);
 
     // Act
-    var result = parser.UpdateTestStepsWithResults(testResults);
+    var result = table.UpdateTestStepsWithResults(testResults);
 
     // Assert
     Assert.Equal(markdown, result);
@@ -482,10 +482,10 @@ This is a test case without a steps table.
       TestStepResult.Failed(new TestStep { Id = 1 }, "Error with | pipes and special chars")
     };
 
-    var parser = new MarkdownTableParser(markdown);
+    var table = new MarkdownTable(markdown);
 
     // Act
-    var result = parser.UpdateTestStepsWithResults(testResults);
+    var result = table.UpdateTestStepsWithResults(testResults);
 
     // Assert
     Assert.Contains("| 1 | complex test | test data | expected | ❌ Error with | pipes and special chars |", result);
@@ -520,10 +520,10 @@ This is a test case without a steps table.
       TestStepResult.Failed(new TestStep { Id = 1 }, "Test failed")
     };
 
-    var parser = new MarkdownTableParser(markdown);
+    var table = new MarkdownTable(markdown);
 
     // Act
-    var result = parser.UpdateTestStepsWithResults(testResults);
+    var result = table.UpdateTestStepsWithResults(testResults);
 
     // Assert
     Assert.Contains("| Data 1   | Data 2   |", result); // Other table unchanged

@@ -1,7 +1,10 @@
+using System.Diagnostics.CodeAnalysis;
+
 using Microsoft.Playwright;
 
 using tomware.TestR;
 
+[ExcludeFromCodeCoverage]
 internal class TestCaseExecutor
 {
   private readonly ExecutorConfig _config;

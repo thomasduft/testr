@@ -22,9 +22,9 @@ internal class TestCaseRun
   {
     var content = await File.ReadAllTextAsync(_testCase.File, cancellationToken);
 
-    // Update test steps using MarkdownTableParser
-    var parser = new MarkdownTableParser(content);
-    var updatedContent = parser.UpdateTestStepsWithResults(_results);
+    // Update test steps using MarkdownTable
+    var table = new MarkdownTable(content);
+    var updatedContent = table.UpdateTestStepsWithResults(_results);
 
     var lines = updatedContent.Split('\n');
 

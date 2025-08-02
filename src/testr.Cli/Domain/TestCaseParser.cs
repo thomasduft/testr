@@ -68,8 +68,9 @@ internal class TestCaseParser
 
   private IEnumerable<TestStep> GetTestSteps(string markdownContent)
   {
-    var parser = new MarkdownTableParser(markdownContent);
-    return parser.ParseTestSteps();
+    var table = new MarkdownTable(markdownContent);
+
+    return table.ParseTestSteps();
   }
 
   private string? GetLinkedFile(string file, string? link)
