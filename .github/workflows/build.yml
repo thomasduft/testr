@@ -31,4 +31,4 @@ jobs:
     - name: Installing chromium browser
       run: dotnet run --project src/testr.Cli/testr.Cli.csproj -- playwright -c install -o chromium
     - name: Run test case TC-Documents-001
-      run: dotnet run --project src/testr.Cli/testr.Cli.csproj -- run "https://commitquality.com" -tc "TC-Documents-001" -i "samples/Definitions/commitquality/" -o "samples/Runs/commitquality/" --headless
+      run: cd src/testr.Cli && dotnet run -- run "https://commitquality.com" -tc "TC-Documents-001" -i "../../samples/Definitions/commitquality/" -o "../../samples/Runs/commitquality/" --headless
