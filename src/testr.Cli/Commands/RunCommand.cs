@@ -20,6 +20,7 @@ public class RunCommand : CommandLineApplication
   private readonly CommandOption<string> _outputDirectory;
   private readonly CommandOption<bool> _headless;
   private readonly CommandOption<bool> _continueOnFailure;
+  private readonly CommandOption<bool> _noIncognito;
   private readonly CommandOption<int> _slow;
   private readonly CommandOption<int> _timeout;
   private readonly CommandOption<BrowserType> _browserType;
@@ -72,6 +73,14 @@ public class RunCommand : CommandLineApplication
     _continueOnFailure = Option<bool>(
       "--continue-on-failure",
       "Continues the Test Case execution even if the Test Case fails.",
+      CommandOptionType.NoValue,
+      cfg => cfg.DefaultValue = false,
+      true
+    );
+
+    _noIncognito = Option<bool>(
+      "--no-incognito",
+      "Disables incognito mode for the browser.",
       CommandOptionType.NoValue,
       cfg => cfg.DefaultValue = false,
       true
@@ -275,7 +284,8 @@ public class RunCommand : CommandLineApplication
       _slow.ParsedValue,
       _timeout.ParsedValue,
       _browserType.ParsedValue,
-      _recordVideoDir.ParsedValue
+      _recordVideoDir.ParsedValue,
+      _noIncognito.ParsedValue
     );
   }
 }

@@ -23,14 +23,49 @@ internal class TestCaseExecutor
   )
   {
     using var playwright = await Playwright.CreateAsync();
-    await using var browser = await GetBrowserType(playwright)
-      .LaunchAsync(new BrowserTypeLaunchOptions
-      {
-        Headless = _config.Headless,
-        SlowMo = _config.Slow // by N milliseconds per operation,
-      });
 
-    var context = await GetBrowserContext(browser);
+    var browserType = GetBrowserType(playwright);
+    if (_config.NoIncognito)
+    {
+      await using var browserContext = await browserType.LaunchPersistentContextAsync(
+        string.Empty,
+        new BrowserTypeLaunchPersistentContextOptions
+        {
+          Headless = _config.Headless,
+          SlowMo = _config.Slow
+        });
+
+      return await RunBrowserAsync(
+        domain,
+        executionParam,
+        preconditionExecutionParam,
+        browserContext
+      );
+    }
+
+    await using var incognitoBrowser = await browserType.LaunchAsync(new BrowserTypeLaunchOptions
+    {
+      Headless = _config.Headless,
+      SlowMo = _config.Slow
+    });
+
+    var incognitoContext = await GetBrowserContext(incognitoBrowser);
+
+    return await RunBrowserAsync(
+      domain,
+      executionParam,
+      preconditionExecutionParam,
+      incognitoContext
+    );
+  }
+
+  private async Task<IEnumerable<TestStepResult>> RunBrowserAsync(
+    string domain,
+    TestCaseExecutionParam executionParam,
+    TestCaseExecutionParam? preconditionExecutionParam,
+    IBrowserContext context
+  )
+  {
     var page = await context.NewPageAsync();
 
     // execute precondition instructions if available

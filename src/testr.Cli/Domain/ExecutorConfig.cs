@@ -5,5 +5,6 @@ public record ExecutorConfig(
   int Slow = 500,
   int Timeout = 30000,
   BrowserType BrowserType = BrowserType.Chrome,
-  string? RecordVideoDir = null
+  string? RecordVideoDir = null,
+  bool NoIncognito = false
 );
