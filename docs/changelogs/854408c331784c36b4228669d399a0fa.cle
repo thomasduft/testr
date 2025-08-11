@@ -1,0 +1,9 @@
+{
+  "Id": "854408c3-3178-4c36-b422-8669d399a0fa",
+  "IssueId": "",
+  "Prefix": "Changed",
+  "Tag": "",
+  "Message": "Renamed PickFile action to PickFiles to better reflect intend.",
+  "CreatedAt": "2025-08-11T15:21:13.1656118+00:00",
+  "CreatedBy": "thomasduft"
+}
