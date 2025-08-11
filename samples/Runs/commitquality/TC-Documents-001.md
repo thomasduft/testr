@@ -1,6 +1,6 @@
 # TC-Documents-001: Upload File
 
-- **Date**: 2025-08-02
+- **Date**: 2025-08-11
 - **Author**: Thomas Duft
 - **Test Priority**: High
 - **Module**: Documents
@@ -22,7 +22,7 @@ The purpose of this test-case is to test the upload of a file to the system.
 | Step ID | Description                   | Test Data                                                                       | Expected Result                           | Actual Result |
 | -------:| ----------------------------- | ------------------------------------------------------------------------------- | ----------------------------------------- | ------------- |
 | 1 | File selector visible | Locator=GetByTestId Text=file-input Action=IsVisible | File selector is visible | ✅ |
-| 2 | Select file | Locator=GetByTestId Text=file-input Action=PickFile Value=../../samples/Definitions/commitquality/TC-Documents-001.md | File selected | ✅ |
+| 2 | Select file | Locator=GetByTestId Text=file-input Action=PickFiles Value=../../samples/Definitions/commitquality/TC-Documents-001.md | File selected | ✅ |
 | 3 | Upload file | Locator=GetByRole AriaRole=Button Text=Submit Action=Click | Submit button clicked and file uploaded | ✅ |
 
 ## Postcondition

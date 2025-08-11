@@ -36,9 +36,9 @@ Specifies the text content to locate the element. **Required for most locator ty
 - For `GetByRole`: The accessible name of the element (optional)
 
 ### Value
-Specifies the value to be used in actions. **Required for `Fill` and `PickFile` actions.**
+Specifies the value to be used in actions. **Required for `Fill` and `PickFiles` actions.**
 - For `Fill`: The text to enter into the input field
-- For `PickFile`: The file path (relative or absolute) to the file to upload
+- For `PickFiless`: The file or directory path (relative or absolute) to the files to upload
 - Supports variable substitution using `@VariableName` syntax
 
 ### Action
@@ -46,7 +46,7 @@ Specifies the action to be performed on the located element. **Required for all 
 Supported values:
 - `Click`: Click on the element
 - `Fill`: Fill the element with the specified value (requires `Value` parameter)
-- `PickFile`: Upload a file to a file input (requires `Value` parameter with file path)
+- `PickFiless`: Upload files to a file input (requires `Value` parameter with file or directory path)
 - `IsVisible`: Assert that the element is visible (returns boolean)
 
 ## WORKFLOW
@@ -135,7 +135,7 @@ Locator=GetByTestId Text=submit-button Action=Click
 
 **Example 9: File upload using test ID**
 ```
-Locator=GetByTestId Text=file-input Action=PickFile Value=../../test-files/document.pdf
+Locator=GetByTestId Text=file-input Action=PickFiles Value=../../test-files/document.pdf
 ```
 
 ### Complex Text with Escaping
@@ -161,7 +161,7 @@ Here's how these test data entries appear in a complete test case table:
 | 2       | enter password         | Locator=GetByLabel Text=Password Action=Fill Value=@Password    | password is entered                                             | -             |
 | 3       | click login button     | Locator=GetByRole AriaRole=Button Text=Login Action=Click      | system validates credentials and redirects to dashboard          | -             |
 | 4       | verify dashboard       | Locator=GetByRole AriaRole=Button Text=Logout Action=IsVisible | logout button visible in the main navigation                     | -             |
-| 5       | upload document        | Locator=GetByTestId Text=file-input Action=PickFile Value=./test.pdf | file is successfully uploaded                              | -             |
+| 5       | upload document        | Locator=GetByTestId Text=file-input Action=PickFiles Value=./test.pdf | file is successfully uploaded                              | -             |
 ```
 
 ## COMMON PATTERNS
@@ -224,7 +224,7 @@ testr run https://localhost:5001 -tc TC-001-Login -t 60000
 - Test Data parameters are case-sensitive
 - Use backslash escaping for quotes in text: `Text=\"escaped quotes\"`
 - Variable names in `@VariableName` format are case-sensitive
-- File paths in `PickFile` action support both relative and absolute paths
+- File paths in `PickFiles` action support both relative and absolute paths
 - Empty or missing required parameters will cause test validation to fail
 
 ## SEE ALSO

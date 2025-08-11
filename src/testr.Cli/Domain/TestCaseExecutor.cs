@@ -182,8 +182,23 @@ internal class TestCaseExecutor
     {
       await locator.FillAsync(instruction.Value);
     }
-    else if (instruction.Action == ActionType.PickFile)
+    else if (instruction.Action == ActionType.PickFiles)
     {
+      if (Directory.Exists(instruction.Value))
+      {
+        var files = Directory.GetFiles(instruction.Value);
+        if (files.Length == 0)
+        {
+          return (false, $"No files found in directory: {instruction.Value}");
+        }
+
+        await locator.SetInputFilesAsync(files);
+      }
+      else if (!File.Exists(instruction.Value))
+      {
+        return (false, $"File does not exist: {instruction.Value}");
+      }
+
       await locator.SetInputFilesAsync(instruction.Value);
     }
     else if (instruction.Action == ActionType.IsVisible)
