@@ -7,7 +7,7 @@ using static SimpleExec.Command;
 
 const string projectName = "testr";
 
-const string solution = $"{projectName}.sln";
+const string solution = $"{projectName}.slnx";
 IList<string> packableProjects = [
   projectName
 ];

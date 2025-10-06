@@ -1,0 +1,12 @@
+<Solution>
+  <Folder Name="/build/">
+    <Project Path="build/targets.csproj" />
+  </Folder>
+  <Folder Name="/samples/">
+    <Project Path="samples/WebApi/WebApi.csproj" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/testr.Cli/testr.Cli.csproj" />
+    <Project Path="src/testr.Tests/testr.Tests.csproj" />
+  </Folder>
+</Solution>
