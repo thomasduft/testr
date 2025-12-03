@@ -31,12 +31,6 @@ public static class ApiConfigureServices
               options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
             });
 
-    if (environment.IsDevelopment())
-    {
-      // Swagger
-      services.AddSwaggerDocumentation();
-    }
-
     return services;
   }
 }

@@ -23,8 +23,6 @@ public static class ConfigureApplication
         builder.AllowCredentials();
       });
 
-      app.UseSwaggerDocumentation();
-
       app.UseDeveloperExceptionPage();
     }
     else
