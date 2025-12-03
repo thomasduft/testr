@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.8.0] - 2025-12-03
+
+### Added
+
+- Added --no-incognito option to disable incognito mode in browser execution
+- Added support for .NET 10
+
+### Changed
+
+- Renamed PickFile action to PickFiles to better reflect intend.
+
 ## [0.7.2] - 2025-08-02
 
 ### Fixed

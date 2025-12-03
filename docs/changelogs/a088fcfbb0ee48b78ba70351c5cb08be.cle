@@ -1,9 +1,0 @@
-{
-  "Id": "a088fcfb-b0ee-48b7-8ba7-0351c5cb08be",
-  "IssueId": "",
-  "Prefix": "Added",
-  "Tag": "",
-  "Message": "Added --no-incognito option to disable incognito mode in browser execution",
-  "CreatedAt": "2025-08-11T18:08:50.077361+00:00",
-  "CreatedBy": "thomasduft"
-}
