@@ -1,0 +1,9 @@
+{
+  "Id": "e4c0cf1f-5cde-4e9b-80f8-9dcbdc5433e3",
+  "IssueId": "",
+  "Prefix": "Added",
+  "Tag": "",
+  "Message": "Added support for .NET 10",
+  "CreatedAt": "2025-12-03T13:42:17.861799+00:00",
+  "CreatedBy": "thomasduft"
+}
