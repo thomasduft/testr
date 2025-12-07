@@ -1,4 +1,5 @@
-[![build](https://github.com/thomasduft/testr/actions/workflows/build.yml/badge.svg)](https://github.com/thomasduft/testr/actions/workflows/build.yml) [![NuGet](https://img.shields.io/nuget/vpre/tomware.testr.svg)](https://www.nuget.org/packages/tomware.testr)
+![build](https://github.com/thomasduft/testr/actions/workflows/build.yml/badge.svg)
+![NuGet](https://img.shields.io/nuget/vpre/tomware.testr.svg)
 
 # testr
 
