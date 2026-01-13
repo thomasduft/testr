@@ -30,8 +30,8 @@ The vision of `testr` is to provide a tool-agnostic, file-based approach to test
 4. **Store Results** - Each execution creates a historical test run record
    📄 [Example: TC-Login-001 Run](samples/Runs/localhost/TC-Login-001.md)
 
-> **Note:** When escaping strings in test data, use a backslash `\` followed by a double quote `"`. For example:
-> `Locator=GetByText Text=\\"Invalid login attempt for user 'Albert'\\" Action=IsVisible`
+> **Note:** When escaping strings in test data, use double quotes `"`. For example:
+> `Locator=GetByText Text="Invalid login attempt for user 'Albert'" Action=IsVisible`
 
 ## Installation
 

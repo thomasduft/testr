@@ -50,7 +50,7 @@ public class TestStepInstructionItemTests
     // Assert
     Assert.NotNull(testStepInstructionItem);
     Assert.Equal(LocatorType.GetByText, testStepInstructionItem.Locator);
-    Assert.Equal("\"Invalid login attempt for user 'Albert'\"", testStepInstructionItem.Text);
+    Assert.Equal("Invalid login attempt for user 'Albert'", testStepInstructionItem.Text);
     Assert.Equal(ActionType.IsVisible, testStepInstructionItem.Action);
   }
 

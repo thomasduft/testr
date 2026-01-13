@@ -79,13 +79,21 @@ internal class TestStepInstruction
     if (string.IsNullOrEmpty(testData))
       return result;
 
-    var pattern = @"(\w+)=(""[^""]*""|\S+)";
+    var pattern = @"(\w+)=(""(?:[^""\\]|\\.)*""|\S+)";
     var matches = Regex.Matches(testData, pattern);
 
     foreach (Match match in matches)
     {
       var key = match.Groups[1].Value;
       var value = match.Groups[2].Value;
+
+      // Remove quotes and unescape if the value is quoted
+      if (value.StartsWith('\"') && value.EndsWith('\"'))
+      {
+        value = value.Substring(1, value.Length - 2); // Remove surrounding quotes
+        value = value.Replace("\\\"", "\"").Replace("\\\\", "\\"); // Unescape quotes and backslashes
+      }
+
       result[key] = value;
     }
 

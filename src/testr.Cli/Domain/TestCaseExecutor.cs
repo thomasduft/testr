@@ -241,7 +241,7 @@ internal class TestCaseExecutor
       var isVisible = await locator.IsVisibleAsync();
       if (!isVisible)
       {
-        return (false, $"Element was not visible.");
+        return (false, $"Element '{instruction.Text}' was not visible.");
       }
     }
 

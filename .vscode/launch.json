@@ -35,7 +35,9 @@
         "-o",
         "../../samples/Runs/localhost",
         "-v",
-        "Password=password"
+        "Password=password",
+        "-s",
+        "1000"
       ],
       "cwd": "${workspaceFolder}/src/testr.Cli",
       "stopAtEntry": false
