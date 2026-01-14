@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.8.1] - 2026-01-14
+
+### Fixed
+
+- Handles escaping strings in test-data instructions
+
 ## [0.8.0] - 2025-12-03
 
 ### Added
