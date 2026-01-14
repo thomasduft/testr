@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.8.2] - 2026-01-14
+
+### Fixed
+
+- Proper handle `async`-processing of logic in `TestCaseExcecutor`.
+
 ## [0.8.1] - 2026-01-14
 
 ### Fixed
