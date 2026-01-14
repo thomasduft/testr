@@ -1,0 +1,9 @@
+{
+  "Id": "fc22c995-a2db-4f37-8c66-16effab0399b",
+  "IssueId": "",
+  "Prefix": "Fixed",
+  "Tag": "",
+  "Message": "Handles escaping strings in test-data instructions",
+  "CreatedAt": "2026-01-14T13:23:31.1726973+00:00",
+  "CreatedBy": "thomasduft"
+}
