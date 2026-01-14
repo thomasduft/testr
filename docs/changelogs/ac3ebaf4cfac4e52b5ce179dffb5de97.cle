@@ -1,0 +1,9 @@
+{
+  "Id": "ac3ebaf4-cfac-4e52-b5ce-179dffb5de97",
+  "IssueId": "",
+  "Prefix": "Fixed",
+  "Tag": "",
+  "Message": "Proper handle \u0060async\u0060-processing of logic in \u0060TestCaseExcecutor\u0060.",
+  "CreatedAt": "2026-01-14T13:38:55.6960548+00:00",
+  "CreatedBy": "thomasduft"
+}

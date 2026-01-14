@@ -174,7 +174,7 @@ internal class TestCaseExecutor
     return TestStepResult.Success(instruction.TestStep);
   }
 
-  private Task<(bool result, string errorMessage)> ProcessStepAsync(
+  private async Task<(bool result, string errorMessage)> ProcessStepAsync(
     IPage page,
     TestStepInstruction instruction,
     Action<TestStepInstruction> consoleAction
@@ -184,7 +184,7 @@ internal class TestCaseExecutor
 
     ILocator? locator = EvaluateLocator(page, instruction);
 
-    return ExecuteAction(instruction, locator);
+    return await ExecuteAction(instruction, locator);
   }
 
   private ILocator EvaluateLocator(
