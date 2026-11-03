@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.9.0] - 2026-11-03
+
+### Fixed
+
+- Updated to latest nuget dependencies
+
 ## [0.8.2] - 2026-01-14
 
 ### Fixed
